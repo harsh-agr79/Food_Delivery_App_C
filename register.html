@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+  <html>
+    <head>
+      <!--Import Google Icon Font-->
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+      <!--Import materialize.css-->
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+      <link rel="stylesheet" href="styles.css">
+
+      <!--Let browser know website is optimized for mobile-->
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+
+    <body>
+        <span class="gotologin hide"></span>
+        <div class="center">
+            <h5>Register</h5>
+        </div>
+        
+        <form class="container mp-card" id="registerForm">
+            <div class="red-text center"
+            style="font-size: 20px; font-weight:500; text-align:center;" id="message"></div>
+            <div class="row">
+                <div class="col s12 m6">
+                    <label>Type :</label>
+                    <select name="type" id="type" class="browser-default inp" onchange="ty(this.value);">
+                        <option value="registerUser">Customer</option>
+                        <option value="registerRes">Restaurant</option>
+                        <option value="registerDm">Delivery Man</option>
+                    </select>
+                </div>
+                <div class="col m6 s12">
+                    <label class="hide" id="resnamelbl">Restaurant Name :</label><input disabled name="resname" type="text" class="browser-default hide" id="resname"
+                        placeholder="Restaurant Name" required>
+                </div>
+
+                <div class="col m6 s12">
+                    <label>Name :</label><input name="name" type="text" class="browser-default inp"
+                        placeholder="Name" required>
+                </div>
+                
+               
+                <div class="col m6 s12">
+                    <label>User ID :</label><input name="userid" type="text" id="username" class="browser-default inp"
+                        placeholder="User Id" required>
+                </div>
+                <div class="col m6 s12">
+                    <label>Password :</label><input name="password" type="password" class="browser-default inp"
+                        placeholder="Password" required>
+                </div>
+              
+                <div class="col m6 s12">
+                    <label>Contact :</label><input name="contact" type="number" class="browser-default inp"
+                        placeholder="Contact" required>
+                </div>
+              
+                <div class="col m6 s12">
+                    <label>Address :</label><input name="address" type="text" class="browser-default inp"
+                        placeholder="Address" required>
+                </div>
+                <div class="col m6 s12">
+                    <label>Pincode :</label><input name="pincode" type="text" class="browser-default inp"
+                        placeholder="Pincode" required>
+                </div>
+            <div class="col s12 center" style="margin-top: 10px;">
+                <button class="btn amber darken-2">
+                    Submit <i class="material-icons right">send</i>
+                </button>
+            </div>
+            <div class="col s12 center">
+                <span> Have a account? <span class="blue-text" id="gotologin">Login</span></span>
+            </div>
+        </form>
+       
+       
+
+      <!--JavaScript at end of body for optimized loading-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js" integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+      <script src="register.js"></script>
+      <script>
+        function ty(ty){
+            console.log(ty);
+            if(ty === "registerRes"){
+                $('#resnamelbl').removeClass("hide");
+                $('#resname').removeClass("hide");
+                $("#resname").addClass("inp");
+                $("#resname").removeAttr("disabled");
+
+            }
+            else{
+                $('#resnamelbl').addClass("hide");
+                $('#resname').addClass("hide");
+                $("#resname").removeClass("inp");
+                $("#resname").attr("disabled", "true");
+            }
+        }
+      </script>
+    </body>
+  </html>
+
+    
