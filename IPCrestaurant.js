@@ -18,7 +18,7 @@ ipcMain.on('addMenuItem', (event, { func, dataset }) => {
 
     backendProcess.stdout.on('data', (data) => {
         const result = parseInt(data.toString());
-        console.log(result);
+        // console.log(result);
         global.mainWindow.webContents.send('getAddItemResponse', { result });
     });
 

@@ -67,7 +67,7 @@ char* findResname(char *username) {
     FILE *file = fopen(DATABASE_RESTAURANT, "r");
     if (!file) {
         printf("Error opening database file.\n");
-        return NULL; // Return NULL if file couldn't be opened
+        return NULL;
     }
 
     char line[500];
@@ -78,7 +78,7 @@ char* findResname(char *username) {
         sscanf(line, "%[^,],%[^,]", db_resname, db_username);
         if (strcmp(username, db_username) == 0) {
             fclose(file);
-            char *resname = strdup(db_resname); // Dynamically allocate memory for resname
+            char *resname = strdup(db_resname);
             if (!resname) {
                 printf("Memory allocation failed.\n");
                 return NULL;

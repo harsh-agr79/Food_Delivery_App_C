@@ -39,22 +39,16 @@ if (ipcRenderer) {
 
     res.forEach((item) => {
       const row = document.createElement("tr");
-
-      // Populate table cells with data from the JSON object
       const cells = [
         item.food,
         item.category,
-        item.price.toFixed(2), // Format price to 2 decimal places
+        item.price.toFixed(2),
       ];
-
-      // Append each cell to the table row
       cells.forEach((cellData) => {
         const cell = document.createElement("td");
         cell.textContent = cellData;
         row.appendChild(cell);
       });
-
-      // Append the row to the table body
       tableBody.appendChild(row);
     });
   });
