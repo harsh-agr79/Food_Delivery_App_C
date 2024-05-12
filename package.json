@@ -4,7 +4,8 @@
   "description": "cproj",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "watch": "nodemon --exec electron ."
   },
   "author": "Harsh",
   "license": "MIT",
@@ -12,6 +13,7 @@
     "electron": "^30.0.2"
   },
   "dependencies": {
-    "child_process": "^1.0.2"
+    "child_process": "^1.0.2",
+    "nodemon": "^3.1.0"
   }
 }

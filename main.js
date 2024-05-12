@@ -5,7 +5,8 @@ const { spawn } = require('child_process');
 
 global.mainWindow = null;
 
-require('./loginRegIPC');
+require('./IPCloginReg');
+require('./IPCrestaurant');
 
 function createWindow() {
     mainWindow = new BrowserWindow({

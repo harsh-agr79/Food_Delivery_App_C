@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include "restaurant.c"
 
 #define MAX_USERNAME_LENGTH 50
 #define MAX_PASSWORD_LENGTH 50
@@ -292,6 +293,14 @@ int main()
          else if (strcmp(function, "login") == 0)
         {
            login(data);
+        }
+         else if (strcmp(function, "getMenu") == 0)
+        {
+           getMenu(data);
+        }
+         else if (strcmp(function, "addMenuItem") == 0)
+        {
+            addMenuItem(data);
         }
     }
 
