@@ -6,6 +6,8 @@
 #define MAX_ITEM_NAME_LEN 50
 #define MAX_CATEGORY_LEN 20
 #define MAX_ITEMS 100
+#define MAX_LINES 5000
+#define MAX_LINE_LENGTH 5000
 
 #define DATABASE_USER "users.txt"
 #define DATABASE_RESTAURANT "restaurants.txt"
@@ -107,7 +109,49 @@ int findID(){
     max = max + 1;
     return max;
 }
+int deleteMenuItem(char *data) {
+   
+    // Open the file for reading
+    FILE *file = fopen(DATABASE_MENU, "r");
+    if (file == NULL) {
+        // printf("Error opening file for reading.\n");
+        return 0;
+    }
 
+  
+
+    // // Read lines from the file into an array
+    char lines[500][1000];
+    char line[1000];
+    char id[10];
+    int count = 0;
+
+     while (fgets(line, sizeof(line), file)) {
+      sscanf(line, "%[^,]", id);
+      if(strcmp(id, data)){
+        strcpy(lines[count], line);
+        count++;
+      }
+    }
+    fclose(file);
+
+    file = fopen(DATABASE_MENU, "w");
+    if (file == NULL) {
+        printf("Error opening file for reading.\n");
+        return 0;
+    }
+
+    for(int i = 0; i<count; i++){
+         fprintf(file, "%s",lines[i]);
+    }
+
+    fclose(file);
+    printf("1");
+    fflush(stdout);
+    return 1;
+
+    
+}
 int addMenuItem(char *data){
      FILE *file = fopen(DATABASE_MENU, "a");
     if (!file)

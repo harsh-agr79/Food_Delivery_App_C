@@ -10,6 +10,8 @@ if (ipcRenderer) {
     getmenuipc();
   });
 
+
+
   const addMenuItemForm = document.getElementById("addMenuItemForm");
 
   addMenuItemForm.addEventListener("submit", (e) => {
@@ -19,7 +21,7 @@ if (ipcRenderer) {
         return this.value;
       })
       .get();
-    inp.unshift(sessionStorage.getItem("username"))
+    inp.unshift(sessionStorage.getItem("username"));
     const dataset = inp.join(",");
     func = "addMenuItem";
     ipcRenderer.send("addMenuItem", { func, dataset });
@@ -38,28 +40,35 @@ if (ipcRenderer) {
     tableBody.innerHTML = "";
 
     res.forEach((item) => {
-      const row = document.createElement("tr");
-      const cells = [
-        item.food,
-        item.category,
-        item.price.toFixed(2),
-      ];
-      cells.forEach((cellData) => {
-        const cell = document.createElement("td");
-        cell.textContent = cellData;
-        row.appendChild(cell);
-      });
-      tableBody.appendChild(row);
+      const row = `<tr>
+      <td>${item.food}</td>
+      <td>${item.category}</td>
+      <td>${item.price}</td>
+      <td><span onclick="delMenuFunc(${item.id})" class="red btn-small delMenuBtn"><i class="material-icons">delete</i></span><td>
+      </tr>`;
+      tableBody.innerHTML += row ;
     });
   });
 
   ipcRenderer.on("getAddItemResponse", (event, response) => {
     var res = response.result;
     getmenuipc();
-    M.toast({html: 'Item Added To Menu!'});
-    $('#addMenuItem').modal('close');
-    $(".addItemInp").val('');
+    M.toast({ html: "Item Added To Menu!" });
+    $("#addMenuItem").modal("close");
+    $(".addItemInp").val("");
   });
+
+  ipcRenderer.on("getDeleteItemResponse", (event, response) => {
+    var res = response.result;
+    getmenuipc();
+    M.toast({ html: "Item Deleted!" });
+  });
+
+  function delMenuFunc(id){
+    dataset = id
+    func = "deleteMenuItem";
+    ipcRenderer.send("deleteMenuItem", { func, dataset });
+  }
 } else {
   console.error("ipcRenderer is not properly initialized.");
 }

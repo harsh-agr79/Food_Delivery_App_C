@@ -3,3 +3,5 @@
 6,Testres,testres,testfood,testcat,123
 7,Testres,testres,test2,test2,12364
 8,Testres,testres,Panipuri,Starter,50
+9,Testres,testres,samosa,starter,15
+10,Testres,testres,new,new,100

@@ -302,6 +302,10 @@ int main()
         {
             addMenuItem(data);
         }
+         else if (strcmp(function, "deleteMenuItem") == 0)
+        {
+           deleteMenuItem(data);
+        }
     }
 
     return 0;
