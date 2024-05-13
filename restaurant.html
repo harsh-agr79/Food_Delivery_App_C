@@ -101,6 +101,52 @@
             </form>
           </div>
         </div>
+        <div id="editMenuItem" class="modal">
+          <div class="modal-content">
+            <h5 class="center">Edit Item</h5>
+            <form id="editMenuItemForm">
+              <input type="hidden" name="id" id="editFoodId" class="editItemInp">
+              <div class="row">
+                <div class="col s12">
+                  <label>Food Name :</label
+                  ><input
+                    name="foodName"
+                    type="text"
+                    class="browser-default inp editItemInp"
+                    placeholder="Food Name"
+                    id="editFoodName"
+                    required
+                  />
+                </div>
+                <div class="col s12">
+                  <label>Food Category :</label
+                  ><input
+                    name="foodCategory"
+                    type="text"
+                    class="browser-default inp editItemInp"
+                    placeholder="Food Category"
+                    id="editFoodCategory"
+                    required
+                  />
+                </div>
+                <div class="col s12">
+                  <label>Food Price :</label
+                  ><input
+                    name="price"
+                    type="number"
+                    class="browser-default inp editItemInp"
+                    placeholder="Food Price"
+                    id="editFoodPrice"
+                    required
+                  />
+                </div>
+                <div class="col s12 center" style="margin-top:10px;">
+                  <button class="btn-small amber darken-2">Update</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
       </div>
     </div>
 

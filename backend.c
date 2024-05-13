@@ -270,7 +270,7 @@ int main()
     char data[5000];
 
     // Get username and password from Electron.js
-    while (scanf("%s %s", function, data) == 2)
+    while (scanf("%s %[^\n]s", function, data) == 2)
     {
         if (strcmp(function, "registerUser") == 0)
         {
@@ -305,6 +305,10 @@ int main()
          else if (strcmp(function, "deleteMenuItem") == 0)
         {
            deleteMenuItem(data);
+        }
+        else if (strcmp(function, "editMenuItem") == 0)
+        {
+           editMenuItem(data);
         }
     }
 

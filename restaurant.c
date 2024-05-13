@@ -152,6 +152,66 @@ int deleteMenuItem(char *data) {
 
     
 }
+
+int editMenuItem(char *data) {
+   
+    // Open the file for reading
+    FILE *file = fopen(DATABASE_MENU, "r");
+    if (file == NULL) {
+        // printf("Error opening file for reading.\n");
+        return 0;
+    }
+    char editid[10];
+    char dataset[1000];
+
+    sscanf(data,"%[^,],%[^\n]s", editid,dataset);
+    printf("%s %s", editid, dataset);
+  
+
+    // // Read lines from the file into an array
+    char lines[500][1000];
+    char line[1000];
+    char dbid[100];
+    char dbresname[100];
+    char dbresusername[100];
+    char editline[1000];
+    char id[10];
+    int count = 0;
+    int row = 0;
+
+     while (fgets(line, sizeof(line), file)) {
+      sscanf(line, "%[^,]", id);
+      if(strcmp(editid, id) == 0){
+        sscanf(line, "%[^,],%[^,],%[^,]", dbid, dbresname, dbresusername);
+        row = count; 
+      }
+      strcpy(lines[count], line);
+      count++;
+    }
+    fclose(file);
+
+    file = fopen(DATABASE_MENU, "w");
+    if (file == NULL) {
+        printf("Error opening file for reading.\n");
+        return 0;
+    }
+
+    for(int i = 0; i<count; i++){
+        if(i == row){
+        fprintf(file, "%s,%s,%s,%s\n",dbid, dbresname, dbresusername, dataset);
+        }
+        else{
+         fprintf(file, "%s",lines[i]);
+        }
+    }
+
+    fclose(file);
+    printf("1");
+    fflush(stdout);
+    return 1;
+
+    
+}
 int addMenuItem(char *data){
      FILE *file = fopen(DATABASE_MENU, "a");
     if (!file)
