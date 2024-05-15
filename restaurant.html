@@ -19,27 +19,30 @@
   </head>
 
   <body>
-    <div class="row">
-      <div class="col s12 amber darken-2 white-text">
-        <ul class="tabs amber darken-2">
-          <li class="tab col s3">
+    <div>
+      <div class="nav-content amber darken-1">
+        <ul class="tabs tabs-transparent">
+          <li class="tab">
             <a class="white-text" href="#test1">Recent</a>
           </li>
-          <li class="tab col s3">
+          <li class="tab">
             <a class="white-text" href="#test2">Old</a>
           </li>
-          <li class="tab col s3">
+          <li class="tab">
             <a class="white-text" href="#test3">Current</a>
           </li>
-          <li class="tab col s3">
+          <li class="tab">
             <a class="white-text active" href="#menu" id="menuTab">Menu</a>
+          </li>
+          <li class="tab">
+            <a class="white-text active" href="#settings" id="settingsTab">Settings</a>
           </li>
         </ul>
       </div>
-      <div id="test1" class="col s12">Recent</div>
-      <div id="test2" class="col s12">Old</div>
-      <div id="test3" class="col s12">Current</div>
-      <div id="menu" class="col s12">
+      <div id="test1">Recent</div>
+      <div id="test2" >Old</div>
+      <div id="test3" >Current</div>
+      <div id="menu" >
         <div class="row valign-wrapper">
           <div class="col s4"></div>
           <div class="col s4"><h5>Your Menu</h5></div>
@@ -148,6 +151,11 @@
           </div>
         </div>
       </div>
+      <div id="settings">
+        <div class="center">
+          <img src="./map.png" style="width: 75vw;" id="map" alt="">
+        </div>
+      </div>
     </div>
 
     <!--JavaScript at end of body for optimized loading-->
@@ -164,6 +172,7 @@
         $(".tabs").tabs();
         $(".modal").modal();
       });
+    
     </script>
   </body>
 </html>

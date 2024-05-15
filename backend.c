@@ -310,6 +310,10 @@ int main()
         {
            editMenuItem(data);
         }
+          else if (strcmp(function, "setRestaurantLocation") == 0)
+        {
+           setRestaurantLocation(data);
+        }
     }
 
     return 0;

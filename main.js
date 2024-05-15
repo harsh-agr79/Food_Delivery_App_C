@@ -10,8 +10,10 @@ require('./IPCrestaurant');
 
 function createWindow() {
     mainWindow = new BrowserWindow({
-        width: 500,
-        height: 1000,
+        // width: 500,
+        // height: 1000,
+        fullscreen: true,  // Open the window in fullscreen mode
+        fullscreenable: true,
         webPreferences: {
             preload: path.join(__dirname, 'preload.js'),
             nodeIntegration: true

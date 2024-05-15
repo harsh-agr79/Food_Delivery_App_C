@@ -48,3 +48,15 @@ ipcMain.on('deleteMenuItem', (event, { func, dataset }) => {
 
     backendProcess.stdin.write(`${func} ${dataset}\n`);
 });
+
+ipcMain.on('setRestaurantLocation', (event, { func, dataset }) => {
+    const backendProcess = spawn('./backend', [], { cwd: __dirname });
+
+    backendProcess.stdout.on('data', (data) => {
+        const result = parseInt(data.toString());
+        // console.log(result);
+        global.mainWindow.webContents.send('restaurantLocationSet', { result });
+    });
+
+    backendProcess.stdin.write(`${func} ${dataset}\n`);
+});
