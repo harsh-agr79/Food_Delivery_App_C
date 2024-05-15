@@ -314,6 +314,10 @@ int main()
         {
            setRestaurantLocation(data);
         }
+         else if (strcmp(function, "getRestaurantLocation") == 0)
+        {
+           getRestaurantLocation(data);
+        }
     }
 
     return 0;

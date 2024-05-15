@@ -1,4 +1,5 @@
 // main.js
+const electron = require('electron')
 const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 const { spawn } = require('child_process');
@@ -9,11 +10,13 @@ require('./IPCloginReg');
 require('./IPCrestaurant');
 
 function createWindow() {
+    const display = electron.screen.getPrimaryDisplay()
+    const maxiSize = display.workAreaSize
     mainWindow = new BrowserWindow({
-        // width: 500,
-        // height: 1000,
-        fullscreen: true,  // Open the window in fullscreen mode
-        fullscreenable: true,
+        // resizable: false,
+        height: maxiSize.height,
+        width: maxiSize.width,
+        show: false,
         webPreferences: {
             preload: path.join(__dirname, 'preload.js'),
             nodeIntegration: true
@@ -35,6 +38,9 @@ ipcMain.on('mainMenu', (event, { res }) => {
 
 app.whenReady().then(()=>{
     createWindow();
+    mainWindow.maximize();
+    mainWindow.setResizable(false);
+    mainWindow.show();
 });
 
 

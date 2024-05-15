@@ -66,6 +66,34 @@ void getMenu(char *username)
     fclose(file);
 }
 
+int getRestaurantLocation(char *data){
+    FILE *file = fopen(DATABASE_LOCATION, "r");
+    if (file == NULL) {
+        // printf("Error opening file for reading.\n");
+        return 0;
+    }
+    // // Read lines from the file into an array
+    char line[1000];
+    char dataline[1000];
+    char editline[1000];
+    char id[10];
+
+    while (fgets(line, sizeof(line), file)) {
+      sscanf(line, "%[^,]", id);
+      if(strcmp(data, id) == 0){
+        sscanf(line,"%[^\n]s",editline);
+        strcpy(dataline, editline);
+      }
+    }
+
+    fclose(file);
+
+    printf("%s", dataline);
+    fflush(stdout);
+
+    return 0;
+}
+
 int setRestaurantLocation(char *data){
  FILE *file = fopen(DATABASE_LOCATION, "r");
     if (file == NULL) {

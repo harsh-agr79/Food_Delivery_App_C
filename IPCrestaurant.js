@@ -60,3 +60,15 @@ ipcMain.on('setRestaurantLocation', (event, { func, dataset }) => {
 
     backendProcess.stdin.write(`${func} ${dataset}\n`);
 });
+
+ipcMain.on('getRestaurantLocation', (event, { func, dataset }) => {
+    const backendProcess = spawn('./backend', [], { cwd: __dirname });
+
+    backendProcess.stdout.on('data', (data) => {
+        const result = data.toString();
+        // console.log(result);
+        global.mainWindow.webContents.send('restaurantLocationGet', { result });
+    });
+    console.log(func, dataset);
+    backendProcess.stdin.write(`${func} ${dataset}\n`);
+});
