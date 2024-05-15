@@ -110,7 +110,7 @@ if (ipcRenderer) {
     const gridnum = [];
     const gridsize = 12;
 
-    let count = 1;
+    let count = 0;
     for(let i = 0; i<gridsize; i++){
       gridnum[i] = [];
       for(let j=0;j<gridsize;j++){
