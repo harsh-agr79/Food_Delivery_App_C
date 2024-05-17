@@ -19,25 +19,42 @@
   </head>
 
   <body>
-    <div class="row">
-      <div class="col s12 amber darken-2 white-text">
-        <ul class="tabs amber darken-2">
-          <li class="tab col s3">
-            <a class="white-text active" href="#orderPage">Order Page</a>
+    <div>
+      <div class="nav-content amber darken-1">
+        <ul class="tabs tabs-transparent">
+          <li class="tab">
+            <a class="white-text active" href="#orderPage" id="orderTab">Order Page</a>
           </li>
-          <li class="tab col s3">
+          <li class="tab">
+            <a class="white-text hide" href="#menuPage">Menu Page</a>
+          </li>
+          <li class="tab">
             <a class="white-text" href="#test2">Cart</a>
           </li>
-          <li class="tab col s3">
+          <li class="tab">
             <a class="white-text" href="#test3">Current Order</a>
           </li>
-          <li class="tab col s3">
+          <li class="tab">
             <a class="white-text" href="#test4">Old Orders</a>
           </li>
         </ul>
       </div>
       <div id="orderPage" class="col s12">
-        Order Page
+        <div class="container" id="restList" style="margin-top: 10px;">
+        </div>
+      </div>
+      <div id="menuPage" class="col s12">
+        <div class="container">
+          <div class="center"><h5><span id="menuRestName"></span> Menu</h5></div>
+          <div id="menuContainer">
+            <div class="row mp-card">
+              <div class="col s6">Item</div>
+              <div class="col s6">Category</div>
+              <div class="col s6">Price</div>
+              <div class="col s6">Add to Cart</div>
+            </div>
+          </div>
+        </div>
       </div>
       <div id="test2" class="col s12">Cart</div>
       <div id="test3" class="col s12">Current Order</div>

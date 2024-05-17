@@ -102,8 +102,9 @@ int setRestaurantLocation(char *data){
     }
     char editid[10];
     char dataset[1000];
+    char loc[10];
 
-    sscanf(data,"%[^,],%[^,]", editid,dataset);
+    sscanf(data,"%[^,],%[^,],%[^,]", editid,dataset,loc);
     // printf("%s %s", editid, dataset);
   
 
@@ -153,7 +154,7 @@ int setRestaurantLocation(char *data){
     }
 
     fclose(file);
-    printf("%s", dataset);
+    printf("%s", loc);
     fflush(stdout);
     return 1;
 }

@@ -128,8 +128,9 @@ if (ipcRenderer) {
 
     const num = gridnum[gridY][gridX];
     const username = sessionStorage.getItem("username");
+    const usertype = sessionStorage.getItem("usertype");
     func = "setRestaurantLocation";
-    var dataset = [username, num, e.clientX, e.clientY].join(",");
+    var dataset = [username,usertype ,num, e.clientX, e.clientY].join(",");
     func = "setRestaurantLocation";
     ipcRenderer.send("setRestaurantLocation", { func, dataset });
 
@@ -153,13 +154,14 @@ if (ipcRenderer) {
   ipcRenderer.on("restaurantLocationGet", (event, response) => {
     $("#pinicon").remove();
     var res = response.result;
+    // console.log(res);
     var data = res.split(",");
     const pinIcon = document.createElement("img");
     pinIcon.src = "./mappin.webp"; // Replace 'location-pin.png' with your pin icon image URL
     pinIcon.style.position = "absolute";
     pinIcon.style.height = "20px";
-    pinIcon.style.left = `${data[2]}px`;
-    pinIcon.style.top = `${data[3]}px`;
+    pinIcon.style.left = `${data[3]}px`;
+    pinIcon.style.top = `${data[4]}px`;
     pinIcon.id = "pinicon";
     pinIcon.style.transform = "translate(-50%, -100%)";
 

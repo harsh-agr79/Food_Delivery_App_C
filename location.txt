@@ -1,2 +1,2 @@
-testres,43,888,251
-testres2,52,632,301
+testres,restaurant,112,653,536
+testres2,restaurant,15,539,113

@@ -3,6 +3,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include "restaurant.c"
+#include "customer.c"
 
 #define MAX_USERNAME_LENGTH 50
 #define MAX_PASSWORD_LENGTH 50
@@ -317,6 +318,10 @@ int main()
          else if (strcmp(function, "getRestaurantLocation") == 0)
         {
            getRestaurantLocation(data);
+        }
+         else if (strcmp(function, "getRestaurants") == 0)
+        {
+           getRestaurants();
         }
     }
 
