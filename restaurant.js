@@ -133,7 +133,7 @@ if (ipcRenderer) {
     var dataset = [username,usertype ,num, e.clientX, e.clientY].join(",");
     func = "setRestaurantLocation";
     ipcRenderer.send("setRestaurantLocation", { func, dataset });
-
+    
     const pinIcon = document.createElement("img");
     pinIcon.src = "./mappin.webp"; // Replace 'location-pin.png' with your pin icon image URL
     pinIcon.style.position = "absolute";
