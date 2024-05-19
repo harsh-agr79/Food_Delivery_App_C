@@ -14,7 +14,7 @@ if (ipcRenderer) {
     var res = response.result;
     const restList = document.getElementById("restList");
     restList.innerHTML = "";
-    res.sort((a,b) => parseInt(a.distance) - parseInt(b.distance));
+    // res.sort((a,b) => parseInt(a.distance) - parseInt(b.distance));
     res.forEach((item) => {
       const restaurant = ` <div class="row mp-card restListItem" onclick="showMenu('${item.username}')">
           <div class="col s12"><h5>${item.restaurantName}</h5></div>

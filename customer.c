@@ -16,6 +16,20 @@
 #define DATABASE_LOCATION "location.txt"
 #define DATABASE_CART "cart.txt"
 
+typedef struct {
+    char restaurantName[MAX_RESTAURANT_NAME_LEN];
+    char username[MAX_ITEM_NAME_LEN];
+    char contact[MAX_CATEGORY_LEN];
+    char address[MAX_CATEGORY_LEN];
+    char pincode[MAX_CATEGORY_LEN];
+    int distance;
+    char path[500]; // Assuming getPath() returns a string less than 500 chars
+} Restaurant;
+
+int compareByDistance(const void *a, const void *b) {
+    return ((Restaurant *)a)->distance - ((Restaurant *)b)->distance;
+}
+
 int getDistance(char *customer, char *restaurant){
     FILE *file = fopen(DATABASE_LOCATION, "r");
     if (file == NULL)
@@ -247,21 +261,18 @@ int setUserCart(char *data)
     return 1;
 }
 
-void getRestaurants(char *customer)
-{
+void getRestaurants(char *customer) {
     FILE *file = fopen(DATABASE_RESTAURANT, "r");
-    if (file == NULL)
-    {
+    if (file == NULL) {
         perror("Error opening menu file");
         return;
     }
 
-    char line[5000];
-    int isFirstItem = 1; // Flag to track the first item in JSON array
+    Restaurant restaurants[1000]; // Assuming we have at most 1000 restaurants
+    int count = 0;
 
-    printf("[");
-    while (fgets(line, sizeof(line), file))
-    {
+    char line[5000];
+    while (fgets(line, sizeof(line), file)) {
         // Parse line into variables
         char restaurantname[MAX_RESTAURANT_NAME_LEN];
         char user[MAX_RESTAURANT_NAME_LEN];
@@ -271,32 +282,40 @@ void getRestaurants(char *customer)
         char address[MAX_CATEGORY_LEN];
         char pincode[MAX_CATEGORY_LEN];
 
-        if (sscanf(line, "%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%[^\n]s", restaurantname, user, username, password, contact, address, pincode) == 7)
-        {
-            // if (strcmp(user, username) == 0) {
-            if (!isFirstItem)
-            {
-                printf(","); // Add comma for subsequent items
-            }
-            printf("{");
-            printf("\"username\": \"%s\",", username);
-            printf("\"restaurantName\": \"%s\",", restaurantname);
-            printf("\"contact\": \"%s\",", contact);
-            printf("\"distance\": \"%d\",", getDistance(customer,username));
-            char *path = getPath(customer,username);
-            printf("\"path\": \"%s\",", path);
-            printf("\"address\": \"%s, %s\"", address, pincode);
-            printf("}");
-
-            isFirstItem = 0; // Update flag after printing the first item
+        if (sscanf(line, "%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%[^\n]s", restaurantname, user, username, password, contact, address, pincode) == 7) {
+            strcpy(restaurants[count].restaurantName, restaurantname);
+            strcpy(restaurants[count].username, username);
+            strcpy(restaurants[count].contact, contact);
+            strcpy(restaurants[count].address, address);
+            strcpy(restaurants[count].pincode, pincode);
+            restaurants[count].distance = getDistance(customer, username);
+            strcpy(restaurants[count].path, getPath(customer, username));
+            count++;
         }
-        // }
+    }
+    fclose(file);
+
+    // Sort the array of structs by distance
+    qsort(restaurants, count, sizeof(Restaurant), compareByDistance);
+
+    // Print the sorted array in JSON format
+    printf("[");
+    for (int i = 0; i < count; i++) {
+        if (i > 0) {
+            printf(",");
+        }
+        printf("{");
+        printf("\"username\": \"%s\",", restaurants[i].username);
+        printf("\"restaurantName\": \"%s\",", restaurants[i].restaurantName);
+        printf("\"contact\": \"%s\",", restaurants[i].contact);
+        printf("\"distance\": \"%d\",", restaurants[i].distance);
+        printf("\"path\": \"%s\",", restaurants[i].path);
+        printf("\"address\": \"%s, %s\"", restaurants[i].address, restaurants[i].pincode);
+        printf("}");
     }
     printf("]");
     fflush(stdout);
-    fclose(file);
 }
-
 int getCustomerLocation(char *data)
 {
     FILE *file = fopen(DATABASE_LOCATION, "r");
