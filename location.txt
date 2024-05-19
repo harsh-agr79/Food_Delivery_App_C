@@ -1,11 +1,11 @@
-testuser,customer,30,786,192
+testuser,customer,64,640,367
 TheHunPan,restaurant,49,356,267
 PasPar,restaurant,74,426,374
 SizGri,restaurant,112,668,582
-TacTim,restaurant,90,861,476
-SusDel,restaurant,65,685,365
+TacTim,restaurant,90,861,476    
+SusDel,restaurant,74,426,374
 BurBar,restaurant,2,218,70
-LaPiz,restaurant,87,510,477
+LaPiz,restaurant,130,1232,626
 SpiGar,restaurant,17,345,170
 LePBis,restaurant,91,932,431
 SabLat,restaurant,110,457,568

@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include "dijkstra.c"
 #include "restaurant.c"
 #include "customer.c"
 
@@ -321,7 +322,7 @@ int main()
         }
          else if (strcmp(function, "getRestaurants") == 0)
         {
-           getRestaurants();
+           getRestaurants(data);
         }
         else if (strcmp(function, "setCustomerLocation") == 0)
         {

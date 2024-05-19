@@ -10,11 +10,13 @@
   "author": "Harsh",
   "license": "MIT",
   "devDependencies": {
+    "@electron-forge/plugin-webpack": "^7.4.0",
     "electron": "^30.0.2"
   },
   "dependencies": {
     "child_process": "^1.0.2",
     "express": "^4.19.2",
-    "nodemon": "^3.1.0"
+    "nodemon": "^3.1.0",
+    "webpack-dev-server": "^5.0.4"
   }
 }

@@ -16,6 +16,66 @@
 #define DATABASE_LOCATION "location.txt"
 #define DATABASE_CART "cart.txt"
 
+int getDistance(char *customer, char *restaurant){
+    FILE *file = fopen(DATABASE_LOCATION, "r");
+    if (file == NULL)
+    {
+        // return 0;
+    }
+    char line[1000];
+    char username[1000];
+    char type[1000];
+    int node;
+    int node1=0;
+    int node2=0;
+    int result;
+    while (fgets(line, sizeof(line), file))
+    {
+        sscanf(line, "%[^,],%[^,],%d", username, type, &node);
+        if (strcmp(username, customer) == 0 && strcmp(type, "customer") == 0)
+        {
+           node1 = node;
+        }
+        else if(strcmp(username, restaurant) == 0 && strcmp(type, "restaurant") == 0){
+            node2 = node;
+        }
+    }   
+
+    result = callDKS2(node1, node2);
+    // printf("%d,%d\n", node1, node2);
+
+    return result;
+}
+
+
+char* getPath(char *customer, char *restaurant) {
+ FILE *file = fopen(DATABASE_LOCATION, "r");
+    if (file == NULL)
+    {
+        // return 0;
+    }
+    char line[1000];
+    char username[1000];
+    char type[1000];
+    int node;
+    int node1=0;
+    int node2=0;
+    // int result;
+    while (fgets(line, sizeof(line), file))
+    {
+        sscanf(line, "%[^,],%[^,],%d", username, type, &node);
+        if (strcmp(username, customer) == 0 && strcmp(type, "customer") == 0)
+        {
+           node1 = node;
+        }
+        else if(strcmp(username, restaurant) == 0 && strcmp(type, "restaurant") == 0){
+            node2 = node;
+        }
+    }   
+    char* res =  callDKS(node1, node2);
+    char *result = strdup(res);
+    return result;
+}
 int checkCart(int id, char *customer)
 {
     FILE *file = fopen(DATABASE_CART, "r");
@@ -187,7 +247,7 @@ int setUserCart(char *data)
     return 1;
 }
 
-void getRestaurants()
+void getRestaurants(char *customer)
 {
     FILE *file = fopen(DATABASE_RESTAURANT, "r");
     if (file == NULL)
@@ -222,6 +282,9 @@ void getRestaurants()
             printf("\"username\": \"%s\",", username);
             printf("\"restaurantName\": \"%s\",", restaurantname);
             printf("\"contact\": \"%s\",", contact);
+            printf("\"distance\": \"%d\",", getDistance(customer,username));
+            char *path = getPath(customer,username);
+            printf("\"path\": \"%s\",", path);
             printf("\"address\": \"%s, %s\"", address, pincode);
             printf("}");
 

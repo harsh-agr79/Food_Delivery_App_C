@@ -4,7 +4,7 @@ if (ipcRenderer) {
   getRestaurantipc();
   function getRestaurantipc() {
     var func = "getRestaurants";
-    var dataset = "NULL";
+    var dataset = sessionStorage.getItem("username");
     ipcRenderer.send("getRestaurants", { func, dataset });
   }
   document.getElementById("orderTab").addEventListener("click", function () {
@@ -14,9 +14,12 @@ if (ipcRenderer) {
     var res = response.result;
     const restList = document.getElementById("restList");
     restList.innerHTML = "";
+    res.sort((a,b) => parseInt(a.distance) - parseInt(b.distance));
     res.forEach((item) => {
       const restaurant = ` <div class="row mp-card restListItem" onclick="showMenu('${item.username}')">
           <div class="col s12"><h5>${item.restaurantName}</h5></div>
+          <div class="col s12">${item.distance}00 Meters</div>
+          <div class="col s12">${item.path}</div>
           <div class="col s12">${item.address}</div>
           <div class="col s12">${item.contact}</div>
         </div>`;
