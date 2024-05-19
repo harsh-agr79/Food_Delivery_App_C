@@ -19,17 +19,33 @@
   </head>
 
   <body>
+    <style>
+      .image-container {
+            position: relative;
+            display: inline-block;
+        }
+        .pinco {
+            position: absolute;
+        }
+        #drawing-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+    </style>
     <div>
       <div class="nav-content amber darken-1">
         <ul class="tabs tabs-transparent">
           <li class="tab">
-            <a class="white-text active" href="#orderPage" id="orderTab">Order Page</a>
+            <a class="white-text active" href="#orderPage" id="orderTab"
+              >Order Page</a
+            >
           </li>
           <li class="tab">
             <a class="white-text hide" href="#menuPage">Menu Page</a>
           </li>
           <li class="tab">
-            <a class="white-text" href="#test2">Cart</a>
+            <a class="white-text" href="#cartPage"id="cartTab" >Cart</a>
           </li>
           <li class="tab">
             <a class="white-text" href="#test3">Current Order</a>
@@ -38,17 +54,18 @@
             <a class="white-text" href="#test4">Old Orders</a>
           </li>
           <li class="tab">
-            <a class="white-text"  id="locationTab" href="#location">Location</a>
+            <a class="white-text" id="locationTab" href="#location">Location</a>
           </li>
         </ul>
       </div>
       <div id="orderPage" class="col s12">
-        <div class="container" id="restList" style="margin-top: 10px;">
-        </div>
+        <div class="container" id="restList" style="margin-top: 10px"></div>
       </div>
       <div id="menuPage" class="col s12">
         <div class="container">
-          <div class="center"><h5><span id="menuRestName"></span> Menu</h5></div>
+          <div class="center">
+            <h5><span id="menuRestName"></span> Menu</h5>
+          </div>
           <div id="menuContainer">
             <div class="row mp-card">
               <div class="col s6">Item</div>
@@ -59,12 +76,49 @@
           </div>
         </div>
       </div>
-      <div id="test2" class="col s12">Cart</div>
+      <div id="cartPage" class="col s12" style="padding: 5vw">
+        <div class="row">
+          <div class="col s12 m6 center">
+            <img src="./map.png" id="grid-image" class="image-container" style="width: 45vw" alt="" />
+            <canvas id="drawing-canvas"></canvas>
+          </div>
+          <div class="col s12 m6">
+            <div class="mp-card">
+              <div class="center"><h6>Your Cart</h6></div>
+              <div>
+                <div class="right">
+                  <button class="btn-small amber darken-1 black-text" id="editCartBtn">Edit Cart</button>
+                </div>
+                <div>Restaurant Name : <span id="resnameCart"></span></div>
+                <div>Restaurant Username : <span id="resusernameCart"></span></div>
+                <div>Distance: <span id="distanceCart"></span>000 Meters</div>
+                <div>Time Taken: <span id="timetakenCart"></span> Minutes Approximate</div>
+              </div>
+              <table>
+                <thead>
+                  <th>Food</th>
+                  <th>Category</th>
+                  <th>Type</th>
+                  <th>Quantity</th>
+                  <th>Price</th>
+                  <th>Total</th>
+                </thead>
+                <tbody id="cartTableBody">
+                  
+                </tbody>
+              </table>
+              <div class="center" style="margin-top: 20px;">
+                <button class="btn-small green">Confirm Cart</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
       <div id="test3" class="col s12">Current Order</div>
       <div id="test4" class="col s12">Old Orders</div>
       <div id="location" class="col s12">
         <div class="center">
-          <img src="./map.png" style="width: 75vw;" id="map" alt="">
+          <img src="./map.png" style="width: 75vw" id="map" alt="" />
         </div>
       </div>
     </div>

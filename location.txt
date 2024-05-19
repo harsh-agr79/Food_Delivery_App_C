@@ -1,4 +1,4 @@
-testuser,customer,64,640,367
+testuser,customer,66,829,357
 TheHunPan,restaurant,49,356,267
 PasPar,restaurant,74,426,374
 SizGri,restaurant,112,668,582
@@ -24,3 +24,4 @@ MamMia,restaurant,94,1193,450
 Bis22,restaurant,130,1232,622
 TokGri,restaurant,140,996,658
 TheSmo,restaurant,41,736,248
+testuser2,customer,25,378,209

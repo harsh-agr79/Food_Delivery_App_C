@@ -7,7 +7,9 @@ ipcMain.on('login', (event, { tryfunc, dataset }) => {
     backendProcess.stdout.on('data', (data) => {
         const result = data.toString();
         global.mainWindow.webContents.send('loginResponse', { result });
+        console.log(result);
     });
+    console.log(`${tryfunc} ${dataset}`);
 
     backendProcess.stdin.write(`${tryfunc} ${dataset}\n`);
 });
@@ -19,7 +21,9 @@ ipcMain.on('registersubmit', (event, { tryfunc , dataset }) => {
         const result = parseInt(data.toString());
         console.log(result);
         global.mainWindow.webContents.send('registerResponse', { result });
+        console.log(result);
     });
+    console.log(`${tryfunc} ${dataset}`);
 
     backendProcess.stdin.write(`${tryfunc} ${dataset}\n`);
 });

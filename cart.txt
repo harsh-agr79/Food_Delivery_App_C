@@ -1,2 +1,5 @@
-testuser,Pasta Paradise,PasPar,5,Spaghetti Carbonara,Main Course,Non-Veg,1,110
-testuser,Pasta Paradise,PasPar,6,Margherita Pizza,Main Course,Veg,2,90
+testuser2,The Hungry Panda,TheHunPan,1,Hot and Sour Soup,Appetizer,Veg,2,50
+testuser2,The Hungry Panda,TheHunPan,2,Kung Pao Chicken,Main Course,Non-Veg,2,100
+testuser2,The Hungry Panda,TheHunPan,3,Chicken with Broccoli,Main Course,Non-Veg,2,120
+testuser,La Pizzeria,LaPiz,29,Pepperoni Pizza,Main Course,Non-Veg,1,140
+testuser,La Pizzeria,LaPiz,31,Tiramisu,Dessert,Veg,2,80

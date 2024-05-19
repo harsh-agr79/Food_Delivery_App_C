@@ -340,6 +340,14 @@ int main()
         {
            getMenuCustomer(data);
         }
+         else if (strcmp(function, "getCart") == 0)
+        {
+           getCart(data);
+        }
+         else if (strcmp(function, "getPathCart") == 0)
+        {
+           getPathCart(data);
+        }
     }
 
     return 0;

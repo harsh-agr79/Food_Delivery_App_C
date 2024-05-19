@@ -16,7 +16,8 @@
 #define DATABASE_LOCATION "location.txt"
 #define DATABASE_CART "cart.txt"
 
-typedef struct {
+typedef struct
+{
     char restaurantName[MAX_RESTAURANT_NAME_LEN];
     char username[MAX_ITEM_NAME_LEN];
     char contact[MAX_CATEGORY_LEN];
@@ -26,11 +27,13 @@ typedef struct {
     char path[500]; // Assuming getPath() returns a string less than 500 chars
 } Restaurant;
 
-int compareByDistance(const void *a, const void *b) {
+int compareByDistance(const void *a, const void *b)
+{
     return ((Restaurant *)a)->distance - ((Restaurant *)b)->distance;
 }
 
-int getDistance(char *customer, char *restaurant){
+int getDistance(char *customer, char *restaurant)
+{
     FILE *file = fopen(DATABASE_LOCATION, "r");
     if (file == NULL)
     {
@@ -40,20 +43,21 @@ int getDistance(char *customer, char *restaurant){
     char username[1000];
     char type[1000];
     int node;
-    int node1=0;
-    int node2=0;
+    int node1 = 0;
+    int node2 = 0;
     int result;
     while (fgets(line, sizeof(line), file))
     {
         sscanf(line, "%[^,],%[^,],%d", username, type, &node);
         if (strcmp(username, customer) == 0 && strcmp(type, "customer") == 0)
         {
-           node1 = node;
+            node1 = node;
         }
-        else if(strcmp(username, restaurant) == 0 && strcmp(type, "restaurant") == 0){
+        else if (strcmp(username, restaurant) == 0 && strcmp(type, "restaurant") == 0)
+        {
             node2 = node;
         }
-    }   
+    }
 
     result = callDKS2(node1, node2);
     // printf("%d,%d\n", node1, node2);
@@ -61,9 +65,9 @@ int getDistance(char *customer, char *restaurant){
     return result;
 }
 
-
-char* getPath(char *customer, char *restaurant) {
- FILE *file = fopen(DATABASE_LOCATION, "r");
+char *getPath(char *customer, char *restaurant)
+{
+    FILE *file = fopen(DATABASE_LOCATION, "r");
     if (file == NULL)
     {
         // return 0;
@@ -72,21 +76,22 @@ char* getPath(char *customer, char *restaurant) {
     char username[1000];
     char type[1000];
     int node;
-    int node1=0;
-    int node2=0;
+    int node1 = 0;
+    int node2 = 0;
     // int result;
     while (fgets(line, sizeof(line), file))
     {
         sscanf(line, "%[^,],%[^,],%d", username, type, &node);
         if (strcmp(username, customer) == 0 && strcmp(type, "customer") == 0)
         {
-           node1 = node;
+            node1 = node;
         }
-        else if(strcmp(username, restaurant) == 0 && strcmp(type, "restaurant") == 0){
+        else if (strcmp(username, restaurant) == 0 && strcmp(type, "restaurant") == 0)
+        {
             node2 = node;
         }
-    }   
-    char* res =  callDKS(node1, node2);
+    }
+    char *res = callDKS(node1, node2);
     char *result = strdup(res);
     return result;
 }
@@ -261,9 +266,12 @@ int setUserCart(char *data)
     return 1;
 }
 
-void getRestaurants(char *customer) {
+void getRestaurants(char *customer)
+{
     FILE *file = fopen(DATABASE_RESTAURANT, "r");
-    if (file == NULL) {
+    
+    if (file == NULL)
+    {
         perror("Error opening menu file");
         return;
     }
@@ -272,7 +280,8 @@ void getRestaurants(char *customer) {
     int count = 0;
 
     char line[5000];
-    while (fgets(line, sizeof(line), file)) {
+    while (fgets(line, sizeof(line), file))
+    {
         // Parse line into variables
         char restaurantname[MAX_RESTAURANT_NAME_LEN];
         char user[MAX_RESTAURANT_NAME_LEN];
@@ -282,7 +291,8 @@ void getRestaurants(char *customer) {
         char address[MAX_CATEGORY_LEN];
         char pincode[MAX_CATEGORY_LEN];
 
-        if (sscanf(line, "%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%[^\n]s", restaurantname, user, username, password, contact, address, pincode) == 7) {
+        if (sscanf(line, "%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%[^\n]s", restaurantname, user, username, password, contact, address, pincode) == 7)
+        {
             strcpy(restaurants[count].restaurantName, restaurantname);
             strcpy(restaurants[count].username, username);
             strcpy(restaurants[count].contact, contact);
@@ -300,8 +310,10 @@ void getRestaurants(char *customer) {
 
     // Print the sorted array in JSON format
     printf("[");
-    for (int i = 0; i < count; i++) {
-        if (i > 0) {
+    for (int i = 0; i < count; i++)
+    {
+        if (i > 0)
+        {
             printf(",");
         }
         printf("{");
@@ -419,4 +431,67 @@ int setCustomerLocation(char *data)
     printf("%s", loc);
     fflush(stdout);
     return 1;
+}
+void getCart(char *data)
+{
+    FILE *file = fopen(DATABASE_CART, "r");
+    if (file == NULL)
+    {
+        // printf("Error opening file for reading.\n");
+        // return 0;
+    }
+    // // Read lines from the file into an array
+    char line[5000];
+    int isFirstItem = 1;
+    printf("[");
+    while (fgets(line, sizeof(line), file))
+    {
+        // Parse line into variables
+        char cusUN[255];
+        char resname[255];
+        char resUN[255];
+        int id;
+        char food[255];
+        char category[255];
+        char type[255];
+        int quantity;
+        int price;
+
+        if (sscanf(line, "%[^,],%[^,],%[^,],%d,%[^,],%[^,],%[^,],%d,%d", cusUN, resname, resUN, &id, food, category, type, &quantity, &price) == 9)
+        {
+            if (strcmp(cusUN, data) == 0)
+            {
+                if (!isFirstItem)
+                {
+                    printf(","); // Add comma for subsequent items
+                }
+                printf("  {");
+                printf("    \"customerUsername\": \"%s\",", cusUN);
+                printf("    \"resname\": \"%s\",", resname);
+                printf("    \"restaurantUsername\": \"%s\",", resUN);
+                printf("    \"id\": %d,", id);
+                printf("    \"food\": \"%s\",", food);
+                printf("    \"category\": \"%s\",", category);
+                printf("    \"type\": \"%s\",", type);
+                printf("    \"quantity\": %d,", quantity);
+                printf("    \"price\": %d", price);
+                printf("  }");
+
+                isFirstItem = 0; // Update flag after printing the first item
+            }
+        }
+    }
+    printf("]");
+    fflush(stdout);
+    fclose(file);
+}
+
+void getPathCart(char *data){
+    char customer[500];
+    char restaurant[500];
+
+    sscanf(data, "%[^,],%[^,]", customer, restaurant);
+    
+    printf("%d|%s",getDistance(customer,restaurant), getPath(customer, restaurant));
+    fflush(stdout);
 }
