@@ -1,4 +1,4 @@
-testuser,customer,52,628,297
+testuser,customer,30,786,192
 TheHunPan,restaurant,49,356,267
 PasPar,restaurant,74,426,374
 SizGri,restaurant,112,668,582

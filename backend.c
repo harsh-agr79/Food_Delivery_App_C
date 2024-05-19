@@ -331,6 +331,14 @@ int main()
         {
            getCustomerLocation(data);
         }
+        else if (strcmp(function, "setUserCart") == 0)
+        {
+           setUserCart(data);
+        }
+        else if (strcmp(function, "getMenuCustomer") == 0)
+        {
+           getMenuCustomer(data);
+        }
     }
 
     return 0;

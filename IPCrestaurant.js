@@ -6,7 +6,6 @@ ipcMain.on('getMenu', (event, { func, dataset }) => {
 
     backendProcess.stdout.on('data', (data) => {
         const result = JSON.parse(data.toString());
-        // console.log(result);
         global.mainWindow.webContents.send('getMenuResponse', { result });
     });
 
@@ -18,7 +17,6 @@ ipcMain.on('addMenuItem', (event, { func, dataset }) => {
 
     backendProcess.stdout.on('data', (data) => {
         const result = parseInt(data.toString());
-        // console.log(result);
         global.mainWindow.webContents.send('getAddItemResponse', { result });
     });
 
@@ -33,7 +31,6 @@ ipcMain.on('editMenuItem', (event, { func, dataset }) => {
         global.mainWindow.webContents.send('getEditItemResponse', { result });
     });
 
-    console.log(dataset);
     backendProcess.stdin.write(`${func} ${dataset}\n`);
 });
 
@@ -42,7 +39,6 @@ ipcMain.on('deleteMenuItem', (event, { func, dataset }) => {
 
     backendProcess.stdout.on('data', (data) => {
         const result = parseInt(data.toString());
-        // console.log(result);
         global.mainWindow.webContents.send('getDeleteItemResponse', { result });
     });
 
@@ -54,7 +50,6 @@ ipcMain.on('setRestaurantLocation', (event, { func, dataset }) => {
 
     backendProcess.stdout.on('data', (data) => {
         const result = parseInt(data.toString());
-        // console.log(result);
         global.mainWindow.webContents.send('restaurantLocationSet', { result });
     });
 
@@ -66,9 +61,7 @@ ipcMain.on('getRestaurantLocation', (event, { func, dataset }) => {
 
     backendProcess.stdout.on('data', (data) => {
         const result = data.toString();
-        // console.log(result);
         global.mainWindow.webContents.send('restaurantLocationGet', { result });
     });
-    console.log(func, dataset);
     backendProcess.stdin.write(`${func} ${dataset}\n`);
 });

@@ -53,6 +53,7 @@ if (ipcRenderer) {
       const row = `<tr id="${item.id}menutr">
       <td>${item.food}</td>
       <td>${item.category}</td>
+      <td>${item.type}</td>
       <td>${item.price}</td>
       <td><a onclick="editMenuFunc(${item.id})" class="amber btn-small modal-trigger" href="#editMenuItem"><i class="material-icons">edit</i></a><td>
       <td><span onclick="delMenuFunc(${item.id})" class="red btn-small delMenuBtn"><i class="material-icons">delete</i></span><td>
@@ -92,11 +93,12 @@ if (ipcRenderer) {
   function editMenuFunc(id) {
     var datatr = document.getElementById(`${id}menutr`);
     var tds = Array.from(datatr.querySelectorAll("td"));
-
+    console.log(tds);
     $("#editFoodId").val(id);
     $("#editFoodName").val(tds[0].textContent);
     $("#editFoodCategory").val(tds[1].textContent);
-    $("#editFoodPrice").val(tds[2].textContent);
+    $("#editFoodType").val(tds[2].textContent);
+    $("#editFoodPrice").val(tds[3].textContent);
   }
 
   //MAP FUNCTIONS

@@ -1,109 +1,111 @@
-1,The Hungry Panda,TheHunPan,Hot and Sour Soup,Appetizer,5.99
-2,The Hungry Panda,TheHunPan,Kung Pao Chicken,Main Course,10.99
-3,The Hungry Panda,TheHunPan,Beef with Broccoli,Main Course,12.99
-4,The Hungry Panda,TheHunPan,Green Tea,Cool Drink,2.99
-5,Pasta Paradise,PasPar,Spaghetti Carbonara,Main Course,11.99
-6,Pasta Paradise,PasPar,Margherita Pizza,Main Course,9.99
-7,Pasta Paradise,PasPar,Tiramisu,Dessert,6.99
-8,Pasta Paradise,PasPar,Lemonade,Cool Drink,3.99
-9,Sizzle Grill,SizGri,Filet Mignon,Main Course,25.99
-10,Sizzle Grill,SizGri,Ribeye Steak,Main Course,22.99
-11,Sizzle Grill,SizGri,Caesar Salad,Appetizer,8.99
-12,Sizzle Grill,SizGri,Chocolate Cake,Dessert,7.99
-13,Sizzle Grill,SizGri,Cola,Cool Drink,1.99
-14,Taco Time,TacTim,Chicken Tacos,Main Course,8.99
-15,Taco Time,TacTim,Beef Burrito,Main Course,10.99
-16,Taco Time,TacTim,Guacamole,Appetizer,4.99
-17,Taco Time,TacTim,Churros,Dessert,3.99
-18,Taco Time,TacTim,Horchata,Cool Drink,2.99
-19,Sushi Delight,SusDel,Sashimi Platter,Main Course,18.99
-20,Sushi Delight,SusDel,California Roll,Main Course,12.99
-21,Sushi Delight,SusDel,Miso Soup,Appetizer,3.99
-22,Sushi Delight,SusDel,Green Tea Ice Cream,Dessert,4.99
-23,Sushi Delight,SusDel,Sake,Cool Drink,8.99
-24,Burger Barn,BurBar,Cheeseburger,Main Course,9.99
-25,Burger Barn,BurBar,Chicken Wings,Main Course,7.99
-26,Burger Barn,BurBar,Onion Rings,Appetizer,4.99
-27,Burger Barn,BurBar,Brownie Sundae,Dessert,6.99
-28,Burger Barn,BurBar,Milkshake,Cool Drink,3.99
-29,La Pizzeria,LaPiz,Pepperoni Pizza,Main Course,14.99
-30,La Pizzeria,LaPiz,Caesar Salad,Appetizer,8.99
-31,La Pizzeria,LaPiz,Tiramisu,Dessert,8.99
-32,La Pizzeria,LaPiz,Soda,Cool Drink,1.99
-33,Spice Garden,SpiGar,Chicken Tikka Masala,Main Course,12.99
-34,Spice Garden,SpiGar,Vegetable Biryani,Main Course,10.99
-35,Spice Garden,SpiGar,Garlic Naan,Side Dish,3.99
-36,Spice Garden,SpiGar,Gulab Jamun,Dessert,5.99
-37,Spice Garden,SpiGar,Mango Lassi,Cool Drink,3.99
-38,Le Petit Bistro,LePBis,Steak Frites,Main Course,20.99
-39,Le Petit Bistro,LePBis,Escargot,Appetizer,15.99
-40,Le Petit Bistro,LePBis,Creme Brulee,Dessert,7.99
-41,Le Petit Bistro,LePBis,Red Wine,Cool Drink,9.99
-42,Sabor Latino,SabLat,Ceviche,Appetizer,11.99
-43,Sabor Latino,SabLat,Tacos Al Pastor,Main Course,9.99
-44,Sabor Latino,SabLat,Flan,Dessert,5.99
-45,Sabor Latino,SabLat,Agua Fresca,Cool Drink,2.99
-46,The Curry House,TheCurHou,Chicken Curry,Main Course,14.99
-47,The Curry House,TheCurHou,Lamb Rogan Josh,Main Course,16.99
-48,The Curry House,TheCurHou,Paneer Tikka,Appetizer,10.99
-49,The Curry House,TheCurHou,Kheer,Dessert,4.99
-50,The Curry House,TheCurHou,Mango Lassi,Cool Drink,3.99
-51,Thai Spice,ThaSpi,Pad Thai,Main Course,12.99
-52,Thai Spice,ThaSpi,Green Curry,Main Course,14.99
-53,Thai Spice,ThaSpi,Thai Spring Rolls,Appetizer,6.99
-54,Thai Spice,ThaSpi,Mango Sticky Rice,Dessert,5.99
-55,Thai Spice,ThaSpi,Thai Iced Tea,Cool Drink,3.99
-56,El Ranchero,ElRan,Fajitas,Main Course,18.99
-57,El Ranchero,ElRan,Queso Fundido,Appetizer,10.99
-58,El Ranchero,ElRan,Sopapillas,Dessert,5.99
-59,El Ranchero,ElRan,Agua de Horchata,Cool Drink,2.99
-60,Golden Dragon,GolDra,General Tso's Chicken,Main Course,13.99
-61,Golden Dragon,GolDra,Crab Rangoon,Appetizer,8.99
-62,Golden Dragon,GolDra,Fried Rice,Side Dish,6.99
-63,Golden Dragon,GolDra,Bubble Tea,Cool Drink,4.99
-64,La Trattoria,LaTra,Lasagna,Main Course,16.99
-65,La Trattoria,LaTra,Bruschetta,Appetizer,7.99
-66,La Trattoria,LaTra,Tiramisu,Dessert,8.99
-67,La Trattoria,LaTra,Mineral Water,Cool Drink,1.99
-68,BBQ Joint,BBQJoi,Pulled Pork Sandwich,Main Course,10.99
-69,BBQ Joint,BBQJoi,Macaroni and Cheese,Side Dish,8.99
-70,BBQ Joint,BBQJoi,Coleslaw,Side Dish,3.99
-71,BBQ Joint,BBQJoi,Apple Pie,Dessert,5.99
-72,BBQ Joint,BBQJoi,Iced Tea,Cool Drink,2.99
-73,Sushi Palace,SusPal,Dragon Roll,Main Course,21.99
-74,Sushi Palace,SusPal,Edamame,Appetizer,4.99
-75,Sushi Palace,SusPal,Mochi Ice Cream,Dessert,5.99
-76,Sushi Palace,SusPal,Green Tea,Cool Drink,2.99
-77,Pho King,PhoKin,Pho,Main Course,9.99
-78,Pho King,PhoKin,Banh Mi Sandwich,Main Course,7.99
-79,Pho King,PhoKin,Fresh Spring Rolls,Appetizer,5.99
-80,Pho King,PhoKin,Che Ba Mau,Dessert,4.99
-81,Pho King,PhoKin,Thai Iced Coffee,Cool Drink,3.99
-82,The Olive Tree,TheOliTre,Hummus,Appetizer,6.99
-83,The Olive Tree,TheOliTre,Chicken Shawarma,Main Course,12.99
-84,The Olive Tree,TheOliTre,Baklava,Dessert,4.99
-85,The Olive Tree,TheOliTre,Iced Tea,Cool Drink,2.99
-86,Fiesta Mexicana,FieMex,Enchiladas,Main Course,14.99
-87,Fiesta Mexicana,FieMex,Tamales,Main Course,11.99
-88,Fiesta Mexicana,FieMex,Churros,Dessert,5.99
-89,Fiesta Mexicana,FieMex,Horchatas,Cool Drink,3.99
-90,Bollywood Bites,BolBit,Samosas,Appetizer,6.99
-91,Bollywood Bites,BolBit,Butter Chicken,Main Course,13.99
-92,Bollywood Bites,BolBit,Gulab Jamun,Dessert,4.99
-93,Bollywood Bites,BolBit,Mango Lassi,Cool Drink,3.99
-94,Mamma Mia,MamMia,Bruschetta,Appetizer,7.99
-95,Mamma Mia,MamMia,Margherita Pizza,Main Course,12.99
-96,Mamma Mia,MamMia,Cannoli,Dessert,5.99
-97,Mamma Mia,MamMia,Italian Soda,Cool Drink,2.99
-98,Bistro 22,Bis22,French Onion Soup,Appetizer,8.99
-99,Bistro 22,Bis22,Coq au Vin,Main Course,16.99
-100,Bistro 22,Bis22,Chocolate Mousse,Dessert,6.99
-101,Bistro 22,Bis22,Wine,Cool Drink,9.99
-102,Tokyo Grill,TokGri,Gyoza,Appetizer,6.99
-103,Tokyo Grill,TokGri,Chicken Teriyaki,Main Course,13.99
-104,Tokyo Grill,TokGri,Mochi,Dessert,4.99
-105,Tokyo Grill,TokGri,Sake,Cool Drink,8.99
-106,The Smokehouse,TheSmo,BBQ Ribs,Main Course,18.99
-107,The Smokehouse,TheSmo,Cornbread,Side Dish,5.99
-108,The Smokehouse,TheSmo,Pecan Pie,Dessert,7.99
-109,The Smokehouse,TheSmo,Lemonade,Cool Drink,3.99
+1,The Hungry Panda,TheHunPan,Hot and Sour Soup,Appetizer,Veg,50
+2,The Hungry Panda,TheHunPan,Kung Pao Chicken,Main Course,Non-Veg,100
+3,The Hungry Panda,TheHunPan,Chicken with Broccoli,Main Course,Non-Veg,120
+4,The Hungry Panda,TheHunPan,Green Tea,Cool Drink,Veg,20
+5,Pasta Paradise,PasPar,Spaghetti Carbonara,Main Course,Non-Veg,110
+6,Pasta Paradise,PasPar,Margherita Pizza,Main Course,Veg,90
+7,Pasta Paradise,PasPar,Tiramisu,Dessert,Veg,60
+8,Pasta Paradise,PasPar,Lemonade,Cool Drink,Veg,30
+9,Sizzle Grill,SizGri,Filet Mignon,Main Course,Non-Veg,250
+10,Sizzle Grill,SizGri,Ribeye Steak,Main Course,Non-Veg,220
+11,Sizzle Grill,SizGri,Caesar Salad,Appetizer,Veg,80
+12,Sizzle Grill,SizGri,Chocolate Cake,Dessert,Veg,70
+13,Sizzle Grill,SizGri,Cola,Cool Drink,Veg,10
+14,Taco Time,TacTim,Chicken Tacos,Main Course,Non-Veg,80
+15,Taco Time,TacTim,Beef Burrito,Main Course,Non-Veg,100
+16,Taco Time,TacTim,Guacamole,Appetizer,Veg,40
+17,Taco Time,TacTim,Churros,Dessert,Veg,30
+18,Taco Time,TacTim,Horchata,Cool Drink,Veg,20
+19,Sushi Delight,SusDel,Sashimi Platter,Main Course,Non-Veg,180
+20,Sushi Delight,SusDel,California Roll,Main Course,Non-Veg,120
+21,Sushi Delight,SusDel,Miso Soup,Appetizer,Veg,30
+22,Sushi Delight,SusDel,Green Tea Ice Cream,Dessert,Veg,40
+23,Sushi Delight,SusDel,Sake,Cool Drink,Non-Veg,80
+24,Burger Barn,BurBar,Cheeseburger,Main Course,Non-Veg,90
+25,Burger Barn,BurBar,Chicken Wings,Main Course,Non-Veg,70
+26,Burger Barn,BurBar,Onion Rings,Appetizer,Veg,40
+27,Burger Barn,BurBar,Brownie Sundae,Dessert,Veg,60
+28,Burger Barn,BurBar,Milkshake,Cool Drink,Veg,30
+29,La Pizzeria,LaPiz,Pepperoni Pizza,Main Course,Non-Veg,140
+30,La Pizzeria,LaPiz,Caesar Salad,Appetizer,Veg,80
+31,La Pizzeria,LaPiz,Tiramisu,Dessert,Veg,80
+32,La Pizzeria,LaPiz,Soda,Cool Drink,Veg,10
+33,Spice Garden,SpiGar,Chicken Tikka Masala,Main Course,Non-Veg,120
+34,Spice Garden,SpiGar,Vegetable Biryani,Main Course,Veg,100
+35,Spice Garden,SpiGar,Garlic Naan,Side Dish,Veg,30
+36,Spice Garden,SpiGar,Gulab Jamun,Dessert,Veg,50
+37,Spice Garden,SpiGar,Mango Lassi,Cool Drink,Veg,30
+38,Le Petit Bistro,LePBis,Steak Frites,Main Course,Non-Veg,200
+39,Le Petit Bistro,LePBis,Escargot,Appetizer,Non-Veg,150
+40,Le Petit Bistro,LePBis,Creme Brulee,Dessert,Veg,70
+41,Le Petit Bistro,LePBis,Red Wine,Cool Drink,Non-Veg,90
+42,Sabor Latino,SabLat,Ceviche,Appetizer,Non-Veg,110
+43,Sabor Latino,SabLat,Tacos Al Pastor,Main Course,Non-Veg,90
+44,Sabor Latino,SabLat,Flan,Dessert,Veg,50
+45,Sabor Latino,SabLat,Agua Fresca,Cool Drink,Veg,20
+46,The Curry House,TheCurHou,Chicken Curry,Main Course,Non-Veg,140
+47,The Curry House,TheCurHou,Lamb Rogan Josh,Main Course,Non-Veg,160
+48,The Curry House,TheCurHou,Paneer Tikka,Appetizer,Veg,100
+49,The Curry House,TheCurHou,Kheer,Dessert,Veg,40
+50,The Curry House,TheCurHou,Mango Lassi,Cool Drink,Veg,30
+51,Thai Spice,ThaSpi,Pad Thai,Main Course,Non-Veg,120
+52,Thai Spice,ThaSpi,Green Curry,Main Course,Non-Veg,140
+53,Thai Spice,ThaSpi,Thai Spring Rolls,Appetizer,Veg,60
+54,Thai Spice,ThaSpi,Mango Sticky Rice,Dessert,Veg,50
+55,Thai Spice,ThaSpi,Thai Iced Tea,Cool Drink,Veg,30
+56,El Ranchero,ElRan,Fajitas,Main Course,Non-Veg,180
+57,El Ranchero,ElRan,Queso Fundido,Appetizer,Veg,100
+58,El Ranchero,ElRan,Sopapillas,Dessert,Veg,50
+59,El Ranchero,ElRan,Agua de Horchata,Cool Drink,Veg,20
+60,Golden Dragon,GolDra,General Tso's Chicken,Main Course,Non-Veg,130
+61,Golden Dragon,GolDra,Crab Rangoon,Appetizer,Non-Veg,80
+62,Golden Dragon,GolDra,Fried Rice,Side Dish,Veg,60
+63,Golden Dragon,GolDra,Bubble Tea,Cool Drink,Veg,40
+64,La Trattoria,LaTra,Lasagna,Main Course,Non-Veg,160
+65,La Trattoria,LaTra,Bruschetta,Appetizer,Veg,70
+66,La Trattoria,LaTra,Tiramisu,Dessert,Veg,80
+67,La Trattoria,LaTra,Mineral Water,Cool Drink,Veg,10
+68,BBQ Joint,BBQJoi,Pulled Pork Sandwich,Main Course,Non-Veg,100
+69,BBQ Joint,BBQJoi,Macaroni and Cheese,Side Dish,Veg,80
+70,BBQ Joint,BBQJoi,Coleslaw,Side Dish,Veg,30
+71,BBQ Joint,BBQJoi,Apple Pie,Dessert,Veg,50
+72,BBQ Joint,BBQJoi,Iced Tea,Cool Drink,Veg,20
+73,Sushi Palace,SusPal,Dragon Roll,Main Course,Non-Veg,210
+74,Sushi Palace,SusPal,Edamame,Appetizer,Veg,40
+75,Sushi Palace,SusPal,Mochi Ice Cream,Dessert,Veg,50
+76,Sushi Palace,SusPal,Green Tea,Cool Drink,Veg,20
+77,Pho King,PhoKin,Pho,Main Course,Non-Veg,90
+78,Pho King,PhoKin,Banh Mi Sandwich,Main Course,Non-Veg,70
+79,Pho King,PhoKin,Fresh Spring Rolls,Appetizer,Veg,50
+80,Pho King,PhoKin,Che Ba Mau,Dessert,Veg,40
+81,Pho King,PhoKin,Thai Iced Coffee,Cool Drink,Veg,30
+82,The Olive Tree,TheOliTre,Hummus,Appetizer,Veg,60
+83,The Olive Tree,TheOliTre,Chicken Shawarma,Main Course,Non-Veg,120
+84,The Olive Tree,TheOliTre,Baklava,Dessert,Veg,40
+85,The Olive Tree,TheOliTre,Iced Tea,Cool Drink,Veg,20
+86,Fiesta Mexicana,FieMex,Enchiladas,Main Course,Non-Veg,140
+87,Fiesta Mexicana,FieMex,Tamales,Main Course,Non-Veg,110
+88,Fiesta Mexicana,FieMex,Churros,Dessert,Veg,50
+89,Fiesta Mexicana,FieMex,Horchatas,Cool Drink,Veg,30
+90,Bollywood Bites,BolBit,Samosas,Appetizer,Veg,60
+91,Bollywood Bites,BolBit,Butter Chicken,Main Course,Non-Veg,130
+92,Bollywood Bites,BolBit,Gulab Jamun,Dessert,Veg,40
+93,Bollywood Bites,BolBit,Mango Lassi,Cool Drink,Veg,30
+94,Mamma Mia,MamMia,Bruschetta,Appetizer,Veg,70
+95,Mamma Mia,MamMia,Margherita Pizza,Main Course,Veg,120
+96,Mamma Mia,MamMia,Cannoli,Dessert,Veg,50
+97,Mamma Mia,MamMia,Italian Soda,Cool Drink,Veg,20
+98,Bistro 22,Bis22,French Onion Soup,Appetizer,Veg,80
+99,Bistro 22,Bis22,Coq au Vin,Main Course,Non-Veg,160
+100,Bistro 22,Bis22,Chocolate Mousse,Dessert,Veg,60
+101,Bistro 22,Bis22,Wine,Cool Drink,Non-Veg,90
+102,Tokyo Grill,TokGri,Gyoza,Appetizer,Non-Veg,60
+103,Tokyo Grill,TokGri,Chicken Teriyaki,Main Course,Non-Veg,130
+104,Tokyo Grill,TokGri,Mochi,Dessert,Veg,40
+105,Tokyo Grill,TokGri,Sake,Cool Drink,Non-Veg,80
+106,The Smokehouse,TheSmo,BBQ Ribs,Main Course,Non-Veg,180
+107,The Smokehouse,TheSmo,Cornbread,Side Dish,Veg,50
+108,The Smokehouse,TheSmo,Pecan Pie,Dessert,Veg,70
+109,The Smokehouse,TheSmo,Lemonade,Cool Drink,Veg,
+110,The Hungry Panda,TheHunPan,Chicken Sandwich,Appetizer,Veg,150
+111,The Hungry Panda,TheHunPan,Paneer Sandwich,Appetizer,Veg,200

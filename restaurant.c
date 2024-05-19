@@ -43,9 +43,10 @@ void getMenu(char *username)
         char user[MAX_RESTAURANT_NAME_LEN];
         char item[MAX_ITEM_NAME_LEN];
         char category[MAX_CATEGORY_LEN];
+        char type[MAX_CATEGORY_LEN];
         float price;
 
-        if (sscanf(line, "%d,%[^,],%[^,],%[^,],%[^,],%f",&id,restaurant, user, item, category, &price) == 6) {
+        if (sscanf(line, "%d,%[^,],%[^,],%[^,],%[^,],%[^,],%f",&id,restaurant, user, item, category,type,&price) == 7) {
             if (strcmp(user, username) == 0) {
                 if (!isFirstItem) {
                     printf(","); // Add comma for subsequent items
@@ -53,7 +54,10 @@ void getMenu(char *username)
                 printf("  {");
                 printf("    \"id\": \"%d\",", id);
                 printf("    \"food\": \"%s\",", item);
+                printf("    \"restaurantName\": \"%s\",", restaurant);
+                printf("    \"username\": \"%s\",", user);
                 printf("    \"category\": \"%s\",", category);
+                printf("    \"type\": \"%s\",", type);
                 printf("    \"price\": %.2f", price);
                 printf("  }");
 
@@ -169,9 +173,10 @@ char* findResname(char *username) {
     char line[500];
     char db_username[MAX_ITEM_NAME_LEN];
     char db_resname[MAX_ITEM_NAME_LEN];
+    char db_name[MAX_ITEM_NAME_LEN];
 
     while (fgets(line, sizeof(line), file)) {
-        sscanf(line, "%[^,],%[^,]", db_resname, db_username);
+        sscanf(line, "%[^,],%[^,],%[^,]", db_resname, db_name, db_username);
         if (strcmp(username, db_username) == 0) {
             fclose(file);
             char *resname = strdup(db_resname);

@@ -42,7 +42,7 @@
       <div id="test1">Recent</div>
       <div id="test2" >Old</div>
       <div id="test3" >Current</div>
-      <div id="menu" >
+      <div id="menu" class="container">
         <div class="row valign-wrapper">
           <div class="col s4"></div>
           <div class="col s4"><h5>Your Menu</h5></div>
@@ -57,6 +57,7 @@
             <thead>
               <th>Food</th>
               <th>Category</th>
+              <th>Type</th>
               <th>Price</th>
             </thead>
             <tbody id="menuTableBody"></tbody>
@@ -86,6 +87,15 @@
                     placeholder="Food Category"
                     required
                   />
+                </div>
+                <div class="col s12">
+                  <label>Food Type</label>
+                  <select name="type" class="browser-default inp addItemInp" required>
+                    <option value="" disabled selected>Veg/Non-veg</option>
+                    <option value="Veg">Veg</option>
+                    <option value="Non-Veg">Non-Veg</option>
+                  </select>
+
                 </div>
                 <div class="col s12">
                   <label>Food Price :</label
@@ -131,6 +141,15 @@
                     id="editFoodCategory"
                     required
                   />
+                </div>
+                <div class="col s12">
+                  <label>Food Type</label>
+                  <select name="type" id="editFoodType" class="browser-default inp editItemInp" required>
+                    <option value="" disabled selected>Veg/Non-veg</option>
+                    <option value="Veg">Veg</option>
+                    <option value="Non-Veg">Non-Veg</option>
+                  </select>
+
                 </div>
                 <div class="col s12">
                   <label>Food Price :</label
