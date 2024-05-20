@@ -70,6 +70,11 @@ if (ipcRenderer) {
     $(".addItemInp").val("");
   });
 
+  ipcRenderer.on("getFormResponse", (event, response) => {
+    var res = response.result;
+    console.log(res);
+  });
+
   ipcRenderer.on("getEditItemResponse", (event, response) => {
     var res = response.result;
     getmenuipc();
