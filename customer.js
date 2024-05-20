@@ -142,8 +142,21 @@ if (ipcRenderer) {
     drawLines(coordinates);
   }
   document.getElementById("cartTab").addEventListener("click", function () {
-    getCart();
     const img = document.getElementById('grid-image');
+     const canvas = document.getElementById("drawing-canvas");
+
+    // Set canvas size to match image size
+    canvas.width = img.clientWidth;
+    console.log(img.clientWidth);
+    console.log(img.clientHeight);
+    canvas.height = img.clientHeight;
+    canvas.style.width = `${img.clientWidth}px`;
+    canvas.style.height = `${img.clientHeight}px`;
+    canvas.style.position = 'absolute';
+    canvas.style.top = `${img.offsetTop}px`;
+    canvas.style.left = `${img.offsetLeft}px`;
+
+    getCart();
     img.onload = function() {
         initializeCanvas();
     };
