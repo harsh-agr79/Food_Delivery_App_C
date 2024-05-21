@@ -1,5 +1,5 @@
-testuser,customer,66,829,357
-TheHunPan,restaurant,49,356,267
+testuser,customer,64,638,365
+TheHunPan,restaurant,52,632,306
 PasPar,restaurant,74,426,374
 SizGri,restaurant,112,668,582
 TacTim,restaurant,90,861,476    

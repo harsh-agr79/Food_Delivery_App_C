@@ -1,4 +1,4 @@
-1,The Hungry Panda,TheHunPan,Hot and Sour Soup,Appetizer,Veg,50
+1,The Hungry Panda,TheHunPan,Hot and Sour Soup,Appetizer,Veg,100
 2,The Hungry Panda,TheHunPan,Kung Pao Chicken,Main Course,Non-Veg,100
 3,The Hungry Panda,TheHunPan,Chicken with Broccoli,Main Course,Non-Veg,120
 4,The Hungry Panda,TheHunPan,Green Tea,Cool Drink,Veg,20

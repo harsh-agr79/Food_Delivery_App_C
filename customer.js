@@ -349,6 +349,12 @@ if (ipcRenderer) {
     ipcRenderer.send("getCustomerLocation", { func, dataset });
   });
 
+  $(document).ready(function() {
+    func = "getCustomerLocation";
+    dataset = sessionStorage.getItem("username");
+    ipcRenderer.send("getCustomerLocation", { func, dataset });
+  })
+
   const elements = document.querySelectorAll(".tab");
 
   // Attach a click event listener to each element

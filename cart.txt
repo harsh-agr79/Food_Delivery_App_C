@@ -1,4 +1,4 @@
 testuser2,The Hungry Panda,TheHunPan,1,Hot and Sour Soup,Appetizer,Veg,2,50
 testuser2,The Hungry Panda,TheHunPan,2,Kung Pao Chicken,Main Course,Non-Veg,2,100
 testuser2,The Hungry Panda,TheHunPan,3,Chicken with Broccoli,Main Course,Non-Veg,2,120
-testuser,Pho King,PhoKin,78,Banh Mi Sandwich,Main Course,Non-Veg,2,70
+testuser,La Trattoria,LaTra,65,Bruschetta,Appetizer,Veg,1,70
