@@ -8,9 +8,9 @@
 
 #define MAX_USERNAME_LENGTH 50
 #define MAX_PASSWORD_LENGTH 50
-#define DATABASE_USER "users.txt"
-#define DATABASE_RESTAURANT "restaurants.txt"
-#define DATABASE_DELIVERYMAN "deliveryman.txt"
+#define DATABASE_USER "../cprojdb/users.txt"
+#define DATABASE_RESTAURANT "../cprojdb/restaurants.txt"
+#define DATABASE_DELIVERYMAN "../cprojdb/deliveryman.txt"
 
 int authenticate(char username[], char password[]) {
     FILE *file = fopen(DATABASE_USER, "r");
