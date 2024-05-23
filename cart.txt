@@ -1,4 +1,7 @@
 testuser2,The Hungry Panda,TheHunPan,1,Hot and Sour Soup,Appetizer,Veg,2,50
 testuser2,The Hungry Panda,TheHunPan,2,Kung Pao Chicken,Main Course,Non-Veg,2,100
 testuser2,The Hungry Panda,TheHunPan,3,Chicken with Broccoli,Main Course,Non-Veg,2,120
+testuser,La Trattoria,LaTra,64,Lasagna,Main Course,Non-Veg,4,160
 testuser,La Trattoria,LaTra,65,Bruschetta,Appetizer,Veg,1,70
+testuser,La Trattoria,LaTra,66,Tiramisu,Dessert,Veg,3,80
+testuser,La Trattoria,LaTra,67,Mineral Water,Cool Drink,Veg,2,10

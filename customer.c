@@ -9,12 +9,13 @@
 #define MAX_LINES 5000
 #define MAX_LINE_LENGTH 5000
 
-#define DATABASE_USER "../cprojdb/users.txt"
-#define DATABASE_RESTAURANT "../cprojdb/restaurants.txt"
-#define DATABASE_DELIVERYMAN "../cprojdb/deliveryman.txt"
-#define DATABASE_MENU "../cprojdb/menu.txt"
-#define DATABASE_LOCATION "../cprojdb/location.txt"
-#define DATABASE_CART "../cprojdb/cart.txt"
+#define DATABASE_USER "users.txt"
+#define DATABASE_RESTAURANT "restaurants.txt"
+#define DATABASE_DELIVERYMAN "deliveryman.txt"
+#define DATABASE_MENU "menu.txt"
+#define DATABASE_LOCATION "location.txt"
+#define DATABASE_CART "cart.txt"
+#define DATABASE_ORDER "order.txt"
 
 typedef struct
 {
@@ -95,6 +96,101 @@ char *getPath(char *customer, char *restaurant)
     char *result = strdup(res);
     return result;
 }
+
+int findOrderID(){
+    FILE *file = fopen(DATABASE_ORDER, "r");
+    if (!file) {
+        printf("Error opening database file.\n");
+    }
+    int id;
+    char line[2000];
+    int max = 0;
+    while (fgets(line, sizeof(line), file)) {
+         sscanf(line,"%d",&id);
+        if (id > max) {
+           max = id;
+        }
+    }
+    max = max + 1;
+    return max;
+}
+
+void confirmCart(char *data){
+    FILE *file = fopen(DATABASE_CART, "r");
+    if (file == NULL)
+    {
+        printf("couldnt access the file\n");
+    }
+    char lines[500][1000];
+    char cartlines[500][1000];
+    char line[1000];
+    char username[1000];
+    char editline[1000];
+    int count = 0;
+    int clcnt = 0;
+
+    while(fgets(line, sizeof(line), file)){
+        sscanf(line, "%[^,]", username);
+        if(strcmp(username, data) == 0){
+            sscanf(line, "%[^\n]s", editline);
+            strcpy(lines[count], editline);
+            count++;
+        }
+        else{
+            sscanf(line, "%[^\n]s", editline);
+            strcpy(cartlines[clcnt], editline);
+            clcnt++;
+        }
+    }
+    fclose(file);
+    file = fopen(DATABASE_USER, "r");
+    if (file == NULL)
+    {
+        printf("couldnt access the file\n");
+    }
+    char db_username[1000];
+    char db_name[1000];
+    char db_pass[1000];
+    char db_contact[1000];
+    char db_address[1000];
+    char db_pincode[1000];
+    while(fgets(line, sizeof(lines), file)){
+        sscanf(line, "%[^,],%[^,]", db_name, db_username);
+        if(strcmp(db_username, data) == 0){
+            sscanf(line, "%[^,],%[^,],%[^,],%[^,],%[^,],%[^\n]s", db_name, db_username,db_pass, db_contact,db_address, db_pincode);
+            break;
+        }
+    }
+
+
+    //writing in order db
+    file = fopen(DATABASE_ORDER, "a");
+    if (file == NULL)
+    {
+        printf("Error opening file for reading.\n");
+    }
+    int orderid = findOrderID();
+    for (int i = 0; i < count; i++)
+    {
+       fprintf(file,"%d,%s,%s,%s,%s,%s\n",orderid,db_name,lines[i],db_contact,db_address,db_pincode);
+    }
+    fclose(file);
+
+    //emptying the cart
+    file = fopen(DATABASE_CART, "w");
+    if (file == NULL)
+    {
+        printf("Error opening file for reading.\n");
+    }
+    for (int i = 0; i < clcnt; i++)
+    {
+       fprintf(file,"%s\n",cartlines[i]);
+    }
+    fclose(file);
+    printf("Your Order has been sent to the Restaurant");
+    fflush(stdout);
+}
+
 int checkCart(int id, char *customer)
 {
     FILE *file = fopen(DATABASE_CART, "r");

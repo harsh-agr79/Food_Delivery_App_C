@@ -5,12 +5,13 @@
 #include "dijkstra.c"
 #include "restaurant.c"
 #include "customer.c"
+#include "delivery.c"
 
 #define MAX_USERNAME_LENGTH 50
 #define MAX_PASSWORD_LENGTH 50
-#define DATABASE_USER "../cprojdb/users.txt"
-#define DATABASE_RESTAURANT "../cprojdb/restaurants.txt"
-#define DATABASE_DELIVERYMAN "../cprojdb/deliveryman.txt"
+#define DATABASE_USER "users.txt"
+#define DATABASE_RESTAURANT "restaurants.txt"
+#define DATABASE_DELIVERYMAN "deliveryman.txt"
 
 int authenticate(char username[], char password[]) {
     FILE *file = fopen(DATABASE_USER, "r");
@@ -347,6 +348,18 @@ int main()
          else if (strcmp(function, "getPathCart") == 0)
         {
            getPathCart(data);
+        }
+        else if (strcmp(function, "setDeliveryManLocation") == 0)
+        {
+           setDeliveryManLocation(data);
+        }
+         else if (strcmp(function, "getDeliveryManLocation") == 0)
+        {
+           getDeliveryManLocation(data);
+        }
+        else if (strcmp(function, "confirmCart") == 0)
+        {
+           confirmCart(data);
         }
     }
 

@@ -1,6 +1,21 @@
 const { ipcRenderer } = window.electron;
 
 if (ipcRenderer) {
+
+  document.getElementById("confirmCartBtn").addEventListener('click', function() {
+    var func  = "confirmCart";
+    var dataset = sessionStorage.getItem("username");
+    ipcRenderer.send("confirmCart", { func, dataset });
+
+  });
+  
+  ipcRenderer.on('confirmCartResponse', (event, response) => {
+    res = response.result;
+    var toastHTML = `<span>${res}</span>`;
+    M.toast({ html: toastHTML });
+    $("ul.tabs").tabs("select", "currentOrder");
+  })
+
   getRestaurantipc();
   function getRestaurantipc() {
     var func = "getRestaurants";

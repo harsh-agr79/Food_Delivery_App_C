@@ -88,3 +88,17 @@ ipcMain.on('getPathCart', (event, { func, dataset }) => {
 
     backendProcess.stdin.write(`${func} ${dataset}\n`);
 });
+
+ipcMain.on('confirmCart', (event, { func, dataset }) => {
+    const backendProcess = spawn('./backend', [], { cwd: __dirname });
+
+    backendProcess.stdout.on('data', (data) => {
+        const result = data.toString();
+        global.mainWindow.webContents.send('confirmCartResponse', { result });
+        console.log(result);
+    });
+    console.log(`${func} ${dataset}`);
+
+    backendProcess.stdin.write(`${func} ${dataset}\n`);
+});
+

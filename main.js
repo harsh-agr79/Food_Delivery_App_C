@@ -9,6 +9,7 @@ global.mainWindow = null;
 require('./IPCloginReg');
 require('./IPCrestaurant');
 require('./IPCcustomer');
+require('./IPCdm');
 
 function createWindow() {
     const display = electron.screen.getPrimaryDisplay()

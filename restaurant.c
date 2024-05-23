@@ -9,11 +9,12 @@
 #define MAX_LINES 5000
 #define MAX_LINE_LENGTH 5000
 
-#define DATABASE_USER "../cprojdb/users.txt"
-#define DATABASE_RESTAURANT "../cprojdb/restaurants.txt"
-#define DATABASE_DELIVERYMAN "../cprojdb/deliveryman.txt"
-#define DATABASE_MENU "../cprojdb/menu.txt"
-#define DATABASE_LOCATION "../cprojdb/location.txt"
+#define DATABASE_USER "users.txt"
+#define DATABASE_RESTAURANT "restaurants.txt"
+#define DATABASE_DELIVERYMAN "deliveryman.txt"
+#define DATABASE_MENU "menu.txt"
+#define DATABASE_LOCATION "location.txt"
+#define DATABASE_ORDER "order.txt"
 
 typedef struct
 {
