@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <time.h>
 #include "dijkstra.c"
 #include "restaurant.c"
 #include "customer.c"
@@ -12,6 +13,8 @@
 #define DATABASE_USER "users.txt"
 #define DATABASE_RESTAURANT "restaurants.txt"
 #define DATABASE_DELIVERYMAN "deliveryman.txt"
+
+
 
 int authenticate(char username[], char password[]) {
     FILE *file = fopen(DATABASE_USER, "r");
@@ -360,6 +363,30 @@ int main()
         else if (strcmp(function, "confirmCart") == 0)
         {
            confirmCart(data);
+        }
+        else if (strcmp(function, "getRecentOrder") == 0)
+        {
+           getRecentOrder(data);
+        }
+         else if (strcmp(function, "getViewBill") == 0)
+        {
+           getViewBill(data);
+        }
+        else if (strcmp(function, "changeOrderStatus") == 0)
+        {
+           changeOrderStatus(data);
+        }
+        else if (strcmp(function, "getCurrentOrder") == 0)
+        {
+           getCurrentOrder(data);
+        }
+         else if (strcmp(function, "getNewAllocation") == 0)
+        {
+           getNewAllocation(data);
+        }
+        else if (strcmp(function, "acceptDelivery") == 0)
+        {
+           acceptDelivery(data);
         }
     }
 

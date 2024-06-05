@@ -9,6 +9,123 @@ if (ipcRenderer) {
     getmenuipc();
   });
 
+  document.getElementById("recentTab").addEventListener("click", () => {
+    getRecentOrder();
+  });
+  document.getElementById("currentTab").addEventListener("click", () => {
+    getCurrentOrder();
+  });
+  function viewBill(orderid){
+    var func = "getViewBill";
+    var dataset = orderid;
+    ipcRenderer.send("getViewBill", {func,dataset}); 
+  }
+
+  function getRecentOrder(){
+    var func = "getRecentOrder";
+    var dataset = sessionStorage.getItem("username");
+    ipcRenderer.send("getRecentOrder", { func, dataset });
+  }
+
+  ipcRenderer.on('recentOrderGet', (event, response) => {
+    res = response.result;
+    const tableBody = document.getElementById("recentOrderTbody");
+
+    tableBody.innerHTML = "";
+
+    res.forEach((item) => {
+      const row = `<tr id="${item.orderid}menutr">
+      <td>${item.time}</td>
+      <td>${item.orderid}</td>
+      <td>${item.user_name}</td>
+      <td>${item.contact}</td>
+      <td>${item.address}, ${item.pincode}</td>
+      <td><a onclick="viewBill(${item.orderid})" class="amber btn-small modal-trigger" href="#viewBillModal"><i class="material-icons">visibility</i></a><td>
+      </tr>`;
+      tableBody.innerHTML += row;
+    });
+  })
+  function getCurrentOrder(){
+    var func = "getCurrentOrder";
+    var dataset = sessionStorage.getItem("username");
+    ipcRenderer.send("getCurrentOrder", { func, dataset });
+  }
+
+  ipcRenderer.on('currentOrderGet', (event, response) => {
+    res = response.result;
+    const tableBody = document.getElementById("currentOrderTbody");
+
+    tableBody.innerHTML = "";
+
+    res.forEach((item) => {
+      const row = `<tr id="${item.orderid}menutr">
+      <td>${item.time}</td>
+      <td>${item.orderid}</td>
+      <td>${item.user_name}</td>
+      <td>${item.contact}</td>
+      <td>${item.address}, ${item.pincode}</td>
+      <td><a onclick="viewBill(${item.orderid})" class="amber btn-small modal-trigger" href="#viewBillModal"><i class="material-icons">visibility</i></a><td>
+      </tr>`;
+      tableBody.innerHTML += row;
+    });
+  })
+
+  function changeOrderStatus(dataset){
+    var func = "changeOrderStatus"
+    ipcRenderer.send("changeOrderStatus", {func, dataset});
+  }
+
+  ipcRenderer.on("orderStatusChange", (event, response) => {
+    var res = response.result;
+    M.toast({ html: res });
+    getRecentOrder();
+    $("#viewBillModal").modal("close");
+  } )
+
+ 
+
+  ipcRenderer.on("viewBillGet", (event, response) => {
+    res = response.result;
+    const tableBody = document.getElementById("viewBillTbody");
+    var total = 0;
+    tableBody.innerHTML = "";
+    $('#VBcustomerName').text(res[0].user_name);
+    $('#VBcustomerContact').text(res[0].contact);
+    $('#VBcustomerAddress').text(`${res[0].address}, ${res[0].pincode}`);
+    $('#VBrejectBTN').attr("onclick", `changeOrderStatus("${res[0].orderid},reject")`);
+    $('#VBacceptBTN').attr("onclick", `changeOrderStatus("${res[0].orderid},accept")`);
+
+    if(res[0].status === "accept"){
+      $("#VBmodalfooter").addClass("hide");
+      // console.log("VBMF");
+    }
+    else{
+      $("#VBmodalfooter").removeClass("hide");
+      // console.log("VBMFNOT");
+    }
+    res.forEach((item) => {
+      total += item.price * item.quantity;
+      const row = `<tr id="${item.itemid}menutr">
+      <td>${item.itemname}</td>
+      <td>${item.item_category}</td>
+      <td>${item.item_type}</td>
+      <td>${item.quantity}</td>
+      <td>${item.price}</td>
+      <td>${item.price * item.quantity}</td>
+      </tr>`;
+      tableBody.innerHTML += row;
+    });
+    row = `<tr>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <th>Total</th>
+    <th>${total}<th>
+    </tr>`;
+    tableBody.innerHTML += row;
+  })
+
   const addMenuItemForm = document.getElementById("addMenuItemForm");
   const editMenuItemForm = document.getElementById("editMenuItemForm");
 

@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <time.h>
 
 #define MAX_RESTAURANT_NAME_LEN 50
 #define MAX_ITEM_NAME_LEN 50
@@ -16,6 +17,41 @@
 #define DATABASE_LOCATION "location.txt"
 #define DATABASE_CART "cart.txt"
 #define DATABASE_ORDER "order.txt"
+
+char* get_current_timestamp() {
+    time_t t;
+    struct tm *tmp;
+    char *format = "%Y-%m-%d %H:%M:%S";  // Desired format: YYYY-MM-DD HH:MM:SS
+    char buf[64];
+
+    // Get the current time
+    t = time(NULL);
+
+    // Convert the time to a struct tm form
+    tmp = localtime(&t);
+    if (tmp == NULL) {
+        perror("localtime");
+        return NULL;
+    }
+
+    // Format the time as a string
+    if (strftime(buf, sizeof(buf), format, tmp) == 0) {
+        fprintf(stderr, "strftime returned 0");
+        return NULL;
+    }
+
+    // Allocate memory for the timestamp string
+    char *timestamp = malloc(strlen(buf) + 1);
+    if (timestamp == NULL) {
+        perror("malloc");
+        return NULL;
+    }
+
+    // Copy the formatted time into the allocated memory
+    strcpy(timestamp, buf);
+
+    return timestamp;
+}
 
 typedef struct
 {
@@ -50,7 +86,7 @@ int getDistance(char *customer, char *restaurant)
     while (fgets(line, sizeof(line), file))
     {
         sscanf(line, "%[^,],%[^,],%d", username, type, &node);
-        if (strcmp(username, customer) == 0 && strcmp(type, "customer") == 0)
+        if (strcmp(username, customer) == 0 && strcmp(type, "restaurant") != 0)
         {
             node1 = node;
         }
@@ -83,7 +119,7 @@ char *getPath(char *customer, char *restaurant)
     while (fgets(line, sizeof(line), file))
     {
         sscanf(line, "%[^,],%[^,],%d", username, type, &node);
-        if (strcmp(username, customer) == 0 && strcmp(type, "customer") == 0)
+        if (strcmp(username, customer) == 0 && strcmp(type, "restaurant") != 0)
         {
             node1 = node;
         }
@@ -128,6 +164,7 @@ void confirmCart(char *data){
     char editline[1000];
     int count = 0;
     int clcnt = 0;
+    char *timestamp = get_current_timestamp();
 
     while(fgets(line, sizeof(line), file)){
         sscanf(line, "%[^,]", username);
@@ -172,7 +209,7 @@ void confirmCart(char *data){
     int orderid = findOrderID();
     for (int i = 0; i < count; i++)
     {
-       fprintf(file,"%d,%s,%s,%s,%s,%s\n",orderid,db_name,lines[i],db_contact,db_address,db_pincode);
+       fprintf(file,"%d,%s,%s,%s,%s,%s,%s,pending\n",orderid,db_name,lines[i],db_contact,db_address,db_pincode, timestamp);
     }
     fclose(file);
 

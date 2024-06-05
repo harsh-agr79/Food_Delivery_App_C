@@ -77,3 +77,49 @@ ipcMain.on('getRestaurantLocation', (event, { func, dataset }) => {
     console.log(`${func} ${dataset}`);
     backendProcess.stdin.write(`${func} ${dataset}\n`);
 });
+
+ipcMain.on('getRecentOrder', (event, { func, dataset }) => {
+    const backendProcess = spawn('./backend', [], { cwd: __dirname });
+
+    backendProcess.stdout.on('data', (data) => {
+        const result = JSON.parse(data.toString());
+        global.mainWindow.webContents.send('recentOrderGet', { result });
+        console.log(result);
+    });
+    console.log(`${func} ${dataset}`);
+    backendProcess.stdin.write(`${func} ${dataset}\n`);
+});
+
+ipcMain.on('getViewBill', (event, { func, dataset }) => {
+    const backendProcess = spawn('./backend', [], { cwd: __dirname });
+
+    backendProcess.stdout.on('data', (data) => {
+        const result = JSON.parse(data.toString());
+        global.mainWindow.webContents.send('viewBillGet', { result });
+        console.log(result);
+    });
+    console.log(`${func} ${dataset}`);
+    backendProcess.stdin.write(`${func} ${dataset}\n`);
+});
+ipcMain.on('changeOrderStatus', (event, { func, dataset }) => {
+    const backendProcess = spawn('./backend', [], { cwd: __dirname });
+
+    backendProcess.stdout.on('data', (data) => {
+        const result = data.toString();
+        global.mainWindow.webContents.send('orderStatusChange', { result });
+        console.log(result);
+    });
+    console.log(`${func} ${dataset}`);
+    backendProcess.stdin.write(`${func} ${dataset}\n`);
+});
+ipcMain.on('getCurrentOrder', (event, { func, dataset }) => {
+    const backendProcess = spawn('./backend', [], { cwd: __dirname });
+
+    backendProcess.stdout.on('data', (data) => {
+        const result = JSON.parse(data.toString());
+        global.mainWindow.webContents.send('currentOrderGet', { result });
+        console.log(result);
+    });
+    console.log(`${func} ${dataset}`);
+    backendProcess.stdin.write(`${func} ${dataset}\n`);
+});

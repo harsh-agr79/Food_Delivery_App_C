@@ -23,25 +23,64 @@
       <div class="nav-content amber darken-1">
         <ul class="tabs tabs-transparent">
           <li class="tab">
-            <a class="white-text" href="#test1">Recent</a>
+            <a class="white-text" href="#recentOrder" id="recentTab">
+              Recent
+            </a>
           </li>
           <li class="tab">
             <a class="white-text" href="#test2">Old</a>
           </li>
           <li class="tab">
-            <a class="white-text" href="#test3">Current</a>
+            <a class="white-text" href="#currentOrder" id="currentTab">Current</a>
           </li>
           <li class="tab">
             <a class="white-text active" href="#menu" id="menuTab">Menu</a>
           </li>
           <li class="tab">
-            <a class="white-text active" href="#settings" id="settingsTab">Location</a>
+            <a class="white-text active" href="#settings" id="settingsTab"
+              >Location</a
+            >
           </li>
         </ul>
       </div>
-      <div id="test1">Recent</div>
-      <div id="test2" >Old</div>
-      <div id="test3" >Current</div>
+      <div id="recentOrder">
+        <div class="container">
+          <div class="center"><h5>Recent Orders</h5></div>
+          <div class="mp-card" style="margin-top: 10px">
+            <table>
+              <thead>
+                <th>Data and Time</th>
+                <th>Order id</th>
+                <th>Customer's Name</th>
+                <th>Contact</th>
+                <th>Address</th>
+                <th>View Bill</th>
+              </thead>
+              <tbody id="recentOrderTbody"></tbody>
+            </table>
+          </div>
+         
+        </div>
+      </div>
+      <div id="test2">Old</div>
+      <div id="currentOrder">
+        <div class="container">
+          <div class="center"><h5>Current Orders</h5></div>
+          <div class="mp-card" style="margin-top: 10px">
+            <table>
+              <thead>
+                <th>Data and Time</th>
+                <th>Order id</th>
+                <th>Customer's Name</th>
+                <th>Contact</th>
+                <th>Address</th>
+                <th>View Bill</th>
+              </thead>
+              <tbody id="currentOrderTbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
       <div id="menu" class="container">
         <div class="row valign-wrapper">
           <div class="col s4"></div>
@@ -90,12 +129,15 @@
                 </div>
                 <div class="col s12">
                   <label>Food Type</label>
-                  <select name="type" class="browser-default inp addItemInp" required>
+                  <select
+                    name="type"
+                    class="browser-default inp addItemInp"
+                    required
+                  >
                     <option value="" disabled selected>Veg/Non-veg</option>
                     <option value="Veg">Veg</option>
                     <option value="Non-Veg">Non-Veg</option>
                   </select>
-
                 </div>
                 <div class="col s12">
                   <label>Food Price :</label
@@ -107,7 +149,7 @@
                     required
                   />
                 </div>
-                <div class="col s12 center" style="margin-top:10px;">
+                <div class="col s12 center" style="margin-top: 10px">
                   <button class="btn-small amber darken-2">Add</button>
                 </div>
               </div>
@@ -118,7 +160,12 @@
           <div class="modal-content">
             <h5 class="center">Edit Item</h5>
             <form id="editMenuItemForm">
-              <input type="hidden" name="id" id="editFoodId" class="editItemInp">
+              <input
+                type="hidden"
+                name="id"
+                id="editFoodId"
+                class="editItemInp"
+              />
               <div class="row">
                 <div class="col s12">
                   <label>Food Name :</label
@@ -144,12 +191,16 @@
                 </div>
                 <div class="col s12">
                   <label>Food Type</label>
-                  <select name="type" id="editFoodType" class="browser-default inp editItemInp" required>
+                  <select
+                    name="type"
+                    id="editFoodType"
+                    class="browser-default inp editItemInp"
+                    required
+                  >
                     <option value="" disabled selected>Veg/Non-veg</option>
                     <option value="Veg">Veg</option>
                     <option value="Non-Veg">Non-Veg</option>
                   </select>
-
                 </div>
                 <div class="col s12">
                   <label>Food Price :</label
@@ -162,7 +213,7 @@
                     required
                   />
                 </div>
-                <div class="col s12 center" style="margin-top:10px;">
+                <div class="col s12 center" style="margin-top: 10px">
                   <button class="btn-small amber darken-2">Update</button>
                 </div>
               </div>
@@ -172,8 +223,48 @@
       </div>
       <div id="settings">
         <div class="center">
-          <img src="./map.png" style="width: 75vw;" id="map" alt="">
+          <img src="./map.png" style="width: 75vw" id="map" alt="" />
         </div>
+      </div>
+    </div>
+
+    <div id="viewBillModal" class="modal">
+      <div class="modal-content">
+        <div>
+          <span>Customer Name: <span id="VBcustomerName"></span></span
+          ><br />
+          <span
+            >Customer contact: <span id="VBcustomerContact"></span></span
+          ><br />
+          <span
+            >Customer Address: <span id="VBcustomerAddress"></span></span
+          ><br />
+        </div>
+        <table>
+          <thead>
+            <th>Food</th>
+            <th>Category</th>
+            <th>Type</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Total</th>
+          </thead>
+          <tbody id="viewBillTbody"></tbody>
+        </table>
+      </div>
+      <div class="modal-footer" id="VBmodalfooter">
+        <a
+          href="#!"
+          id="VBrejectBTN"
+          class="modal-close waves-effect waves-green btn red"
+          >Reject</a
+        >
+        <a
+          href="#!"
+          id="VBacceptBTN"
+          class="modal-close waves-effect waves-green btn amber"
+          >Accept</a
+        >
       </div>
     </div>
 
@@ -191,7 +282,6 @@
         $(".tabs").tabs();
         $(".modal").modal();
       });
-    
     </script>
   </body>
 </html>

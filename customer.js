@@ -158,7 +158,7 @@ if (ipcRenderer) {
   }
   document.getElementById("cartTab").addEventListener("click", function () {
     const img = document.getElementById('grid-image');
-     const canvas = document.getElementById("drawing-canvas");
+    const canvas = document.getElementById("drawing-canvas");
 
     // Set canvas size to match image size
     canvas.width = img.clientWidth;

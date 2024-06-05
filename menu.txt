@@ -65,7 +65,6 @@
 65,La Trattoria,LaTra,Bruschetta,Appetizer,Veg,70
 66,La Trattoria,LaTra,Tiramisu,Dessert,Veg,80
 67,La Trattoria,LaTra,Mineral Water,Cool Drink,Veg,10
-68,BBQ Joint,BBQJoi,Pulled Pork Sandwich,Main Course,Non-Veg,100
 69,BBQ Joint,BBQJoi,Macaroni and Cheese,Side Dish,Veg,80
 70,BBQ Joint,BBQJoi,Coleslaw,Side Dish,Veg,30
 71,BBQ Joint,BBQJoi,Apple Pie,Dessert,Veg,50
@@ -107,5 +106,5 @@
 107,The Smokehouse,TheSmo,Cornbread,Side Dish,Veg,50
 108,The Smokehouse,TheSmo,Pecan Pie,Dessert,Veg,70
 109,The Smokehouse,TheSmo,Lemonade,Cool Drink,Veg,
-110,The Hungry Panda,TheHunPan,Chicken Sandwich,Appetizer,Veg,150
+110,The Hungry Panda,TheHunPan,Chicken Sandwich,Appetizer,Veg,200
 111,The Hungry Panda,TheHunPan,Paneer Sandwich,Appetizer,Veg,200
