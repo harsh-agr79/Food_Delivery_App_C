@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <time.h>
+#include <ctype.h>
 
 #define MAX_RESTAURANT_NAME_LEN 50
 #define MAX_ITEM_NAME_LEN 50
@@ -18,10 +19,11 @@
 #define DATABASE_CART "cart.txt"
 #define DATABASE_ORDER "order.txt"
 
-char* get_current_timestamp() {
+char *get_current_timestamp()
+{
     time_t t;
     struct tm *tmp;
-    char *format = "%Y-%m-%d %H:%M:%S";  // Desired format: YYYY-MM-DD HH:MM:SS
+    char *format = "%Y-%m-%d %H:%M:%S"; // Desired format: YYYY-MM-DD HH:MM:SS
     char buf[64];
 
     // Get the current time
@@ -29,20 +31,23 @@ char* get_current_timestamp() {
 
     // Convert the time to a struct tm form
     tmp = localtime(&t);
-    if (tmp == NULL) {
+    if (tmp == NULL)
+    {
         perror("localtime");
         return NULL;
     }
 
     // Format the time as a string
-    if (strftime(buf, sizeof(buf), format, tmp) == 0) {
+    if (strftime(buf, sizeof(buf), format, tmp) == 0)
+    {
         fprintf(stderr, "strftime returned 0");
         return NULL;
     }
 
     // Allocate memory for the timestamp string
     char *timestamp = malloc(strlen(buf) + 1);
-    if (timestamp == NULL) {
+    if (timestamp == NULL)
+    {
         perror("malloc");
         return NULL;
     }
@@ -86,11 +91,11 @@ int getDistance(char *customer, char *restaurant)
     while (fgets(line, sizeof(line), file))
     {
         sscanf(line, "%[^,],%[^,],%d", username, type, &node);
-        if (strcmp(username, customer) == 0 && strcmp(type, "restaurant") != 0)
+        if (strcmp(username, customer) == 0)
         {
             node1 = node;
         }
-        else if (strcmp(username, restaurant) == 0 && strcmp(type, "restaurant") == 0)
+        else if (strcmp(username, restaurant) == 0)
         {
             node2 = node;
         }
@@ -119,11 +124,11 @@ char *getPath(char *customer, char *restaurant)
     while (fgets(line, sizeof(line), file))
     {
         sscanf(line, "%[^,],%[^,],%d", username, type, &node);
-        if (strcmp(username, customer) == 0 && strcmp(type, "restaurant") != 0)
+        if (strcmp(username, customer) == 0)
         {
             node1 = node;
         }
-        else if (strcmp(username, restaurant) == 0 && strcmp(type, "restaurant") == 0)
+        else if (strcmp(username, restaurant) == 0)
         {
             node2 = node;
         }
@@ -133,25 +138,30 @@ char *getPath(char *customer, char *restaurant)
     return result;
 }
 
-int findOrderID(){
+int findOrderID()
+{
     FILE *file = fopen(DATABASE_ORDER, "r");
-    if (!file) {
+    if (!file)
+    {
         printf("Error opening database file.\n");
     }
     int id;
     char line[2000];
     int max = 0;
-    while (fgets(line, sizeof(line), file)) {
-         sscanf(line,"%d",&id);
-        if (id > max) {
-           max = id;
+    while (fgets(line, sizeof(line), file))
+    {
+        sscanf(line, "%d", &id);
+        if (id > max)
+        {
+            max = id;
         }
     }
     max = max + 1;
     return max;
 }
 
-void confirmCart(char *data){
+void confirmCart(char *data)
+{
     FILE *file = fopen(DATABASE_CART, "r");
     if (file == NULL)
     {
@@ -166,14 +176,17 @@ void confirmCart(char *data){
     int clcnt = 0;
     char *timestamp = get_current_timestamp();
 
-    while(fgets(line, sizeof(line), file)){
+    while (fgets(line, sizeof(line), file))
+    {
         sscanf(line, "%[^,]", username);
-        if(strcmp(username, data) == 0){
+        if (strcmp(username, data) == 0)
+        {
             sscanf(line, "%[^\n]s", editline);
             strcpy(lines[count], editline);
             count++;
         }
-        else{
+        else
+        {
             sscanf(line, "%[^\n]s", editline);
             strcpy(cartlines[clcnt], editline);
             clcnt++;
@@ -191,16 +204,17 @@ void confirmCart(char *data){
     char db_contact[1000];
     char db_address[1000];
     char db_pincode[1000];
-    while(fgets(line, sizeof(lines), file)){
+    while (fgets(line, sizeof(lines), file))
+    {
         sscanf(line, "%[^,],%[^,]", db_name, db_username);
-        if(strcmp(db_username, data) == 0){
-            sscanf(line, "%[^,],%[^,],%[^,],%[^,],%[^,],%[^\n]s", db_name, db_username,db_pass, db_contact,db_address, db_pincode);
+        if (strcmp(db_username, data) == 0)
+        {
+            sscanf(line, "%[^,],%[^,],%[^,],%[^,],%[^,],%[^\n]s", db_name, db_username, db_pass, db_contact, db_address, db_pincode);
             break;
         }
     }
 
-
-    //writing in order db
+    // writing in order db
     file = fopen(DATABASE_ORDER, "a");
     if (file == NULL)
     {
@@ -209,11 +223,11 @@ void confirmCart(char *data){
     int orderid = findOrderID();
     for (int i = 0; i < count; i++)
     {
-       fprintf(file,"%d,%s,%s,%s,%s,%s,%s,pending\n",orderid,db_name,lines[i],db_contact,db_address,db_pincode, timestamp);
+        fprintf(file, "%d,%s,%s,%s,%s,%s,%s,pending\n", orderid, db_name, lines[i], db_contact, db_address, db_pincode, timestamp);
     }
     fclose(file);
 
-    //emptying the cart
+    // emptying the cart
     file = fopen(DATABASE_CART, "w");
     if (file == NULL)
     {
@@ -221,7 +235,7 @@ void confirmCart(char *data){
     }
     for (int i = 0; i < clcnt; i++)
     {
-       fprintf(file,"%s\n",cartlines[i]);
+        fprintf(file, "%s\n", cartlines[i]);
     }
     fclose(file);
     printf("Your Order has been sent to the Restaurant");
@@ -399,10 +413,50 @@ int setUserCart(char *data)
     return 1;
 }
 
+int checkCustomerPending(char *customer)
+{
+    FILE *file = fopen(DATABASE_ORDER, "r");
+    if (file == NULL)
+    {
+        printf("Error opening file for reading.\n");
+    }
+    char line[1000];
+
+    while (fgets(line, sizeof(line), file))
+    {
+        int orderid;
+        char user_name[MAX_RESTAURANT_NAME_LEN];
+        char username[MAX_RESTAURANT_NAME_LEN];
+        char restaurant_name[MAX_ITEM_NAME_LEN];
+        char restaurant_username[MAX_CATEGORY_LEN];
+        char itemid[MAX_CATEGORY_LEN];
+        char itemname[MAX_CATEGORY_LEN];
+        char item_category[MAX_CATEGORY_LEN];
+        char item_type[MAX_CATEGORY_LEN];
+        int qty;
+        int price;
+        char contact[MAX_CATEGORY_LEN];
+        char address[MAX_CATEGORY_LEN];
+        char pincode[MAX_CATEGORY_LEN];
+        char time[MAX_LINE_LENGTH];
+        char status[MAX_LINE_LENGTH];
+
+        if (sscanf(line, "%d,%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%d,%d,%[^,],%[^,],%[^,],%[^,],%[^\n]", &orderid, user_name, username, restaurant_name, restaurant_username, itemid, itemname, item_category, item_type, &qty, &price, contact, address, pincode, time, status) == 16)
+        {
+           if(strcmp(username, customer) == 0 && strcmp(status, "pending") == 0){
+            return 1;
+           }
+        }
+    }
+
+    fclose(file);
+    return 0;
+}
+
 void getRestaurants(char *customer)
 {
     FILE *file = fopen(DATABASE_RESTAURANT, "r");
-    
+
     if (file == NULL)
     {
         perror("Error opening menu file");
@@ -443,21 +497,25 @@ void getRestaurants(char *customer)
 
     // Print the sorted array in JSON format
     printf("[");
-    for (int i = 0; i < count; i++)
+    if (checkCustomerPending(customer) == 0)
     {
-        if (i > 0)
+        for (int i = 0; i < count; i++)
         {
-            printf(",");
+            if (i > 0)
+            {
+                printf(",");
+            }
+            printf("{");
+            printf("\"username\": \"%s\",", restaurants[i].username);
+            printf("\"restaurantName\": \"%s\",", restaurants[i].restaurantName);
+            printf("\"contact\": \"%s\",", restaurants[i].contact);
+            printf("\"distance\": \"%d\",", restaurants[i].distance);
+            printf("\"path\": \"%s\",", restaurants[i].path);
+            printf("\"address\": \"%s, %s\"", restaurants[i].address, restaurants[i].pincode);
+            printf("}");
         }
-        printf("{");
-        printf("\"username\": \"%s\",", restaurants[i].username);
-        printf("\"restaurantName\": \"%s\",", restaurants[i].restaurantName);
-        printf("\"contact\": \"%s\",", restaurants[i].contact);
-        printf("\"distance\": \"%d\",", restaurants[i].distance);
-        printf("\"path\": \"%s\",", restaurants[i].path);
-        printf("\"address\": \"%s, %s\"", restaurants[i].address, restaurants[i].pincode);
-        printf("}");
     }
+
     printf("]");
     fflush(stdout);
 }
@@ -619,12 +677,235 @@ void getCart(char *data)
     fclose(file);
 }
 
-void getPathCart(char *data){
+void getPathCart(char *data)
+{
     char customer[500];
     char restaurant[500];
 
     sscanf(data, "%[^,],%[^,]", customer, restaurant);
-    
-    printf("%d|%s",getDistance(customer,restaurant), getPath(customer, restaurant));
+
+    printf("%d|%s", getDistance(customer, restaurant), getPath(customer, restaurant));
     fflush(stdout);
+}
+
+// searching part.
+
+#define MAX_RESTAURANTS 100
+#define MATCHES 100
+
+// Define the structure for a menu entry
+typedef struct
+{
+    int itemID;
+    char restaurantName[50];
+    char username[50];
+    char itemName[50];
+    char itemCategory[50];
+    char foodPreference[10];
+    float price;
+} MenuEntry;
+
+typedef struct
+{
+    char username[50];
+    char restaurantName[50];
+    char owner[50];
+    char password[50];
+    char address[100];
+    char contact[15];
+    char pincode[10];
+    int distance;
+    char path[50];
+} RestaurantEntry;
+
+int compareByDistance3(const void *a, const void *b)
+{
+    RestaurantEntry *entryA = (RestaurantEntry *)a;
+    RestaurantEntry *entryB = (RestaurantEntry *)b;
+    return entryA->distance - entryB->distance;
+}
+
+int searchRestaurantByID(char *restaurantIDs[], int numRestaurants, char *user)
+{
+    FILE *file = fopen(DATABASE_RESTAURANT, "r");
+    if (file == NULL)
+    {
+        perror("Error opening file");
+        return 1;
+    }
+
+    RestaurantEntry entries[MAX_RESTAURANTS];
+
+    char each_line[256];
+    int count = 0;
+    int found = 0;
+
+    // Read the file each_line by each_line
+    while (fgets(each_line, sizeof(each_line), file))
+    {
+        // Remove new line character from the end of the line if present
+        each_line[strcspn(each_line, "\n")] = '\0';
+
+        RestaurantEntry entry;
+
+        // Parse the line and populate the restaurant entry
+        char *token = strtok(each_line, ",");
+        if (token != NULL)
+            strncpy(entry.restaurantName, token, sizeof(entry.restaurantName) - 1);
+
+        token = strtok(NULL, ",");
+        if (token != NULL)
+            strncpy(entry.owner, token, sizeof(entry.owner) - 1);
+
+        token = strtok(NULL, ",");
+        if (token != NULL)
+            strncpy(entry.username, token, sizeof(entry.username) - 1);
+
+        token = strtok(NULL, ",");
+        if (token != NULL)
+            strncpy(entry.password, token, sizeof(entry.password) - 1);
+
+        token = strtok(NULL, ",");
+        if (token != NULL)
+            strncpy(entry.contact, token, sizeof(entry.contact) - 1);
+
+        token = strtok(NULL, ",");
+        if (token != NULL)
+            strncpy(entry.address, token, sizeof(entry.address) - 1);
+
+        token = strtok(NULL, ",");
+        if (token != NULL)
+            strncpy(entry.pincode, token, sizeof(entry.pincode) - 1);
+
+        entry.distance = getDistance(user, entry.username);
+        strcpy(entry.path, getPath(user, entry.username)); // USE DIJKSTRA FROM dijkstra.c to access those functions
+
+        // Check if the restaurant ID matches any of the IDs in the array
+        int i;
+        for (i = 0; i < numRestaurants; i++)
+        {
+            char buffer[30];
+            strcpy(buffer, entry.username);
+            int k = 0;
+            for (k = 0; buffer[k]; k++)
+            {
+                buffer[k] = tolower(buffer[k]);
+            }
+
+            if (strcmp(buffer, restaurantIDs[i]) == 0)
+            {
+                if (count < MAX_RESTAURANTS)
+                {
+                    entries[count++] = entry;
+                }
+                break;
+            }
+        }
+    }
+
+    fclose(file);
+
+    qsort(entries, count, sizeof(RestaurantEntry), compareByDistance3);
+
+    printf("[");
+    int i = 0;
+    if (checkCustomerPending(user) == 0)
+    {
+        for (i = 0; i < count; i++)
+        {
+            if (i > 0)
+            {
+                printf(",");
+            }
+            printf("{");
+            printf("\"username\": \"%s\",", entries[i].username);
+            printf("\"restaurantName\": \"%s\",", entries[i].restaurantName);
+            printf("\"contact\": \"%s\",", entries[i].contact);
+            printf("\"distance\": %d,", entries[i].distance);
+            printf("\"path\": \"%s\",", entries[i].path);
+            printf("\"address\": \"%s, %s\"", entries[i].address, entries[i].pincode);
+            printf("}");
+        }
+    }
+    printf("]");
+    fflush(stdout);
+    return 0;
+}
+
+// Function to search for substrings in each each_line of the menu database
+void searchMenuForItemGiven(char *given)
+{
+
+    char user[50];
+    char ItemGiven[50];
+    char *token = strtok(given, ","); // TO separate substring into username and item to be searched
+    strcpy(user, token);
+    token = strtok(NULL, ",");
+    strcpy(ItemGiven, token);
+
+    FILE *file = fopen(DATABASE_MENU, "r");
+    if (file == NULL)
+    {
+        perror("Error opening file");
+        exit(1);
+    }
+
+    // Allocate memory for the array of restaurant IDs
+    char **restaurantIDs = (char **)malloc(MATCHES * sizeof(char *));
+    if (restaurantIDs == NULL)
+    {
+        perror("Error allocating memory");
+        exit(1);
+    }
+
+    char each_line[256];
+    char buffer[256];
+    int found = 0;
+
+    while (fgets(each_line, sizeof(each_line), file))
+    {
+        // Check for new line to remove
+        each_line[strcspn(each_line, "\n")] = '\0';
+
+        int k = 0;
+        for (k = 0; each_line[k]; k++)
+        {
+            each_line[k] = tolower(each_line[k]);
+        }
+
+        // Check if any of the item are found in the line
+        int i;
+        for (i = 0; i < 1; i++)
+        {
+            if (strstr(each_line, ItemGiven) != NULL)
+            {
+                // To get username of restaurant
+                char *token = strtok(each_line, ",");
+                token = strtok(NULL, ",");
+                token = strtok(NULL, ",");
+                // restaurant array storing
+                restaurantIDs[found] = (char *)malloc((strlen(token) + 1) * sizeof(char));
+                if (restaurantIDs[found] == NULL)
+                {
+                    perror("Error allocating memory");
+                    exit(1);
+                }
+                strcpy(restaurantIDs[found], token);
+                found++;
+                break;
+            }
+        }
+    }
+
+    // Close the file
+    fclose(file);
+
+    searchRestaurantByID(restaurantIDs, found, user);
+
+    int i;
+    for (i = 0; i < found; i++)
+    {
+        free(restaurantIDs[i]);
+    }
+    free(restaurantIDs);
 }

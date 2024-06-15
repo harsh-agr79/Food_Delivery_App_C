@@ -217,6 +217,32 @@ if (ipcRenderer) {
     ipcRenderer.send("getPathCart", { func, dataset });
   });
 
+  function searchRestaurant(search){
+    var func = "searchMenuForItemGiven"
+    var dataset = [sessionStorage.getItem("username"), search].join(",");
+    ipcRenderer.send("searchMenuForItemGiven", { func , dataset });
+    if(search == null || search == ""){
+      getRestaurantipc();
+    }
+  }
+  
+  ipcRenderer.on("searchRestaurantResponse", (event, response) => {
+    var res = response.result;
+    const restList = document.getElementById("restList");
+    restList.innerHTML = "";
+    // res.sort((a,b) => parseInt(a.distance) - parseInt(b.distance));
+    res.forEach((item) => {
+      const restaurant = ` <div class="row mp-card restListItem" onclick="showMenu('${item.username}')">
+          <div class="col s12"><h5>${item.restaurantName}</h5></div>
+          <div class="col s12">${item.distance}000 Meters</div>
+          <div class="col s12">${item.path}</div>
+          <div class="col s12">${item.address}</div>
+          <div class="col s12">${item.contact}</div>
+        </div>`;
+      restList.innerHTML += restaurant;
+    });
+  })
+
   ipcRenderer.on("getPathCartResponse", (event, response) => {
     var res = response.result;
     var arr = res.split("|");

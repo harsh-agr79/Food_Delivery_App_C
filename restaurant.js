@@ -15,6 +15,9 @@ if (ipcRenderer) {
   document.getElementById("currentTab").addEventListener("click", () => {
     getCurrentOrder();
   });
+  document.getElementById("oldTab").addEventListener("click", () => {
+    getOldOrder();
+  });
   function viewBill(orderid){
     var func = "getViewBill";
     var dataset = orderid;
@@ -69,6 +72,30 @@ if (ipcRenderer) {
       tableBody.innerHTML += row;
     });
   })
+  function getOldOrder(){
+    var func = "getOldOrder";
+    var dataset = sessionStorage.getItem("username");
+    ipcRenderer.send("getOldOrder", { func, dataset });
+  }
+
+  ipcRenderer.on('oldOrderGet', (event, response) => {
+    res = response.result;
+    const tableBody = document.getElementById("oldOrderTbody");
+
+    tableBody.innerHTML = "";
+
+    res.forEach((item) => {
+      const row = `<tr id="${item.orderid}menutr">
+      <td>${item.time}</td>
+      <td>${item.orderid}</td>
+      <td>${item.user_name}</td>
+      <td>${item.contact}</td>
+      <td>${item.address}, ${item.pincode}</td>
+      <td><a onclick="viewBill(${item.orderid})" class="amber btn-small modal-trigger" href="#viewBillModal"><i class="material-icons">visibility</i></a><td>
+      </tr>`;
+      tableBody.innerHTML += row;
+    });
+  })
 
   function changeOrderStatus(dataset){
     var func = "changeOrderStatus"
@@ -94,6 +121,7 @@ if (ipcRenderer) {
     $('#VBcustomerAddress').text(`${res[0].address}, ${res[0].pincode}`);
     $('#VBrejectBTN').attr("onclick", `changeOrderStatus("${res[0].orderid},reject")`);
     $('#VBacceptBTN').attr("onclick", `changeOrderStatus("${res[0].orderid},accept")`);
+    $('#VBstatus').text(res[0].absolute_status);
 
     if(res[0].status === "accept"){
       $("#VBmodalfooter").addClass("hide");

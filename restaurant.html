@@ -24,21 +24,21 @@
         <ul class="tabs tabs-transparent">
           <li class="tab">
             <a class="white-text" href="#recentOrder" id="recentTab">
-              Recent
+              Recent Orders
             </a>
           </li>
           <li class="tab">
-            <a class="white-text" href="#test2">Old</a>
+            <a class="white-text" href="#oldOrder" id="oldTab">Old Orders</a>
           </li>
           <li class="tab">
-            <a class="white-text" href="#currentOrder" id="currentTab">Current</a>
+            <a class="white-text" href="#currentOrder" id="currentTab">Current Orders</a>
           </li>
           <li class="tab">
-            <a class="white-text active" href="#menu" id="menuTab">Menu</a>
+            <a class="white-text active" href="#menu" id="menuTab">My Menu</a>
           </li>
           <li class="tab">
             <a class="white-text active" href="#settings" id="settingsTab"
-              >Location</a
+              >My Location</a
             >
           </li>
         </ul>
@@ -62,7 +62,24 @@
          
         </div>
       </div>
-      <div id="test2">Old</div>
+      <div id="oldOrder">
+        <div class="container">
+          <div class="center"><h5>Current Orders</h5></div>
+          <div class="mp-card" style="margin-top: 10px">
+            <table>
+              <thead>
+                <th>Data and Time</th>
+                <th>Order id</th>
+                <th>Customer's Name</th>
+                <th>Contact</th>
+                <th>Address</th>
+                <th>View Bill</th>
+              </thead>
+              <tbody id="oldOrderTbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
       <div id="currentOrder">
         <div class="container">
           <div class="center"><h5>Current Orders</h5></div>
@@ -238,6 +255,9 @@
           ><br />
           <span
             >Customer Address: <span id="VBcustomerAddress"></span></span
+          ><br />
+          <span
+            >Status: <span id="VBstatus"></span></span
           ><br />
         </div>
         <table>

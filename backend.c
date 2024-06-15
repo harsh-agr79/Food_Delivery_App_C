@@ -380,6 +380,10 @@ int main()
         {
            getCurrentOrder(data);
         }
+        else if (strcmp(function, "getOldOrder") == 0)
+        {
+           getOldOrder(data);
+        }
          else if (strcmp(function, "getNewAllocation") == 0)
         {
            getNewAllocation(data);
@@ -387,6 +391,22 @@ int main()
         else if (strcmp(function, "acceptDelivery") == 0)
         {
            acceptDelivery(data);
+        }
+         else if (strcmp(function, "searchMenuForItemGiven") == 0)
+        {
+           searchMenuForItemGiven(data);
+        }
+        else if (strcmp(function, "currentAllocData") == 0)
+        {
+           currentAllocData(data);
+        }
+        else if (strcmp(function, "changeDeliveryStatus") == 0)
+        {
+           changeDeliveryStatus(data);
+        }
+        else if (strcmp(function, "getOldAlloc") == 0)
+        {
+           getOldAlloc(data);
         }
     }
 

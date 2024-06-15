@@ -41,12 +41,12 @@
             >
           </li>
           <li class="tab">
-            <a class="white-text" href="#current_allocation" id="curretAllocTab"
+            <a class="white-text" href="#current_allocation" id="currentAllocTab"
               >Current Allocation</a
             >
           </li>
           <li class="tab">
-            <a class="white-text" href="#test2">Old Allocations</a>
+            <a class="white-text" href="#old_allocation" id="oldAllocTab">Old Allocations</a>
           </li>
           <li class="tab">
             <a class="white-text active" id="locationTab" href="#location"
@@ -75,17 +75,26 @@
       </div>
       <div id="current_allocation" class="col s12" style="padding: 5vw;">
         <div class="row">
-          <div class="col s12 m6 center">
-            <img src="./map.png" id="grid-image" class="image-container" style="width: 45vw" alt="" />
-            <canvas id="drawing-canvas"></canvas>
-          </div>
-          <div class="col s12 m6">
+          <div class="col s12">
             <div class="mp-card">
-              <div class="center"><h6>Your Cart</h6></div>
+              <div class="center"><h6>Allocated Bill</h6></div>
               <div>
                 <div>Restaurant Name : <span id="resnameCurrentAlloc"></span></div>
                 <div>Customer Name : <span id="custnameCurrentAlloc"></span></div>
-                <div>Distance: <span id="distanceCurrentAlloc"></span>000 Meters <span id="gointToCurrentAlloc"></span></div>
+                <div>Distance: <span id="distanceCurrentAlloc"></span>000 Meters <span id="goingToCurrentAlloc"></span></div>
+                <div class="row valign-wrapper">
+                  <div class="col s6">
+                    <a class="amber btn-small modal-trigger" href="#viewMapModal" id="viewMapCurrentAlloc">View Path<i class="material-icons right">visibility</i></a>
+                  </div>
+                  <div class="col s6">
+                    <select name="status" id="statusSelect" class="browser-default inp">
+                        <!-- <option value="Preparing">Preparing</option> -->
+                        <option value="" selected disabled>Select Current Status</option>
+                        <option value="Picked up. On the Way">Picked up. On the Way</option>
+                        <option value="Delivered">Delivered</option>
+                    </select>
+                  </div>
+                </div>
               </div>
               <table>
                 <thead>
@@ -96,7 +105,7 @@
                   <th>Price</th>
                   <th>Total</th>
                 </thead>
-                <tbody id="cartTableBody">
+                <tbody id="currentAllocTableBody">
                   
                 </tbody>
               </table>
@@ -104,7 +113,23 @@
           </div>
         </div>
       </div>
-      <div id="test2" class="col s12">Old Allocations</div>
+      <div id="old_allocation" class="col s12">
+        <div class="container">
+          <div class="mp-card" style="margin-top: 10px">
+            <table>
+              <thead>
+                <th>Orderid</th>
+                <th>Time</th>
+                <th>Customer Name</th>
+                <th>Restaurant Name</th>
+                <th>Contact</th>
+                <th>Address</th>
+              </thead>
+              <tbody id="oldAllocTbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
       <div id="location" class="col s12">
         <div class="center">
           <img src="./map.png" style="width: 75vw" id="map" alt="" />
@@ -117,7 +142,7 @@
         <div>
           <img
             src="./map.png"
-            style="height: 50vh"
+            style="height: 60vh"
             id="grid-modal-image"
             class="image-container"
             alt=""

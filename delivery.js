@@ -2,8 +2,86 @@ const { ipcRenderer } = window.electron;
 
 if (ipcRenderer) {
 
-  document.getElementById("newAllocTab"),addEventListener("click", (e) => {
+  document.getElementById("newAllocTab").addEventListener("click", (e) => {
     getNewAlloc();
+  })
+
+  document.getElementById("currentAllocTab").addEventListener("click", (e) => {
+    currentAllocData();
+  })
+
+  document.getElementById("oldAllocTab").addEventListener("click", (e) => {
+    getOldAlloc();
+  })
+
+  function currentAllocData(){
+    var func = "currentAllocData";
+    var dataset = sessionStorage.getItem("username");
+    ipcRenderer.send("currentAllocData", { func, dataset });
+  }
+
+  ipcRenderer.on("currentAllocDataGet", (event, response) => {
+    var res = response.result;
+    const tableBody = document.getElementById("currentAllocTableBody");
+    total = 0;
+    tableBody.innerHTML = "";
+    $('#resnameCurrentAlloc').text(res[0].restaurant_name)
+    $('#custnameCurrentAlloc').text(res[0].user_name)
+    if(res[0].DRdistance != 0){
+      $('#distanceCurrentAlloc').text(res[0].DRdistance)
+      $('#viewMapCurrentAlloc').attr("onclick", `viewPath("${res[0].DRpath}")`)
+      $('#goingToCurrentAlloc').text("away from restaurant")
+    }
+    else{
+      $('#goingToCurrentAlloc').text("away from Customer")
+      $('#distanceCurrentAlloc').text(res[0].DCdistance)
+      $('#viewMapCurrentAlloc').attr("onclick", `viewPath("${res[0].DCpath}")`)
+    }
+
+    $('#statusSelect').attr("onchange", `changeDeliveryStatus(this.value,"${[res[0].orderid, res[0].restaurant_username, res[0].username].join(",")}")`);
+
+    res.forEach((item) => {
+      total += item.price * item.quantity;
+      const row = `<tr id="${item.itemid}menutr">
+      <td>${item.itemname}</td>
+      <td>${item.item_category}</td>
+      <td>${item.item_type}</td>
+      <td>${item.quantity}</td>
+      <td>${item.price}</td>
+      <td>${item.price * item.quantity}</td>
+      </tr>`;
+      tableBody.innerHTML += row;
+    });
+    row = `<tr>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <th>Total</th>
+    <th>${total}<th>
+    </tr>`;
+    tableBody.innerHTML += row;
+  })
+
+  function changeDeliveryStatus(status, orderid){
+    var func = "changeDeliveryStatus";
+    var dataset = [orderid, status].join(",")
+    ipcRenderer.send("changeDeliveryStatus", {func,dataset});
+  }
+
+  ipcRenderer.on("deliveryStatusChanged", (event,response) => {
+    res = response.result;
+    M.toast({ html: res });
+    if(res == "Delivered"){
+      $('#resnameCurrentAlloc').text("")
+      $('#custnameCurrentAlloc').text("")
+      $('#distanceCurrentAlloc').text("")
+      $('#viewMapCurrentAlloc').removeAttr("onclick")
+      $('#goingToCurrentAlloc').text("")
+      $('#statusSelect').removeAttr("onchange");
+      $('#statusSelect').val("");
+    }
+    currentAllocData();
   })
 
   
@@ -216,8 +294,6 @@ if (ipcRenderer) {
     setTimeout(() => {
       pinPathMap(newpath)
     }, 1000);
-    // pinPathMap(newpath);
-    // console.log(newpath);
   }
 
   function acceptDelivery(orderid){
@@ -254,6 +330,31 @@ if (ipcRenderer) {
       <td>${item.distance}000 meters</td>
       <td><a onclick="viewPath('${item.path}')" class="amber btn-small modal-trigger" href="#viewMapModal"><i class="material-icons">visibility</i></a><td>
       <td><a onclick="acceptDelivery(${item.orderid})" class="amber btn-small">Accept</a><td>
+      </tr>`;
+      tableBody.innerHTML += row;
+    });
+  })
+
+  function getOldAlloc(){
+    var func = "getOldAlloc";
+    var dataset = sessionStorage.getItem("username");
+    ipcRenderer.send("getOldAlloc", { func, dataset });
+  }
+
+  ipcRenderer.on("oldAllocGet", (event, response) => {
+    res = response.result;
+    const tableBody = document.getElementById("oldAllocTbody");
+
+    tableBody.innerHTML = "";
+
+    res.forEach((item) => {
+      const row = `<tr id="${item.orderid}menutr">
+      <td>${item.orderid}</td>
+      <td>${item.time}</td>
+      <td>${item.user_name}</td>
+      <td>${item.restaurant_name}</td>
+      <td>${item.contact}</td>
+      <td>${item.address}, ${item.pincode}</td>
       </tr>`;
       tableBody.innerHTML += row;
     });
