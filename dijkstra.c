@@ -451,12 +451,5 @@ int callDKS2(int node1, int node2)
     // Let us create the example graph discussed above
     int result = 0;
     result = dijkstra2(graph, node1, node2);
-    // fflush(stdout);
     return result;
 }
-
-// int main(){
-//     callDKS(64,74);
-//     printf("\n%d", callDKS2(64,74));
-//     return 0;
-// }
