@@ -370,6 +370,7 @@ if (ipcRenderer) {
     $("#dmnameCurrent").text("");
     $("#distanceCurrent").text("");
     $("#timetakenCurrent").text("");
+    $('#reviewCard').addClass("hide");
     getCurrent();
     img.onload = function () {
       initializeCanvas2();
@@ -420,6 +421,12 @@ if (ipcRenderer) {
     $("#resusernameCurrent").text(res[0].restaurantUsername);
     $("#statusCurrent").text(res[0].absolute_status);
     $("#dmnameCurrent").text(res[0].deliveryMan);
+    if(res[0].review == "on"){
+      $('#reviewCard').removeClass("hide");
+    }
+    else{
+      $('#reviewCard').addClass("hide");
+    }
     ipcRenderer.send("getPathCurrent", { func, dataset });
   });
 
@@ -814,6 +821,15 @@ if (ipcRenderer) {
     </tr>`;
     tableBody.innerHTML += row;
   })
+
+  $(document).ready(function(){
+    $('.star-rating .material-icons').on('click', function(){
+        var ratingValue = $(this).data('value');
+        $('#starRating .material-icons').removeClass('selected');
+        $(this).prevAll().addBack().addClass('selected');
+        $("#starRatingValue").text(ratingValue);
+    });
+});
 } else {
   console.error("ipcRenderer is not properly initialized.");
 }

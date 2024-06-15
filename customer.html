@@ -32,6 +32,14 @@
             top: 0;
             left: 0;
         }
+        .star-rating .material-icons {
+            cursor: pointer;
+            font-size: 2.5rem;
+            color: grey;
+        }
+        .star-rating .selected {
+            color: gold;
+        }
     </style>
     <div>
       <div class="nav-content amber darken-1">
@@ -162,6 +170,32 @@
               </table>
             </div>
           </div>
+        </div>
+        <div class="mp-card container center hide" id="reviewCard">
+          <div class="container center">
+            <h5>Your Order is Complete, Rate the Restaurant</h5>
+            <div class="star-rating" id="starRating">
+                <i class="material-icons" data-value="1">star_border</i>
+                <i class="material-icons" data-value="2">star_border</i>
+                <i class="material-icons" data-value="3">star_border</i>
+                <i class="material-icons" data-value="4">star_border</i>
+                <i class="material-icons" data-value="5">star_border</i>
+            </div>
+            <span id="starRatingValue">
+            </span>
+            <div class="col s12">
+              <label for="review">Comments / Review</label>
+              <textarea id="review" class="browser-default inp"></textarea>
+            </div>
+            <div class="row center">
+              <div class="col s6 center">
+                <button class="red btn">Maybe Later</button>
+              </div>
+              <div class="col s6 center">
+                <button class="btn amber">Submit Review</button>
+              </div>
+            </div>
+        </div>
         </div>
       </div>
       <div id="oldOrder" class="col s12">
