@@ -18,6 +18,7 @@
 #define DATABASE_LOCATION "location.txt"
 #define DATABASE_CART "cart.txt"
 #define DATABASE_ORDER "order.txt"
+#define DATABASE_DELIVERY_ALLOCATION "delivery_allocation.txt"
 
 char *get_current_timestamp()
 {
@@ -413,18 +414,22 @@ int setUserCart(char *data)
     return 1;
 }
 
-int checkCustomerPending(char *customer)
+
+int allowedToOrder(char *user)
 {
     FILE *file = fopen(DATABASE_ORDER, "r");
     if (file == NULL)
     {
-        printf("Error opening file for reading.\n");
+        perror("Error opening menu file");
     }
-    char line[1000];
-
+    char line[5000];
+    int res = 1;
+    char orderids[300][100];
+    int ocnt = 0;
     while (fgets(line, sizeof(line), file))
     {
-        int orderid;
+        // Parse line into variables
+        char oid[100];
         char user_name[MAX_RESTAURANT_NAME_LEN];
         char username[MAX_RESTAURANT_NAME_LEN];
         char restaurant_name[MAX_ITEM_NAME_LEN];
@@ -441,16 +446,45 @@ int checkCustomerPending(char *customer)
         char time[MAX_LINE_LENGTH];
         char status[MAX_LINE_LENGTH];
 
-        if (sscanf(line, "%d,%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%d,%d,%[^,],%[^,],%[^,],%[^,],%[^\n]", &orderid, user_name, username, restaurant_name, restaurant_username, itemid, itemname, item_category, item_type, &qty, &price, contact, address, pincode, time, status) == 16)
+        if (sscanf(line, "%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%d,%d,%[^,],%[^,],%[^,],%[^,],%[^\n]", oid, user_name, username, restaurant_name, restaurant_username, itemid, itemname, item_category, item_type, &qty, &price, contact, address, pincode, time, status) == 16)
         {
-           if(strcmp(username, customer) == 0 && strcmp(status, "pending") == 0){
-            return 1;
-           }
+            if (strcmp(status, "pending") == 0 && strcmp(username, user) == 0)
+            {
+                res = 0;
+            }
+            if (strcmp(status, "pending") != 0 && strcmp(username, user) == 0)
+            {
+                strcpy(orderids[ocnt], oid);
+                // printf("%s\n", orderids[ocnt]);
+                ocnt++;
+            }
         }
     }
-
     fclose(file);
-    return 0;
+    file = fopen(DATABASE_DELIVERY_ALLOCATION, "r");
+    while (fgets(line, sizeof(line), file))
+    {
+        char oid[100];
+        char user[100];
+        char status[100];
+        sscanf(line, "%[^,],%[^,],%[^\n]", oid, user, status);
+        for (int i = 0; i < ocnt; i++)
+        {
+            if (strcmp(user, "Not Allocated") == 0 && strcmp(oid, orderids[i]) == 0)
+            {
+                res = 0;
+            }
+            if (strcmp(status, "Picked up. On the Way") == 0 && strcmp(oid, orderids[i]) == 0)
+            {
+                res = 0;
+            }
+            if (strcmp(status, "Delivered") == 0 && strcmp(oid, orderids[i]) == 0)
+            {
+
+            }
+        }
+    }
+   return res;
 }
 
 void getRestaurants(char *customer)
@@ -497,7 +531,7 @@ void getRestaurants(char *customer)
 
     // Print the sorted array in JSON format
     printf("[");
-    if (checkCustomerPending(customer) == 0)
+    if (allowedToOrder(customer))
     {
         for (int i = 0; i < count; i++)
         {
@@ -688,6 +722,289 @@ void getPathCart(char *data)
     fflush(stdout);
 }
 
+char *getAbsoluteStatusCustomer(char *orderid)
+{
+    FILE *file = fopen(DATABASE_ORDER, "r");
+    if (file == NULL)
+    {
+        perror("Error opening menu file");
+    }
+    char line[5000];
+    char res[100];
+    while (fgets(line, sizeof(line), file))
+    {
+        // Parse line into variables
+        char oid[100];
+        char user_name[MAX_RESTAURANT_NAME_LEN];
+        char username[MAX_RESTAURANT_NAME_LEN];
+        char restaurant_name[MAX_ITEM_NAME_LEN];
+        char restaurant_username[MAX_CATEGORY_LEN];
+        char itemid[MAX_CATEGORY_LEN];
+        char itemname[MAX_CATEGORY_LEN];
+        char item_category[MAX_CATEGORY_LEN];
+        char item_type[MAX_CATEGORY_LEN];
+        int qty;
+        int price;
+        char contact[MAX_CATEGORY_LEN];
+        char address[MAX_CATEGORY_LEN];
+        char pincode[MAX_CATEGORY_LEN];
+        char time[MAX_LINE_LENGTH];
+        char status[MAX_LINE_LENGTH];
+
+        if (sscanf(line, "%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%d,%d,%[^,],%[^,],%[^,],%[^,],%[^\n]", oid, user_name, username, restaurant_name, restaurant_username, itemid, itemname, item_category, item_type, &qty, &price, contact, address, pincode, time, status) == 16)
+        {
+            if (strcmp(status, "pending") == 0 && strcmp(oid, orderid) == 0)
+            {
+                strcpy(res, "pending");
+            }
+        }
+    }
+    fclose(file);
+    file = fopen(DATABASE_DELIVERY_ALLOCATION, "r");
+    while (fgets(line, sizeof(line), file))
+    {
+        char oid[100];
+        char user[100];
+        char status[100];
+        sscanf(line, "%[^,],%[^,],%[^\n]", oid, user, status);
+        if (strcmp(user, "Not Allocated") == 0 && strcmp(oid, orderid) == 0)
+        {
+            strcpy(res, "Accepted, preparing");
+        }
+        if (strcmp(user, "Not Allocated") != 0 && strcmp(oid, orderid) == 0)
+        {
+            strcpy(res, "Delivery Man Allocated, Preparing");
+        }
+        if (strcmp(status, "Picked up. On the Way") == 0 && strcmp(oid, orderid) == 0)
+        {
+            strcpy(res, "Picked up. On the Way");
+        }
+        if (strcmp(status, "Delivered") == 0 && strcmp(oid, orderid) == 0)
+        {
+            strcpy(res, "Delivered");
+        }
+    }
+    fclose(file);
+    char *result = strdup(res);
+    return result;
+}
+
+char *getDeliveryMan(char *orderid)
+{
+    FILE *file = fopen(DATABASE_ORDER, "r");
+    if (file == NULL)
+    {
+        perror("Error opening menu file");
+    }
+    char line[5000];
+    char res[100];
+    while (fgets(line, sizeof(line), file))
+    {
+        // Parse line into variables
+        char oid[100];
+        char user_name[MAX_RESTAURANT_NAME_LEN];
+        char username[MAX_RESTAURANT_NAME_LEN];
+        char restaurant_name[MAX_ITEM_NAME_LEN];
+        char restaurant_username[MAX_CATEGORY_LEN];
+        char itemid[MAX_CATEGORY_LEN];
+        char itemname[MAX_CATEGORY_LEN];
+        char item_category[MAX_CATEGORY_LEN];
+        char item_type[MAX_CATEGORY_LEN];
+        int qty;
+        int price;
+        char contact[MAX_CATEGORY_LEN];
+        char address[MAX_CATEGORY_LEN];
+        char pincode[MAX_CATEGORY_LEN];
+        char time[MAX_LINE_LENGTH];
+        char status[MAX_LINE_LENGTH];
+
+        if (sscanf(line, "%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%d,%d,%[^,],%[^,],%[^,],%[^,],%[^\n]", oid, user_name, username, restaurant_name, restaurant_username, itemid, itemname, item_category, item_type, &qty, &price, contact, address, pincode, time, status) == 16)
+        {
+            if (strcmp(status, "pending") == 0 && strcmp(oid, orderid) == 0)
+            {
+                strcpy(res, "Not Allocated");
+            }
+        }
+    }
+    fclose(file);
+    file = fopen(DATABASE_DELIVERY_ALLOCATION, "r");
+    while (fgets(line, sizeof(line), file))
+    {
+        char oid[100];
+        char user[100];
+        char status[100];
+        sscanf(line, "%[^,],%[^,],%[^\n]", oid, user, status);
+        if (strcmp(user, "Not Allocated") == 0 && strcmp(oid, orderid) == 0)
+        {
+            strcpy(res, "Not Allocated");
+        }
+        if (strcmp(user, "Not Allocated") != 0 && strcmp(oid, orderid) == 0)
+        {
+            strcpy(res, user);
+        }
+        if (strcmp(status, "Picked up. On the Way") == 0 && strcmp(oid, orderid) == 0)
+        {
+            strcpy(res, user);
+        }
+        if (strcmp(status, "Delivered") == 0 && strcmp(oid, orderid) == 0)
+        {
+            strcpy(res, user);
+        }
+    }
+    fclose(file);
+    char *result = strdup(res);
+    return result;
+}
+
+char *getCurrentOid(char *user){
+     FILE *file = fopen(DATABASE_ORDER, "r");
+    if (file == NULL)
+    {
+        perror("Error opening menu file");
+    }
+    char line[5000];
+    char res[100] = "blah";
+    char orderids[300][100];
+    int ocnt = 0;
+    while (fgets(line, sizeof(line), file))
+    {
+        // Parse line into variables
+        char oid[100];
+        char user_name[MAX_RESTAURANT_NAME_LEN];
+        char username[MAX_RESTAURANT_NAME_LEN];
+        char restaurant_name[MAX_ITEM_NAME_LEN];
+        char restaurant_username[MAX_CATEGORY_LEN];
+        char itemid[MAX_CATEGORY_LEN];
+        char itemname[MAX_CATEGORY_LEN];
+        char item_category[MAX_CATEGORY_LEN];
+        char item_type[MAX_CATEGORY_LEN];
+        int qty;
+        int price;
+        char contact[MAX_CATEGORY_LEN];
+        char address[MAX_CATEGORY_LEN];
+        char pincode[MAX_CATEGORY_LEN];
+        char time[MAX_LINE_LENGTH];
+        char status[MAX_LINE_LENGTH];
+
+        if (sscanf(line, "%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%d,%d,%[^,],%[^,],%[^,],%[^,],%[^\n]", oid, user_name, username, restaurant_name, restaurant_username, itemid, itemname, item_category, item_type, &qty, &price, contact, address, pincode, time, status) == 16)
+        {
+            if (strcmp(status, "pending") == 0 && strcmp(username, user) == 0)
+            {
+                 strcpy(res, oid);
+            }
+            if (strcmp(status, "pending") != 0 && strcmp(username, user) == 0)
+            {
+                strcpy(orderids[ocnt], oid);
+                ocnt++;
+            }
+        }
+    }
+    fclose(file);
+    file = fopen(DATABASE_DELIVERY_ALLOCATION, "r");
+    while (fgets(line, sizeof(line), file))
+    {
+        char oid[100];
+        char user[100];
+        char status[100];
+        sscanf(line, "%[^,],%[^,],%[^\n]", oid, user, status);
+        for (int i = 0; i < ocnt; i++)
+        {
+            if (strcmp(user, "Not Allocated") == 0 && strcmp(oid, orderids[i]) == 0)
+            {
+                 strcpy(res, oid);
+            }
+            if (strcmp(status, "allocated") == 0 && strcmp(oid, orderids[i]) == 0)
+            {
+                 strcpy(res, oid);
+            }
+            if (strcmp(status, "Picked up. On the Way") == 0 && strcmp(oid, orderids[i]) == 0)
+            {
+                strcpy(res, oid);
+            }
+            if (strcmp(status, "Delivered") == 0 && strcmp(oid, orderids[i]) == 0)
+            {
+            }
+        }
+    }
+    fclose(file);
+    char *result = strdup(res);
+    return result;
+}
+
+void getCurrent(char *data)
+{
+    FILE *file = fopen(DATABASE_ORDER, "r");
+    if (file == NULL)
+    {
+        // printf("Error opening file for reading.\n");
+        // return 0;
+    }
+    // // Read lines from the file into an array
+    char line[5000];
+    int isFirstItem = 1;
+    char *gotoid = getCurrentOid(data);
+    printf("[");
+    while (fgets(line, sizeof(line), file))
+    {
+        char oid[100];
+        char user_name[MAX_RESTAURANT_NAME_LEN];
+        char username[MAX_RESTAURANT_NAME_LEN];
+        char restaurant_name[MAX_ITEM_NAME_LEN];
+        char restaurant_username[MAX_CATEGORY_LEN];
+        char itemid[MAX_CATEGORY_LEN];
+        char itemname[MAX_CATEGORY_LEN];
+        char item_category[MAX_CATEGORY_LEN];
+        char item_type[MAX_CATEGORY_LEN];
+        int qty;
+        int price;
+        char contact[MAX_CATEGORY_LEN];
+        char address[MAX_CATEGORY_LEN];
+        char pincode[MAX_CATEGORY_LEN];
+        char time[MAX_LINE_LENGTH];
+        char status[MAX_LINE_LENGTH];
+
+        if (sscanf(line, "%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%d,%d,%[^,],%[^,],%[^,],%[^,],%[^\n]", oid, user_name, username, restaurant_name, restaurant_username, itemid, itemname, item_category, item_type, &qty, &price, contact, address, pincode, time, status) == 16)
+        {
+            if (strcmp(username, data) == 0 && strcmp(oid, gotoid) == 0)
+            {
+                if (!isFirstItem)
+                {
+                    printf(","); // Add comma for subsequent items
+                }
+                printf("{");
+                printf("\"customerUsername\": \"%s\",", username);
+                printf("\"resname\": \"%s\",", restaurant_name);
+                printf("\"absolute_status\": \"%s\",", getAbsoluteStatusCustomer(oid));
+                printf("\"deliveryMan\": \"%s\",", getDeliveryMan(oid));
+                printf("\"restaurantUsername\": \"%s\",", restaurant_username);
+                printf("\"id\": %d,", itemid);
+                printf("\"food\": \"%s\",", itemname);
+                printf("\"category\": \"%s\",", item_category);
+                printf("\"type\": \"%s\",", item_type);
+                printf("\"quantity\": %d,", qty);
+                printf("\"price\": %d", price);
+                printf("}");
+
+                isFirstItem = 0; // Update flag after printing the first item
+            }
+        }
+    }
+    printf("]");
+    fflush(stdout);
+    fclose(file);
+}
+
+void getPathCurrent(char *data)
+{
+    char customer[500];
+    char restaurant[500];
+
+    sscanf(data, "%[^,],%[^,]", customer, restaurant);
+
+    printf("%d|%s", getDistance(customer, restaurant), getPath(customer, restaurant));
+    fflush(stdout);
+}
+
 // searching part.
 
 #define MAX_RESTAURANTS 100
@@ -809,7 +1126,7 @@ int searchRestaurantByID(char *restaurantIDs[], int numRestaurants, char *user)
 
     printf("[");
     int i = 0;
-    if (checkCustomerPending(user) == 0)
+    if (allowedToOrder(user))
     {
         for (i = 0; i < count; i++)
         {
@@ -908,4 +1225,168 @@ void searchMenuForItemGiven(char *given)
         free(restaurantIDs[i]);
     }
     free(restaurantIDs);
+}
+void getViewBillCustomer(char *data)
+{
+    FILE *file = fopen(DATABASE_ORDER, "r");
+    if (file == NULL)
+    {
+        perror("Error opening menu file");
+        return;
+    }
+
+    char line[5000];
+    int isFirstItem = 1; // Flag to track the first item in JSON array
+    // int unoid = 0;
+
+    printf("[");
+    while (fgets(line, sizeof(line), file))
+    {
+        // Parse line into variables
+        char orderid[MAX_ITEM_NAME_LEN];
+        char user_name[MAX_RESTAURANT_NAME_LEN];
+        char username[MAX_RESTAURANT_NAME_LEN];
+        char restaurant_name[MAX_ITEM_NAME_LEN];
+        char restaurant_username[MAX_CATEGORY_LEN];
+        char itemid[MAX_CATEGORY_LEN];
+        char itemname[MAX_CATEGORY_LEN];
+        char item_category[MAX_CATEGORY_LEN];
+        char item_type[MAX_CATEGORY_LEN];
+        int qty;
+        int price;
+        char contact[MAX_CATEGORY_LEN];
+        char address[MAX_CATEGORY_LEN];
+        char pincode[MAX_CATEGORY_LEN];
+        char time[MAX_LINE_LENGTH];
+        char status[MAX_LINE_LENGTH];
+
+        if (sscanf(line, "%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%d,%d,%[^,],%[^,],%[^,],%[^,],%[^\n]", orderid, user_name, username, restaurant_name, restaurant_username, itemid, itemname, item_category, item_type, &qty, &price, contact, address, pincode, time, status) == 16)
+        {
+            // printf("%d", orderid);
+            if (strcmp(orderid, data) == 0)
+            {
+                if (!isFirstItem)
+                {
+                    printf(","); // Add comma for subsequent items
+                }
+                printf("{");
+                printf("\"orderid\": %s,", orderid);
+                printf("\"absolute_status\": \"%s\",", getAbsoluteStatusCustomer(orderid));
+                printf("\"user_name\": \"%s\",", user_name);
+                printf("\"username\": \"%s\",", username);
+                printf("\"restaurantName\": \"%s\",", restaurant_name);
+                printf("\"itemid\": %s,", itemid);
+                printf("\"itemname\": \"%s\",", itemname);
+                printf("\"item_category\": \"%s\",", item_category);
+                printf("\"item_type\": \"%s\",", item_type);
+                printf("\"quantity\": %d,", qty);
+                printf("\"price\": %d,", price);
+                printf("\"address\": \"%s\",", address);
+                printf("\"time\": \"%s\",", time);
+                printf("\"contact\": \"%s\",", contact);
+                printf("\"status\": \"%s\",", status);
+                printf("\"pincode\": \"%s\"", pincode);
+                printf("}");
+                isFirstItem = 0; // Update flag after printing the first item
+            }
+        }
+    }
+    printf("]");
+    fflush(stdout);
+    fclose(file);
+}
+
+
+void getOldOrderCustomer(char *data)
+{
+    int oids[1000];
+    char line[5000];
+    int oidcnt = 0;
+    FILE *file = fopen(DATABASE_DELIVERY_ALLOCATION, "r");
+    if (file == NULL)
+    {
+        perror("Error opening menu file");
+        return;
+    }
+    while (fgets(line, sizeof(line), file))
+    {
+        int oid;
+        char user[100];
+        char status[100];
+        sscanf(line, "%d,%[^,],%[^\n]", &oid, user, status);
+        if (strcmp(status, "Delivered") == 0)
+        {
+            oids[oidcnt] = oid;
+            oidcnt++;
+        }
+    }
+    fclose(file);
+    file = fopen(DATABASE_ORDER, "r");
+    if (file == NULL)
+    {
+        perror("Error opening menu file");
+        return;
+    }
+
+    int isFirstItem = 1; // Flag to track the first item in JSON array
+    int unoid = 0;
+  
+
+
+    printf("[");
+    while (fgets(line, sizeof(line), file))
+    {
+        // Parse line into variables
+        int orderid;
+        char user_name[MAX_RESTAURANT_NAME_LEN];
+        char username[MAX_RESTAURANT_NAME_LEN];
+        char restaurant_name[MAX_ITEM_NAME_LEN];
+        char restaurant_username[MAX_CATEGORY_LEN];
+        int itemid;
+        char itemname[MAX_CATEGORY_LEN];
+        char item_category[MAX_CATEGORY_LEN];
+        char item_type[MAX_CATEGORY_LEN];
+        int qty;
+        int price;
+        char contact[MAX_CATEGORY_LEN];
+        char address[MAX_CATEGORY_LEN];
+        char pincode[MAX_CATEGORY_LEN];
+        char time[MAX_LINE_LENGTH];
+        char status[MAX_LINE_LENGTH];
+        int check = 0;
+
+        if (sscanf(line, "%d,%[^,],%[^,],%[^,],%[^,],%d,%[^,],%[^,],%[^,],%d,%d,%[^,],%[^,],%[^,],%[^,],%[^\n]s", &orderid, user_name, username, restaurant_name, restaurant_username, &itemid, itemname, item_category, item_type, &qty, &price, contact, address, pincode, time, status) == 16)
+        {
+            // printf("%d", orderid);
+            for(int i = 0; i < oidcnt; i++){
+                if(oids[i] == orderid){
+                    check = 1;
+                }
+            }
+            if ((strcmp(username, data) == 0) && (unoid != orderid) && strcmp(status, "accept") == 0 && check == 1)
+            {
+                unoid = orderid;
+                if (!isFirstItem)
+                {
+                    printf(","); // Add comma for subsequent items
+                }
+                printf("{");
+                printf("\"orderid\": %d,", orderid);
+                printf("\"user_name\": \"%s\",", user_name);
+                printf("\"username\": \"%s\",", username);
+                printf("\"restaurant_name\": \"%s\",", restaurant_name);
+                printf("\"restaurant_username\": \"%s\",", restaurant_username);
+                printf("\"address\": \"%s\",", address);
+                printf("\"time\": \"%s\",", time);
+                printf("\"contact\": \"%s\",", contact);
+                printf("\"pincode\": \"%s\"", pincode);
+                printf("}");
+
+                isFirstItem = 0; // Update flag after printing the first item
+            }
+        }
+    }
+    printf("]");
+    fflush(stdout);
+    fclose(file);
 }

@@ -51,7 +51,7 @@
             <a class="white-text" href="#currentOrder" id="currentTab">Current Order</a>
           </li>
           <li class="tab">
-            <a class="white-text" href="#test4">Old Orders</a>
+            <a class="white-text" href="#oldOrder" id="oldTab">Old Orders</a>
           </li>
           <li class="tab">
             <a class="white-text active" id="locationTab" href="#location">Location</a>
@@ -127,12 +127,88 @@
           </div>
         </div>
       </div>
-      <div id="currentOrder" class="col s12">Current Order</div>
-      <div id="test4" class="col s12">Old Orders</div>
+      <div id="currentOrder" class="col s12" style="padding: 5vw">
+        <div class="row">
+          <div class="col s12 m6 center">
+            <img src="./map.png" id="grid-image2" class="image-container" style="width: 45vw" alt="" />
+            <canvas id="drawing-canvas2"></canvas>
+          </div>
+          <div class="col s12 m6">
+            <div class="mp-card">
+              <div class="center"><h6>Current Order</h6></div>
+              <div>
+                <div class="right">
+                  <button class="btn-small amber darken-1 black-text" id="reloadBtn" onclick="getCurrent();">Reload</button>
+                </div>
+                <div>Restaurant Name : <span id="resnameCurrent"></span></div>
+                <div>Restaurant Username : <span id="resusernameCurrent"></span></div>
+                <div>Delivery Man : <span id="dmnameCurrent"></span></div>
+                <div>Distance: <span id="distanceCurrent"></span>000 Meters</div>
+                <div>Time Taken: <span id="timetakenCurrent"></span> Minutes Approximate</div>
+                <div>Status: <span id="statusCurrent"></span></div>
+              </div>
+              <table>
+                <thead>
+                  <th>Food</th>
+                  <th>Category</th>
+                  <th>Type</th>
+                  <th>Quantity</th>
+                  <th>Price</th>
+                  <th>Total</th>
+                </thead>
+                <tbody id="currentTableBody">
+                  
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="oldOrder" class="col s12">
+        <div class="container">
+          <div class="center"><h5>Old Orders</h5></div>
+          <div class="mp-card" style="margin-top: 10px">
+            <table>
+              <thead>
+                <th>Data and Time</th>
+                <th>Order id</th>
+                <th>Restaurant's Name</th>
+                <th>View Bill</th>
+              </thead>
+              <tbody id="oldOrderTbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
       <div id="location" class="col s12">
         <div class="center">
           <img src="./map.png" style="width: 75vw" id="map" alt="" />
         </div>
+      </div>
+    </div>
+
+    <div id="viewBillModal" class="modal">
+      <div class="modal-content">
+        <div>
+          <span>Customer Name: <span id="VBcustomerName"></span></span
+          ><br />
+          <span>Restaurant Name: <span id="VBrestaurantName"></span></span
+          ><br />
+          <span
+            >Status: <span id="VBstatus"></span></span
+          ><br />
+        </div>
+        <table>
+          <thead>
+            <th>Food</th>
+            <th>Category</th>
+            <th>Type</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Total</th>
+          </thead>
+          <tbody id="viewBillTbody"></tbody>
+        </table>
       </div>
     </div>
 

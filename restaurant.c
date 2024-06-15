@@ -505,6 +505,7 @@ char *getAbsoluteStatus(char *orderid){
     return result;
 }
 
+
 void getViewBill(char *data)
 {
     FILE *file = fopen(DATABASE_ORDER, "r");

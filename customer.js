@@ -1,20 +1,20 @@
 const { ipcRenderer } = window.electron;
 
 if (ipcRenderer) {
+  document
+    .getElementById("confirmCartBtn")
+    .addEventListener("click", function () {
+      var func = "confirmCart";
+      var dataset = sessionStorage.getItem("username");
+      ipcRenderer.send("confirmCart", { func, dataset });
+    });
 
-  document.getElementById("confirmCartBtn").addEventListener('click', function() {
-    var func  = "confirmCart";
-    var dataset = sessionStorage.getItem("username");
-    ipcRenderer.send("confirmCart", { func, dataset });
-
-  });
-  
-  ipcRenderer.on('confirmCartResponse', (event, response) => {
+  ipcRenderer.on("confirmCartResponse", (event, response) => {
     res = response.result;
     var toastHTML = `<span>${res}</span>`;
     M.toast({ html: toastHTML });
     $("ul.tabs").tabs("select", "currentOrder");
-  })
+  });
 
   getRestaurantipc();
   function getRestaurantipc() {
@@ -26,11 +26,8 @@ if (ipcRenderer) {
     getRestaurantipc();
   });
 
-  function getCart() {
-    var func = "getCart";
-    var dataset = sessionStorage.getItem("username");
-    ipcRenderer.send("getCart", { func, dataset });
-  }
+ 
+
 
   function initializeCanvas() {
     const img = document.getElementById("grid-image");
@@ -43,12 +40,30 @@ if (ipcRenderer) {
     canvas.height = img.clientHeight;
     canvas.style.width = `${img.clientWidth}px`;
     canvas.style.height = `${img.clientHeight}px`;
-    canvas.style.position = 'absolute';
+    canvas.style.position = "absolute";
     canvas.style.top = `${img.offsetTop}px`;
     canvas.style.left = `${img.offsetLeft}px`;
 
     console.log("Canvas initialized");
-}
+  }
+
+  function initializeCanvas2() {
+    const img = document.getElementById("grid-image2");
+    const canvas = document.getElementById("drawing-canvas2");
+
+    // Set canvas size to match image size
+    canvas.width = img.clientWidth;
+    console.log(img.clientWidth);
+    console.log(img.clientHeight);
+    canvas.height = img.clientHeight;
+    canvas.style.width = `${img.clientWidth}px`;
+    canvas.style.height = `${img.clientHeight}px`;
+    canvas.style.position = "absolute";
+    canvas.style.top = `${img.offsetTop}px`;
+    canvas.style.left = `${img.offsetLeft}px`;
+
+    console.log("Canvas initialized");
+  }
 
   function addPinToGrid(gridNumber, path, coordinates) {
     const rows = 12;
@@ -70,7 +85,74 @@ if (ipcRenderer) {
     canvas.height = img.clientHeight;
     canvas.style.width = `${img.clientWidth}px`;
     canvas.style.height = `${img.clientHeight}px`;
-    canvas.style.position = 'absolute';
+    canvas.style.position = "absolute";
+    canvas.style.top = `${img.offsetTop}px`;
+    canvas.style.left = `${img.offsetLeft}px`;
+
+    console.log("Canvas initialized");
+    const container = img.parentElement;
+    const rect = img.getBoundingClientRect();
+
+    // Get image dimensions
+    const imgWidth = img.clientWidth;
+    const imgHeight = img.clientHeight;
+
+    // Calculate the size of each grid cell
+    const cellWidth = imgWidth / cols;
+    const cellHeight = imgHeight / rows;
+
+    // Calculate row and column of the grid number
+    const row = Math.floor(gridNumber / cols);
+    const col = gridNumber % cols;
+
+    // Calculate center coordinates of the grid cell
+    const centerX = col * cellWidth + cellWidth / 2;
+    const centerY = row * cellHeight + cellHeight / 2;
+
+    // Store coordinates for line drawing
+    coordinates.push({ x: centerX + rect.left, y: centerY + rect.top });
+
+    const pinIcon = document.createElement("img");
+
+    if (gridNumber === path[0]) {
+      pinIcon.src = "./mappin.webp";
+      pinIcon.style.width = "12px";
+    } else if (gridNumber === path[path.length - 1]) {
+      pinIcon.src = "./dest.png";
+      pinIcon.style.width = "20px";
+    } else {
+      pinIcon.style.width = "12px";
+      pinIcon.src = "./bluedot.png";
+    }
+    pinIcon.style.position = "absolute";
+    pinIcon.style.left = `${centerX + rect.left}px`;
+    pinIcon.style.top = `${centerY + rect.top}px`;
+    pinIcon.classList.add("pinco");
+
+    container.appendChild(pinIcon);
+  }
+
+  function addPinToGrid2(gridNumber, path, coordinates) {
+    const rows = 12;
+    const cols = 12;
+    const totalCells = rows * cols;
+
+    if (gridNumber < 0 || gridNumber >= totalCells) {
+      console.error("Invalid grid number");
+      return;
+    }
+
+    const img = document.getElementById("grid-image2");
+    const canvas = document.getElementById("drawing-canvas2");
+
+    // Set canvas size to match image size
+    canvas.width = img.clientWidth;
+    console.log(img.clientWidth);
+    console.log(img.clientHeight);
+    canvas.height = img.clientHeight;
+    canvas.style.width = `${img.clientWidth}px`;
+    canvas.style.height = `${img.clientHeight}px`;
+    canvas.style.position = "absolute";
     canvas.style.top = `${img.offsetTop}px`;
     canvas.style.left = `${img.offsetLeft}px`;
 
@@ -118,8 +200,8 @@ if (ipcRenderer) {
   }
 
   function drawLines(coordinates) {
-    const canvas = document.getElementById('drawing-canvas');
-    const ctx = canvas.getContext('2d');
+    const canvas = document.getElementById("drawing-canvas");
+    const ctx = canvas.getContext("2d");
     const rect = canvas.getBoundingClientRect();
 
     console.log("Drawing lines...");
@@ -129,24 +211,53 @@ if (ipcRenderer) {
     ctx.beginPath();
 
     coordinates.forEach((coord, index) => {
-        console.log("Coordinate:", coord);
-        // Convert coordinates to canvas-relative
-        const x = (coord.x - rect.left + 5);
-        const y = (coord.y - rect.top + 5);
+      console.log("Coordinate:", coord);
+      // Convert coordinates to canvas-relative
+      const x = coord.x - rect.left + 5;
+      const y = coord.y - rect.top + 5;
 
-        console.log("Drawing line to:", x, y);
-        if (index === 0) {
-            ctx.moveTo(x, y);
-        } else {
-            ctx.lineTo(x, y);
-        }
+      console.log("Drawing line to:", x, y);
+      if (index === 0) {
+        ctx.moveTo(x, y);
+      } else {
+        ctx.lineTo(x, y);
+      }
     });
 
-    ctx.strokeStyle = 'blue';
+    ctx.strokeStyle = "blue";
     ctx.lineWidth = 2;
     ctx.stroke();
-}
+  }
 
+  function drawLines2(coordinates) {
+    const canvas = document.getElementById("drawing-canvas2");
+    const ctx = canvas.getContext("2d");
+    const rect = canvas.getBoundingClientRect();
+
+    console.log("Drawing lines...");
+    console.log("Canvas size:", canvas.width, canvas.height);
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.beginPath();
+
+    coordinates.forEach((coord, index) => {
+      console.log("Coordinate:", coord);
+      // Convert coordinates to canvas-relative
+      const x = coord.x - rect.left + 5;
+      const y = coord.y - rect.top + 5;
+
+      console.log("Drawing line to:", x, y);
+      if (index === 0) {
+        ctx.moveTo(x, y);
+      } else {
+        ctx.lineTo(x, y);
+      }
+    });
+
+    ctx.strokeStyle = "blue";
+    ctx.lineWidth = 2;
+    ctx.stroke();
+  }
 
   function pinPathMap(path) {
     const coordinates = [];
@@ -156,8 +267,17 @@ if (ipcRenderer) {
     console.log(coordinates);
     drawLines(coordinates);
   }
+
+  function pinPathMap2(path) {
+    const coordinates = [];
+    path.forEach((item) => {
+      addPinToGrid2(item, path, coordinates);
+    });
+    console.log(coordinates);
+    drawLines2(coordinates);
+  }
   document.getElementById("cartTab").addEventListener("click", function () {
-    const img = document.getElementById('grid-image');
+    const img = document.getElementById("grid-image");
     const canvas = document.getElementById("drawing-canvas");
 
     // Set canvas size to match image size
@@ -167,15 +287,25 @@ if (ipcRenderer) {
     canvas.height = img.clientHeight;
     canvas.style.width = `${img.clientWidth}px`;
     canvas.style.height = `${img.clientHeight}px`;
-    canvas.style.position = 'absolute';
+    canvas.style.position = "absolute";
     canvas.style.top = `${img.offsetTop}px`;
     canvas.style.left = `${img.offsetLeft}px`;
-
+    $("#resnameCart").text("");
+    $("#resusernameCart").text("");
+    $("#editCartBtn").removeAttr("onclick");
+    $("#distanceCart").text("");
+    $("#timetakenCart").text("");
     getCart();
-    img.onload = function() {
-        initializeCanvas();
+    img.onload = function () {
+      initializeCanvas();
     };
   });
+
+  function getCart() {
+    var func = "getCart";
+    var dataset = sessionStorage.getItem("username");
+    ipcRenderer.send("getCart", { func, dataset });
+  }
 
   ipcRenderer.on("getCartResponse", (event, response) => {
     var res = response.result;
@@ -213,35 +343,117 @@ if (ipcRenderer) {
     // console.log(dataset)
     $("#resnameCart").text(res[0].resname);
     $("#resusernameCart").text(res[0].restaurantUsername);
-    $('#editCartBtn').attr("onclick", `showMenu('${res[0].restaurantUsername}')`)
+    $("#editCartBtn").attr(
+      "onclick",
+      `showMenu('${res[0].restaurantUsername}')`
+    );
     ipcRenderer.send("getPathCart", { func, dataset });
   });
 
-  function searchRestaurant(search){
-    var func = "searchMenuForItemGiven"
+  document.getElementById("currentTab").addEventListener("click", function () {
+    const img = document.getElementById("grid-image2");
+    const canvas = document.getElementById("drawing-canvas2");
+
+    // Set canvas size to match image size
+    canvas.width = img.clientWidth;
+    console.log(img.clientWidth);
+    console.log(img.clientHeight);
+    canvas.height = img.clientHeight;
+    canvas.style.width = `${img.clientWidth}px`;
+    canvas.style.height = `${img.clientHeight}px`;
+    canvas.style.position = "absolute";
+    canvas.style.top = `${img.offsetTop}px`;
+    canvas.style.left = `${img.offsetLeft}px`;
+    $("#resnameCurrent").text("");
+    $("#resusernameCurrent").text("");
+    $("#statusCurrent").text("");
+    $("#dmnameCurrent").text("");
+    $("#distanceCurrent").text("");
+    $("#timetakenCurrent").text("");
+    getCurrent();
+    img.onload = function () {
+      initializeCanvas2();
+    };
+  });
+
+  function getCurrent() {
+    var func = "getCurrent";
+    var dataset = sessionStorage.getItem("username");
+    ipcRenderer.send("getCurrent", { func, dataset });
+  }
+
+  ipcRenderer.on("getCurrentResponse", (event, response) => {
+    var res = response.result;
+    console.log(res);
+    const tableBody = document.getElementById("currentTableBody");
+    var total = 0;
+
+    tableBody.innerHTML = "";
+
+    res.forEach((item) => {
+      total += item.price * item.quantity;
+      const row = `<tr id="${item.id}menutr">
+      <td>${item.food}</td>
+      <td>${item.category}</td>
+      <td>${item.type}</td>
+      <td>${item.quantity}</td>
+      <td>${item.price}</td>
+      <td>${item.price * item.quantity}<td>
+      </tr>`;
+      tableBody.innerHTML += row;
+    });
+    row = `<tr>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <th>Total</th>
+    <th>${total}<th>
+    </tr>`;
+    tableBody.innerHTML += row;
+    var func = "getPathCart";
+    var dataset = [res[0].customerUsername, res[0].restaurantUsername].join(
+      ","
+    );
+    // console.log(dataset)
+    $("#resnameCurrent").text(res[0].resname);
+    $("#resusernameCurrent").text(res[0].restaurantUsername);
+    $("#statusCurrent").text(res[0].absolute_status);
+    $("#dmnameCurrent").text(res[0].deliveryMan);
+    ipcRenderer.send("getPathCurrent", { func, dataset });
+  });
+
+  function searchRestaurant(search) {
+    var func = "searchMenuForItemGiven";
     var dataset = [sessionStorage.getItem("username"), search].join(",");
-    ipcRenderer.send("searchMenuForItemGiven", { func , dataset });
-    if(search == null || search == ""){
+    ipcRenderer.send("searchMenuForItemGiven", { func, dataset });
+    if (search == null || search == "") {
       getRestaurantipc();
     }
   }
-  
+
   ipcRenderer.on("searchRestaurantResponse", (event, response) => {
     var res = response.result;
-    const restList = document.getElementById("restList");
-    restList.innerHTML = "";
-    // res.sort((a,b) => parseInt(a.distance) - parseInt(b.distance));
-    res.forEach((item) => {
-      const restaurant = ` <div class="row mp-card restListItem" onclick="showMenu('${item.username}')">
-          <div class="col s12"><h5>${item.restaurantName}</h5></div>
-          <div class="col s12">${item.distance}000 Meters</div>
-          <div class="col s12">${item.path}</div>
-          <div class="col s12">${item.address}</div>
-          <div class="col s12">${item.contact}</div>
-        </div>`;
-      restList.innerHTML += restaurant;
-    });
-  })
+    if(res.length < 1){
+      restList.innerHTML = "<h6 class='center-align red-text'>Can't Order Now, A Previous Order is Still Under Process</h6>";
+    }
+    else{
+      const restList = document.getElementById("restList");
+      restList.innerHTML = "";
+      // res.sort((a,b) => parseInt(a.distance) - parseInt(b.distance));
+      res.forEach((item) => {
+        const restaurant = ` <div class="row mp-card restListItem" onclick="showMenu('${item.username}')">
+            <div class="col s12"><h5>${item.restaurantName}</h5></div>
+            <div class="col s12">${item.distance}000 Meters</div>
+            <div class="col s12">${item.path}</div>
+            <div class="col s12">${item.address}</div>
+            <div class="col s12">${item.contact}</div>
+          </div>`;
+        restList.innerHTML += restaurant;
+      });
+    }
+   
+  });
 
   ipcRenderer.on("getPathCartResponse", (event, response) => {
     var res = response.result;
@@ -256,8 +468,25 @@ if (ipcRenderer) {
     pinPathMap(path);
   });
 
+  ipcRenderer.on("getPathCurrentResponse", (event, response) => {
+    var res = response.result;
+    var arr = res.split("|");
+    var distance = arr[0];
+    var path = arr[1].split(",");
+    $("#distanceCurrent").text(distance);
+    $("#timetakenCurrent").text(
+      Math.round((parseInt(distance) * 1000) / 500 + 20)
+    );
+    // $("#timetakenCart").text(arr[1]);
+    pinPathMap2(path);
+  });
+
   ipcRenderer.on("getRestaurantResponse", (event, response) => {
     var res = response.result;
+    if(res.length < 1){
+      restList.innerHTML = "<h6 class='center-align red-text'>Can't Order Now, A Previous Order is Still Under Process</h6>";
+    }
+    else{
     const restList = document.getElementById("restList");
     restList.innerHTML = "";
     // res.sort((a,b) => parseInt(a.distance) - parseInt(b.distance));
@@ -271,6 +500,7 @@ if (ipcRenderer) {
         </div>`;
       restList.innerHTML += restaurant;
     });
+  }
   });
 
   function showMenu(username) {
@@ -390,11 +620,11 @@ if (ipcRenderer) {
     ipcRenderer.send("getCustomerLocation", { func, dataset });
   });
 
-  $(document).ready(function() {
+  $(document).ready(function () {
     func = "getCustomerLocation";
     dataset = sessionStorage.getItem("username");
     ipcRenderer.send("getCustomerLocation", { func, dataset });
-  })
+  });
 
   const elements = document.querySelectorAll(".tab");
 
@@ -511,7 +741,7 @@ if (ipcRenderer) {
     ipcRenderer.send("setUserCart", { func, dataset });
   }
 
-  function goToCart(){
+  function goToCart() {
     $("ul.tabs").tabs("select", "cartPage");
   }
 
@@ -520,6 +750,70 @@ if (ipcRenderer) {
     var toastHTML = `<span>${res}</span><button class="btn-flat toast-action" onclick="goToCart()">Check Out</button>`;
     M.toast({ html: toastHTML });
   });
+
+  document.getElementById("oldTab").addEventListener("click", () => {
+    getOldOrder();
+  });
+  function getOldOrder(){
+    var func = "getOldOrderCustomer";
+    var dataset = sessionStorage.getItem("username");
+    ipcRenderer.send("getOldOrderCustomer", { func, dataset });
+  }
+
+  ipcRenderer.on('oldOrderCustomerGet', (event, response) => {
+    res = response.result;
+    const tableBody = document.getElementById("oldOrderTbody");
+
+    tableBody.innerHTML = "";
+
+    res.forEach((item) => {
+      const row = `<tr id="${item.orderid}menutr">
+      <td>${item.time}</td>
+      <td>${item.orderid}</td>
+      <td>${item.restaurant_name}</td>
+      <td><a onclick="viewBill(${item.orderid})" class="amber btn-small modal-trigger" href="#viewBillModal"><i class="material-icons">visibility</i></a><td>
+      </tr>`;
+      tableBody.innerHTML += row;
+    });
+  })
+
+  function viewBill(orderid){
+    var func = "getViewBillCustomer";
+    var dataset = orderid;
+    ipcRenderer.send("getViewBillCustomer", {func,dataset}); 
+  }
+
+  ipcRenderer.on("viewBillCustomerGet", (event, response) => {
+    res = response.result;
+    const tableBody = document.getElementById("viewBillTbody");
+    var total = 0;
+    tableBody.innerHTML = "";
+    $('#VBcustomerName').text(res[0].user_name);
+    $('#VBrestaurantName').text(res[0].restaurantName);
+    $('#VBstatus').text(res[0].absolute_status);
+
+    res.forEach((item) => {
+      total += item.price * item.quantity;
+      const row = `<tr id="${item.itemid}menutr">
+      <td>${item.itemname}</td>
+      <td>${item.item_category}</td>
+      <td>${item.item_type}</td>
+      <td>${item.quantity}</td>
+      <td>${item.price}</td>
+      <td>${item.price * item.quantity}</td>
+      </tr>`;
+      tableBody.innerHTML += row;
+    });
+    row = `<tr>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <th>Total</th>
+    <th>${total}<th>
+    </tr>`;
+    tableBody.innerHTML += row;
+  })
 } else {
   console.error("ipcRenderer is not properly initialized.");
 }

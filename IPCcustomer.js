@@ -115,3 +115,50 @@ ipcMain.on('confirmCart', (event, { func, dataset }) => {
     backendProcess.stdin.write(`${func} ${dataset}\n`);
 });
 
+
+ipcMain.on('getCurrent', (event, { func, dataset }) => {
+    const backendProcess = spawn('./backend', [], { cwd: __dirname });
+
+    backendProcess.stdout.on('data', (data) => {
+        const result = JSON.parse(data.toString());
+        global.mainWindow.webContents.send('getCurrentResponse', { result });
+        console.log(result);
+    });
+    console.log(`${func} ${dataset}`);
+
+    backendProcess.stdin.write(`${func} ${dataset}\n`);
+});
+ipcMain.on('getPathCurrent', (event, { func, dataset }) => {
+    const backendProcess = spawn('./backend', [], { cwd: __dirname });
+
+    backendProcess.stdout.on('data', (data) => {
+        const result = data.toString();
+        global.mainWindow.webContents.send('getPathCurrentResponse', { result });
+        console.log(result);
+    });
+    console.log(`${func} ${dataset}`);
+
+    backendProcess.stdin.write(`${func} ${dataset}\n`);
+});
+ipcMain.on('getOldOrderCustomer', (event, { func, dataset }) => {
+    const backendProcess = spawn('./backend', [], { cwd: __dirname });
+
+    backendProcess.stdout.on('data', (data) => {
+        const result = JSON.parse(data.toString());
+        global.mainWindow.webContents.send('oldOrderCustomerGet', { result });
+        console.log(result);
+    });
+    console.log(`${func} ${dataset}`);
+    backendProcess.stdin.write(`${func} ${dataset}\n`);
+});
+ipcMain.on('getViewBillCustomer', (event, { func, dataset }) => {
+    const backendProcess = spawn('./backend', [], { cwd: __dirname });
+
+    backendProcess.stdout.on('data', (data) => {
+        const result = JSON.parse(data.toString());
+        global.mainWindow.webContents.send('viewBillCustomerGet', { result });
+        console.log(result);
+    });
+    console.log(`${func} ${dataset}`);
+    backendProcess.stdin.write(`${func} ${dataset}\n`);
+});

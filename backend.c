@@ -352,6 +352,14 @@ int main()
         {
            getPathCart(data);
         }
+        else if (strcmp(function, "getCurrent") == 0)
+        {
+           getCurrent(data);
+        }
+         else if (strcmp(function, "getPathCurrent") == 0)
+        {
+           getPathCurrent(data);
+        }
         else if (strcmp(function, "setDeliveryManLocation") == 0)
         {
            setDeliveryManLocation(data);
@@ -407,6 +415,14 @@ int main()
         else if (strcmp(function, "getOldAlloc") == 0)
         {
            getOldAlloc(data);
+        }
+        else if (strcmp(function, "getOldOrderCustomer") == 0)
+        {
+           getOldOrderCustomer(data);
+        }
+         else if (strcmp(function, "getViewBillCustomer") == 0)
+        {
+           getViewBillCustomer(data);
         }
     }
 
