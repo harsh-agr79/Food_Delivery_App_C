@@ -364,13 +364,7 @@ if (ipcRenderer) {
     canvas.style.position = "absolute";
     canvas.style.top = `${img.offsetTop}px`;
     canvas.style.left = `${img.offsetLeft}px`;
-    $("#resnameCurrent").text("");
-    $("#resusernameCurrent").text("");
-    $("#statusCurrent").text("");
-    $("#dmnameCurrent").text("");
-    $("#distanceCurrent").text("");
-    $("#timetakenCurrent").text("");
-    $('#reviewCard').addClass("hide");
+    
     getCurrent();
     img.onload = function () {
       initializeCanvas2();
@@ -378,6 +372,14 @@ if (ipcRenderer) {
   });
 
   function getCurrent() {
+    $("#resnameCurrent").text("");
+    $("#resusernameCurrent").text("");
+    $("#statusCurrent").text("");
+    $("#dmnameCurrent").text("");
+    $("#distanceCurrent").text("");
+    $("#timetakenCurrent").text("");
+    $('#reviewCard').addClass("hide");
+    $(".SRBTN").removeAttr("onclick");
     var func = "getCurrent";
     var dataset = sessionStorage.getItem("username");
     ipcRenderer.send("getCurrent", { func, dataset });
@@ -423,9 +425,11 @@ if (ipcRenderer) {
     $("#dmnameCurrent").text(res[0].deliveryMan);
     if(res[0].review == "on"){
       $('#reviewCard').removeClass("hide");
+      $(".SRBTN").attr("onclick", `submitReview('${res[0].restaurantUsername}','${res[0].customerUsername}','${res[0].orderid}', this.value)`);
     }
     else{
       $('#reviewCard').addClass("hide");
+      $(".SRBTN").removeAttr("onclick");
     }
     ipcRenderer.send("getPathCurrent", { func, dataset });
   });
@@ -830,6 +834,36 @@ if (ipcRenderer) {
         $("#starRatingValue").text(ratingValue);
     });
 });
+
+
+  function submitReview(rest,cust,oid,type){
+    if(type == "later"){
+      $("#starRatingValue").text("");
+      $('#review').val("");
+    }
+    var rating = $('#starRatingValue').text();
+    var review = $('#review').val();
+    var func = "submitReview";
+    if(rating == ""){
+      rating = "NULL";
+    }
+    if(review == ""){
+      review = "NULL";
+    }
+    var dataset = [oid,cust,rest,rating,review].join(",");
+    if(type == "submit" && rating == "NULL" && review == "NULL"){
+      $("#starRatingValue").text("Rating and Comment Required to Submit Review.")
+    }
+    else{
+      ipcRenderer.send("submitReview", {func, dataset});
+    }
+  }
+
+  ipcRenderer.on("reviewSubmitted", (event, response) => {
+    res = response.result;
+    M.toast({ html: res });
+    getCurrent()
+  })
 } else {
   console.error("ipcRenderer is not properly initialized.");
 }

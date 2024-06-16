@@ -424,6 +424,10 @@ int main()
         {
            getViewBillCustomer(data);
         }
+        else if (strcmp(function, "submitReview") == 0)
+        {
+           submitReview(data);
+        }
     }
 
     return 0;

@@ -1084,6 +1084,8 @@ void getCurrent(char *data)
                     printf(","); // Add comma for subsequent items
                 }
                 printf("{");
+
+                printf("\"orderid\": \"%s\",", oid);
                 printf("\"customerUsername\": \"%s\",", username);
                 printf("\"resname\": \"%s\",", restaurant_name);
                 printf("\"absolute_status\": \"%s\",", getAbsoluteStatusCustomer(oid));
@@ -1508,4 +1510,39 @@ void getOldOrderCustomer(char *data)
     printf("]");
     fflush(stdout);
     fclose(file);
+}
+
+void submitReview(char *dataset){
+    FILE *file = fopen(DATABASE_FEEDBACK, "r");
+    if (file == NULL)
+    {
+        perror("Error opening menu file");
+    }
+    int chkfin = 1;
+    char line[1000];
+    char did[100],drest[100],dcust[100],drate[100],dreview[100];
+    sscanf(dataset,"%[^,],%[^,],%[^,],%[^,],%[^\n]",did,dcust,drest,drate,dreview);
+    while (fgets(line, sizeof(line), file))
+    {
+        char oid[100];
+        char user[100];
+        char rest[100];
+        int rating;
+        char comment[500];
+        sscanf(line, "%[^,],%[^,],%[^,],%d,%[^\n]", oid, user, rest, &rating, comment);
+        if(strcmp(oid,did) == 0){
+            chkfin = 0;
+        }
+    }
+    fclose(file);
+    if(chkfin){
+        file = fopen(DATABASE_FEEDBACK, "a");
+        fprintf(file,"%s\n",dataset);
+        printf("Review has been submitted!");
+    }
+    else{
+        printf("Cannot Submit this review");
+    }
+    fclose(file);
+    fflush(stdout);
 }
