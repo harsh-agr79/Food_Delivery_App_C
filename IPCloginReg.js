@@ -28,3 +28,7 @@ ipcMain.on('registersubmit', (event, { tryfunc , dataset }) => {
     backendProcess.stdin.write(`${tryfunc} ${dataset}\n`);
 });
 
+ipcMain.on("logout", (event) => {
+    console.log("logout");
+    global.mainWindow.webContents.send('clearSession');
+  })

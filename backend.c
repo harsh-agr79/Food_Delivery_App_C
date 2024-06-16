@@ -227,7 +227,7 @@ int registerRes(char *data)
      char resname[MAX_USERNAME_LENGTH];
      sscanf(data,"%[^,],%[^,],%[^,]", resname,name, username);
      if(username_validate(username) == 0){
-        fprintf(file, "%s\n", data);
+        fprintf(file, "%s,0\n", data);
         fclose(file);
         return 1;
      }

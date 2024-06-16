@@ -380,6 +380,9 @@ if (ipcRenderer) {
     $("#timetakenCurrent").text("");
     $('#reviewCard').addClass("hide");
     $(".SRBTN").removeAttr("onclick");
+    $("#starRatingValue").text("");
+    $('#starRating .material-icons').removeClass('selected');
+    $("#review").val("");
     var func = "getCurrent";
     var dataset = sessionStorage.getItem("username");
     ipcRenderer.send("getCurrent", { func, dataset });
@@ -456,6 +459,7 @@ if (ipcRenderer) {
         const restaurant = ` <div class="row mp-card restListItem" onclick="showMenu('${item.username}')">
             <div class="col s12"><h5>${item.restaurantName}</h5></div>
             <div class="col s12">${item.distance}000 Meters</div>
+          <div class="col s12">Rating: ${item.rating} stars</div>
             <div class="col s12">${item.path}</div>
             <div class="col s12">${item.address}</div>
             <div class="col s12">${item.contact}</div>
@@ -505,6 +509,7 @@ if (ipcRenderer) {
       const restaurant = ` <div class="row mp-card restListItem" onclick="showMenu('${item.username}')">
           <div class="col s12"><h5>${item.restaurantName}</h5></div>
           <div class="col s12">${item.distance}000 Meters</div>
+          <div class="col s12">Rating: ${item.rating} stars</div>
           <div class="col s12">${item.path}</div>
           <div class="col s12">${item.address}</div>
           <div class="col s12">${item.contact}</div>
@@ -864,6 +869,15 @@ if (ipcRenderer) {
     M.toast({ html: res });
     getCurrent()
   })
+
+  function logout(){
+    ipcRenderer.send("logout");
+  }
+  ipcRenderer.on("clearSession", (event) => {
+    sessionStorage.clear();
+    console.log("clear");
+    ipcRenderer.send("gotologin");
+  });
 } else {
   console.error("ipcRenderer is not properly initialized.");
 }

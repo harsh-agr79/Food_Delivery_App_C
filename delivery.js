@@ -360,7 +360,14 @@ if (ipcRenderer) {
     });
   })
 
-
+  function logout(){
+    ipcRenderer.send("logout");
+  }
+  ipcRenderer.on("clearSession", (event) => {
+    sessionStorage.clear();
+    console.log("clear");
+    ipcRenderer.send("gotologin");
+  });
   
 } else {
   console.error("ipcRenderer is not properly initialized.");

@@ -17,6 +17,7 @@
 #define DATABASE_LOCATION "location.txt"
 #define DATABASE_ORDER "order.txt"
 #define DATABASE_DELIVERY_ALLOCATION "delivery_allocation.txt"
+#define DATABASE_FEEDBACK "feedbacks.txt"
 
 typedef struct
 {
@@ -442,15 +443,16 @@ void getRecentOrder(char *data)
     fflush(stdout);
     fclose(file);
 }
-char *getAbsoluteStatus(char *orderid){
+char *getAbsoluteStatus(char *orderid)
+{
     FILE *file = fopen(DATABASE_ORDER, "r");
     if (file == NULL)
     {
         perror("Error opening menu file");
     }
-     char line[5000];
-     char res[100];
-     while (fgets(line, sizeof(line), file))
+    char line[5000];
+    char res[100];
+    while (fgets(line, sizeof(line), file))
     {
         // Parse line into variables
         char oid[100];
@@ -472,14 +474,15 @@ char *getAbsoluteStatus(char *orderid){
 
         if (sscanf(line, "%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%d,%d,%[^,],%[^,],%[^,],%[^,],%[^\n]", oid, user_name, username, restaurant_name, restaurant_username, itemid, itemname, item_category, item_type, &qty, &price, contact, address, pincode, time, status) == 16)
         {
-            if(strcmp(status, "pending") == 0 && strcmp(oid, orderid) == 0){
-                strcpy(res,"pending");
+            if (strcmp(status, "pending") == 0 && strcmp(oid, orderid) == 0)
+            {
+                strcpy(res, "pending");
             }
         }
     }
     fclose(file);
     file = fopen(DATABASE_DELIVERY_ALLOCATION, "r");
-     while (fgets(line, sizeof(line), file))
+    while (fgets(line, sizeof(line), file))
     {
         char oid[100];
         char user[100];
@@ -487,24 +490,25 @@ char *getAbsoluteStatus(char *orderid){
         sscanf(line, "%[^,],%[^,],%[^\n]", oid, user, status);
         if (strcmp(user, "Not Allocated") == 0 && strcmp(oid, orderid) == 0)
         {
-            strcpy(res,"Accepted, preparing");  
+            strcpy(res, "Accepted, preparing");
         }
-        if (strcmp(user, "Not Allocated") != 0 && strcmp(oid, orderid) == 0){
-            strcpy(res,"Delivery Man Allocated, Preparing");
+        if (strcmp(user, "Not Allocated") != 0 && strcmp(oid, orderid) == 0)
+        {
+            strcpy(res, "Delivery Man Allocated, Preparing");
         }
         if (strcmp(status, "Picked up. On the Way") == 0 && strcmp(oid, orderid) == 0)
         {
-             strcpy(res,"Picked up. On the Way");  
+            strcpy(res, "Picked up. On the Way");
         }
-        if(strcmp(status, "Delivered") == 0 && strcmp(oid, orderid) == 0){
-            strcpy(res,"Delivered");  
+        if (strcmp(status, "Delivered") == 0 && strcmp(oid, orderid) == 0)
+        {
+            strcpy(res, "Delivered");
         }
     }
     fclose(file);
     char *result = strdup(res);
     return result;
 }
-
 
 void getViewBill(char *data)
 {
@@ -642,7 +646,6 @@ void changeOrderStatus(char *data)
     char lines[500][1000];
     int count = 0;
 
-
     sscanf(data, "%[^,],%[^,]", oid, stat);
 
     deliveryAllocate(oid);
@@ -727,8 +730,6 @@ void getCurrentOrder(char *data)
 
     int isFirstItem = 1; // Flag to track the first item in JSON array
     int unoid = 0;
-  
-
 
     printf("[");
     while (fgets(line, sizeof(line), file))
@@ -755,8 +756,10 @@ void getCurrentOrder(char *data)
         if (sscanf(line, "%d,%[^,],%[^,],%[^,],%[^,],%d,%[^,],%[^,],%[^,],%d,%d,%[^,],%[^,],%[^,],%[^,],%[^\n]s", &orderid, user_name, username, restaurant_name, restaurant_username, &itemid, itemname, item_category, item_type, &qty, &price, contact, address, pincode, time, status) == 16)
         {
             // printf("%d", orderid);
-            for(int i = 0; i < oidcnt; i++){
-                if(oids[i] == orderid){
+            for (int i = 0; i < oidcnt; i++)
+            {
+                if (oids[i] == orderid)
+                {
                     check = 1;
                 }
             }
@@ -818,8 +821,6 @@ void getOldOrder(char *data)
 
     int isFirstItem = 1; // Flag to track the first item in JSON array
     int unoid = 0;
-  
-
 
     printf("[");
     while (fgets(line, sizeof(line), file))
@@ -846,8 +847,10 @@ void getOldOrder(char *data)
         if (sscanf(line, "%d,%[^,],%[^,],%[^,],%[^,],%d,%[^,],%[^,],%[^,],%d,%d,%[^,],%[^,],%[^,],%[^,],%[^\n]s", &orderid, user_name, username, restaurant_name, restaurant_username, &itemid, itemname, item_category, item_type, &qty, &price, contact, address, pincode, time, status) == 16)
         {
             // printf("%d", orderid);
-            for(int i = 0; i < oidcnt; i++){
-                if(oids[i] == orderid){
+            for (int i = 0; i < oidcnt; i++)
+            {
+                if (oids[i] == orderid)
+                {
                     check = 1;
                 }
             }
@@ -874,5 +877,97 @@ void getOldOrder(char *data)
     }
     printf("]");
     fflush(stdout);
+    fclose(file);
+}
+
+void updateAvgRating(char *restaurant)
+{
+    FILE *file = fopen(DATABASE_FEEDBACK, "r");
+    if (file == NULL)
+    {
+        perror("Error opening feedback file");
+        return;
+    }
+    char line[1000];
+    float rcnt = 0;
+    float rsum = 0;
+    while (fgets(line, sizeof(line), file))
+    {
+        char oid[100];
+        char user[100];
+        char rest[100];
+        int rating;
+        char comment[500];
+        char rate[100];
+        sscanf(line, "%[^,],%[^,],%[^,],%[^,],%[^\n]", oid, user, rest, rate, comment);
+        sscanf(line, "%[^,],%[^,],%[^,],%d,%[^\n]", oid, user, rest, &rating, comment);
+        if(strcmp(rate,"NULL") == 0){
+            rating = 0;
+        }
+        if (strcmp(rest, restaurant) == 0)
+        {
+            rcnt++;
+            rsum += rating;
+        }
+    }
+    fclose(file);
+
+    // Avoid division by zero
+    if (rcnt == 0)
+    {
+        fprintf(stderr, "No ratings found for the restaurant %s\n", restaurant);
+        return;
+    }
+
+    float avgRating = rsum / rcnt;
+
+    // Reading the restaurant file and updating the rating
+    file = fopen(DATABASE_RESTAURANT, "r");
+    if (file == NULL)
+    {
+        perror("Error opening restaurant file");
+        return;
+    }
+
+    char lines[500][1000];
+    int cnt = 0;
+    while (fgets(line, sizeof(line), file))
+    {
+        // Parse line into variables
+        char restaurantname[MAX_RESTAURANT_NAME_LEN];
+        char user[MAX_RESTAURANT_NAME_LEN];
+        char username[MAX_ITEM_NAME_LEN];
+        char password[MAX_ITEM_NAME_LEN];
+        char contact[MAX_CATEGORY_LEN];
+        char address[MAX_CATEGORY_LEN];
+        char pincode[MAX_CATEGORY_LEN];
+        float oldRating;
+
+        if (sscanf(line, "%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%f", restaurantname, user, username, password, contact, address, pincode, &oldRating) == 8)
+        {
+            if (strcmp(username, restaurant) == 0)
+            {
+                sprintf(lines[cnt], "%s,%s,%s,%s,%s,%s,%s,%.2f\n", restaurantname, user, username, password, contact, address, pincode, avgRating);
+            }
+            else
+            {
+                strcpy(lines[cnt], line);
+            }
+            cnt++;
+        }
+    }
+    fclose(file);
+
+    // Writing the updated content back to the restaurant file
+    file = fopen(DATABASE_RESTAURANT, "w");
+    if (file == NULL)
+    {
+        perror("Error opening restaurant file for writing");
+        return;
+    }
+    for (int i = 0; i < cnt; i++)
+    {
+        fprintf(file, "%s", lines[i]);
+    }
     fclose(file);
 }

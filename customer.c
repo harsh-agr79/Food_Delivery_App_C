@@ -69,11 +69,23 @@ typedef struct
     char pincode[MAX_CATEGORY_LEN];
     int distance;
     char path[500]; // Assuming getPath() returns a string less than 500 chars
+    float rating;
 } Restaurant;
 
-int compareByDistance(const void *a, const void *b)
+int compareByRatingAndDistance(const void *a, const void *b)
 {
-    return ((Restaurant *)a)->distance - ((Restaurant *)b)->distance;
+    Restaurant *entryA = (Restaurant *)a;
+    Restaurant *entryB = (Restaurant *)b;
+
+    if (entryA->distance != entryB->distance)
+        return entryA->distance - entryB->distance;
+
+    if (entryA->rating < entryB->rating)
+        return 1;
+    if (entryA->rating > entryB->rating)
+        return -1;
+
+    return 0;
 }
 
 int getDistance(char *customer, char *restaurant)
@@ -512,8 +524,9 @@ void getRestaurants(char *customer)
         char contact[MAX_CATEGORY_LEN];
         char address[MAX_CATEGORY_LEN];
         char pincode[MAX_CATEGORY_LEN];
+        float rating;
 
-        if (sscanf(line, "%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%[^\n]s", restaurantname, user, username, password, contact, address, pincode) == 7)
+        if (sscanf(line, "%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%f", restaurantname, user, username, password, contact, address, pincode,&rating) == 8)
         {
             strcpy(restaurants[count].restaurantName, restaurantname);
             strcpy(restaurants[count].username, username);
@@ -522,13 +535,14 @@ void getRestaurants(char *customer)
             strcpy(restaurants[count].pincode, pincode);
             restaurants[count].distance = getDistance(customer, username);
             strcpy(restaurants[count].path, getPath(customer, username));
+            restaurants[count].rating = rating;
             count++;
         }
     }
     fclose(file);
 
     // Sort the array of structs by distance
-    qsort(restaurants, count, sizeof(Restaurant), compareByDistance);
+    qsort(restaurants, count, sizeof(Restaurant), compareByRatingAndDistance);
 
     // Print the sorted array in JSON format
     printf("[");
@@ -546,6 +560,7 @@ void getRestaurants(char *customer)
             printf("\"contact\": \"%s\",", restaurants[i].contact);
             printf("\"distance\": \"%d\",", restaurants[i].distance);
             printf("\"path\": \"%s\",", restaurants[i].path);
+            printf("\"rating\": %f,", restaurants[i].rating);
             printf("\"address\": \"%s, %s\"", restaurants[i].address, restaurants[i].pincode);
             printf("}");
         }
@@ -1153,13 +1168,23 @@ typedef struct
     char pincode[10];
     int distance;
     char path[50];
+    float rating;
 } RestaurantEntry;
 
 int compareByDistance3(const void *a, const void *b)
 {
     RestaurantEntry *entryA = (RestaurantEntry *)a;
     RestaurantEntry *entryB = (RestaurantEntry *)b;
-    return entryA->distance - entryB->distance;
+
+    if (entryA->distance != entryB->distance)
+        return entryA->distance - entryB->distance;
+
+    if (entryA->rating < entryB->rating)
+        return 1;
+    if (entryA->rating > entryB->rating)
+        return -1;
+
+    return 0;
 }
 
 int searchRestaurantByID(char *restaurantIDs[], int numRestaurants, char *user)
@@ -1214,6 +1239,10 @@ int searchRestaurantByID(char *restaurantIDs[], int numRestaurants, char *user)
         if (token != NULL)
             strncpy(entry.pincode, token, sizeof(entry.pincode) - 1);
 
+        token = strtok(NULL, ",");
+        if (token != NULL)
+            entry.rating = atof(token);
+
         entry.distance = getDistance(user, entry.username);
         strcpy(entry.path, getPath(user, entry.username)); // USE DIJKSTRA FROM dijkstra.c to access those functions
 
@@ -1260,7 +1289,8 @@ int searchRestaurantByID(char *restaurantIDs[], int numRestaurants, char *user)
             printf("\"contact\": \"%s\",", entries[i].contact);
             printf("\"distance\": %d,", entries[i].distance);
             printf("\"path\": \"%s\",", entries[i].path);
-            printf("\"address\": \"%s, %s\"", entries[i].address, entries[i].pincode);
+            printf("\"address\": \"%s, %s\",", entries[i].address, entries[i].pincode);
+            printf("\"rating\": %f", entries[i].rating);
             printf("}");
         }
     }
@@ -1545,4 +1575,5 @@ void submitReview(char *dataset){
     }
     fclose(file);
     fflush(stdout);
+    updateAvgRating(drest);
 }
