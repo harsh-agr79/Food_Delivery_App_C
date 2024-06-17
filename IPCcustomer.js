@@ -198,3 +198,15 @@ ipcMain.on('addRecToCart', (event, { func, dataset }) => {
     console.log(`${func} ${dataset}`);
     backendProcess.stdin.write(`${func} ${dataset}\n`);
 });
+
+ipcMain.on('getUserCartInfo', (event, { func, dataset }) => {
+    const backendProcess = spawn('./backend', [], { cwd: __dirname });
+
+    backendProcess.stdout.on('data', (data) => {
+        const result = data.toString();
+        global.mainWindow.webContents.send('userCartInfoGet', { result });
+        console.log(result);
+    });
+    console.log(`${func} ${dataset}`);
+    backendProcess.stdin.write(`${func} ${dataset}\n`);
+});

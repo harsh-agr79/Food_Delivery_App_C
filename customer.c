@@ -427,6 +427,73 @@ int setUserCart(char *data)
     return 1;
 }
 
+int getUserCartInfo(char *data)
+{
+    FILE *file = fopen(DATABASE_CART, "r");
+    if (file == NULL)
+    {
+        // printf("Error opening file for reading.\n");
+        return 0;
+    }
+    // // Read lines from the file into an array
+    char lines[500][1000];
+    char line[1000];
+    char username[1000];
+    char resusername[1000];
+    char db_username[1000];
+    char db_resname[1000];
+    char db_resusername[1000];
+    char dataset[5000];
+    char editline[1000];
+    char id[10];
+    int count = 0;
+    char *values[MAX_LINES];
+    int value_count = 0;
+    int rescheck = 0;
+
+    sscanf(data, "%[^,],%[^,],%[^\n]s", username, resusername, dataset);
+
+    char *token = strtok(dataset, "|");
+
+    while (token != NULL)
+    {
+        values[value_count] = token;
+        value_count++;
+        token = strtok(NULL, "|");
+    }
+
+    while (fgets(line, sizeof(line), file))
+    {
+        sscanf(line, "%[^,],%[^,],%[^,]", db_username, db_resname, db_resusername);
+        if (strcmp(username, db_username))
+        {
+            sscanf(line, "%[^\n]s", editline);
+            strcpy(lines[count], editline);
+            count++;
+        }
+        else
+        {
+            if (strcmp(db_resusername, resusername))
+            {
+                rescheck = 1;
+            }
+        }
+    }
+
+    fclose(file);
+    
+    if (rescheck)
+    {
+        printf("Restaurant Change");
+    }
+    else
+    {
+        printf("No Change");
+    }
+    fflush(stdout);
+    return 1;
+}
+
 
 int allowedToOrder(char *user)
 {

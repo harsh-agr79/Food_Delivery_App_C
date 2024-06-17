@@ -1,7 +1,6 @@
 const { ipcRenderer } = window.electron;
 
 if (ipcRenderer) {
-
   function plus_rec(id) {
     console.log(id);
     a = parseInt($(`#${id}recinp`).val());
@@ -18,23 +17,22 @@ if (ipcRenderer) {
     }
   }
 
-  function addRecToCart(id){
+  function addRecToCart(id) {
     a = parseInt($(`#${id}recinp`).val());
-    if(a == 0){
-    M.toast({ html: "Quantity Cannot Be Null" });
-    }
-    else{
+    if (a == 0) {
+      M.toast({ html: "Quantity Cannot Be Null" });
+    } else {
       var func = "addRecToCart";
       var user = sessionStorage.getItem("username");
-      var dataset = [user,id,a].join(",");
-      ipcRenderer.send("addRecToCart", {func, dataset});
+      var dataset = [user, id, a].join(",");
+      ipcRenderer.send("addRecToCart", { func, dataset });
     }
   }
 
-  ipcRenderer.on("addedRecToCart", (event,response) => {
+  ipcRenderer.on("addedRecToCart", (event, response) => {
     M.toast({ html: response.result });
     getCart();
-  })
+  });
 
   document
     .getElementById("confirmCartBtn")
@@ -60,9 +58,6 @@ if (ipcRenderer) {
   document.getElementById("orderTab").addEventListener("click", function () {
     getRestaurantipc();
   });
-
- 
-
 
   function initializeCanvas() {
     const img = document.getElementById("grid-image");
@@ -335,14 +330,14 @@ if (ipcRenderer) {
       initializeCanvas();
     };
   });
-  
-  function recommendFood(id,user){
+
+  function recommendFood(id, user) {
     var func = "recommendFood";
-    var dataset = [id,user].join(",");
-    ipcRenderer.send("recommendFood", {func,dataset});
+    var dataset = [id, user].join(",");
+    ipcRenderer.send("recommendFood", { func, dataset });
   }
 
-  ipcRenderer.on("recommendFoodResponse", (event, response)=>{
+  ipcRenderer.on("recommendFoodResponse", (event, response) => {
     res = response.result;
 
     const recommendBody = document.getElementById("cartRecommend");
@@ -375,7 +370,7 @@ if (ipcRenderer) {
           </div>`;
       recommendBody.innerHTML += recItem;
     });
-  })
+  });
 
   function getCart() {
     var func = "getCart";
@@ -424,7 +419,7 @@ if (ipcRenderer) {
       `showMenu('${res[0].restaurantUsername}')`
     );
     ipcRenderer.send("getPathCart", { func, dataset });
-    recommendFood(res[0].id,res[0].customerUsername);
+    recommendFood(res[0].id, res[0].customerUsername);
   });
 
   document.getElementById("currentTab").addEventListener("click", function () {
@@ -441,7 +436,7 @@ if (ipcRenderer) {
     canvas.style.position = "absolute";
     canvas.style.top = `${img.offsetTop}px`;
     canvas.style.left = `${img.offsetLeft}px`;
-    
+
     getCurrent();
     img.onload = function () {
       initializeCanvas2();
@@ -455,10 +450,10 @@ if (ipcRenderer) {
     $("#dmnameCurrent").text("");
     $("#distanceCurrent").text("");
     $("#timetakenCurrent").text("");
-    $('#reviewCard').addClass("hide");
+    $("#reviewCard").addClass("hide");
     $(".SRBTN").removeAttr("onclick");
     $("#starRatingValue").text("");
-    $('#starRating .material-icons').removeClass('selected');
+    $("#starRating .material-icons").removeClass("selected");
     $("#review").val("");
     var func = "getCurrent";
     var dataset = sessionStorage.getItem("username");
@@ -503,12 +498,14 @@ if (ipcRenderer) {
     $("#resusernameCurrent").text(res[0].restaurantUsername);
     $("#statusCurrent").text(res[0].absolute_status);
     $("#dmnameCurrent").text(res[0].deliveryMan);
-    if(res[0].review == "on"){
-      $('#reviewCard').removeClass("hide");
-      $(".SRBTN").attr("onclick", `submitReview('${res[0].restaurantUsername}','${res[0].customerUsername}','${res[0].orderid}', this.value)`);
-    }
-    else{
-      $('#reviewCard').addClass("hide");
+    if (res[0].review == "on") {
+      $("#reviewCard").removeClass("hide");
+      $(".SRBTN").attr(
+        "onclick",
+        `submitReview('${res[0].restaurantUsername}','${res[0].customerUsername}','${res[0].orderid}', this.value)`
+      );
+    } else {
+      $("#reviewCard").addClass("hide");
       $(".SRBTN").removeAttr("onclick");
     }
     ipcRenderer.send("getPathCurrent", { func, dataset });
@@ -525,10 +522,10 @@ if (ipcRenderer) {
 
   ipcRenderer.on("searchRestaurantResponse", (event, response) => {
     var res = response.result;
-    if(res.length < 1){
-      restList.innerHTML = "<h6 class='center-align red-text'>Can't Order Now, A Previous Order is Still Under Process</h6>";
-    }
-    else{
+    if (res.length < 1) {
+      restList.innerHTML =
+        "<h6 class='center-align red-text'>Can't Order Now, A Previous Order is Still Under Process</h6>";
+    } else {
       const restList = document.getElementById("restList");
       restList.innerHTML = "";
       // res.sort((a,b) => parseInt(a.distance) - parseInt(b.distance));
@@ -544,7 +541,6 @@ if (ipcRenderer) {
         restList.innerHTML += restaurant;
       });
     }
-   
   });
 
   ipcRenderer.on("getPathCartResponse", (event, response) => {
@@ -575,15 +571,15 @@ if (ipcRenderer) {
 
   ipcRenderer.on("getRestaurantResponse", (event, response) => {
     var res = response.result;
-    if(res.length < 1){
-      restList.innerHTML = "<h6 class='center-align red-text'>Can't Order Now, A Previous Order is Still Under Process</h6>";
-    }
-    else{
-    const restList = document.getElementById("restList");
-    restList.innerHTML = "";
-    // res.sort((a,b) => parseInt(a.distance) - parseInt(b.distance));
-    res.forEach((item) => {
-      const restaurant = ` <div class="row mp-card restListItem" onclick="showMenu('${item.username}')">
+    if (res.length < 1) {
+      restList.innerHTML =
+        "<h6 class='center-align red-text'>Can't Order Now, A Previous Order is Still Under Process</h6>";
+    } else {
+      const restList = document.getElementById("restList");
+      restList.innerHTML = "";
+      // res.sort((a,b) => parseInt(a.distance) - parseInt(b.distance));
+      res.forEach((item) => {
+        const restaurant = ` <div class="row mp-card restListItem" onclick="showMenu('${item.username}')">
           <div class="col s12"><h5>${item.restaurantName}</h5></div>
           <div class="col s12">${item.distance}000 Meters</div>
           <div class="col s12">Rating: ${item.rating} stars</div>
@@ -591,9 +587,9 @@ if (ipcRenderer) {
           <div class="col s12">${item.address}</div>
           <div class="col s12">${item.contact}</div>
         </div>`;
-      restList.innerHTML += restaurant;
-    });
-  }
+        restList.innerHTML += restaurant;
+      });
+    }
   });
 
   function showMenu(username) {
@@ -750,8 +746,6 @@ if (ipcRenderer) {
     updatecart();
   }
 
- 
-
   function updatecart() {
     var custUN = sessionStorage.getItem("username");
     var ids = $(".orderItemId")
@@ -832,9 +826,106 @@ if (ipcRenderer) {
 
     var dataset = [custUN, username[0], data.join("|")].join(",");
     // console.log(dataset);
-    var func = "setUserCart";
-    ipcRenderer.send("setUserCart", { func, dataset });
+    var func = "getUserCartInfo";
+    ipcRenderer.send("getUserCartInfo", { func, dataset });
   }
+
+  ipcRenderer.on("userCartInfoGet", (event, response) => {
+    res = response.result;
+    var custUN = sessionStorage.getItem("username");
+    var ids = $(".orderItemId")
+      .map(function () {
+        return this.value;
+      })
+      .get();
+    var resname = $(".orderItemResname")
+      .map(function () {
+        return this.value;
+      })
+      .get();
+    var username = $(".orderItemUsername")
+      .map(function () {
+        return this.value;
+      })
+      .get();
+    var food = $(".orderItemFood")
+      .map(function () {
+        return this.value;
+      })
+      .get();
+    var category = $(".orderItemCategory")
+      .map(function () {
+        return this.value;
+      })
+      .get();
+    var type = $(".orderItemType")
+      .map(function () {
+        return this.value;
+      })
+      .get();
+    var quantity = $(".orderItemQuantity")
+      .map(function () {
+        if (this.value > 0) {
+          return this.value;
+        } else {
+          return "0";
+        }
+      })
+      .get();
+    var price = $(".orderItemPrice")
+      .map(function () {
+        return this.value;
+      })
+      .get();
+    var count = ids.length;
+    var data = [];
+
+    for (i = 0; i < count; i++) {
+      if (quantity[i] <= 0) {
+        ids.splice(i, 1);
+        resname.splice(i, 1);
+        username.splice(i, 1);
+        food.splice(i, 1);
+        category.splice(i, 1);
+        type.splice(i, 1);
+        quantity.splice(i, 1);
+        price.splice(i, 1);
+        count--;
+        i--;
+      }
+    }
+
+    for (j = 0; j < count; j++) {
+      data[j] = [
+        custUN,
+        resname[0],
+        username[0],
+        ids[j],
+        food[j],
+        category[j],
+        type[j],
+        quantity[j],
+        price[j],
+      ].join(",");
+    }
+
+    var dataset = [custUN, username[0], data.join("|")].join(",");
+    if (res == "No Change") {
+      var func = "setUserCart";
+      ipcRenderer.send("setUserCart", { func, dataset });
+    } else {
+      let userResponse = confirm(
+        "You can order only from one restaurant. Do You want to clear the previous cart?"
+      );
+
+      if (userResponse) {
+        var func = "setUserCart";
+        ipcRenderer.send("setUserCart", { func, dataset });
+      } else {
+        $(".orderItemQuantity").val("0");
+      }
+    }
+  });
 
   function goToCart() {
     $("ul.tabs").tabs("select", "cartPage");
@@ -849,13 +940,13 @@ if (ipcRenderer) {
   document.getElementById("oldTab").addEventListener("click", () => {
     getOldOrder();
   });
-  function getOldOrder(){
+  function getOldOrder() {
     var func = "getOldOrderCustomer";
     var dataset = sessionStorage.getItem("username");
     ipcRenderer.send("getOldOrderCustomer", { func, dataset });
   }
 
-  ipcRenderer.on('oldOrderCustomerGet', (event, response) => {
+  ipcRenderer.on("oldOrderCustomerGet", (event, response) => {
     res = response.result;
     const tableBody = document.getElementById("oldOrderTbody");
 
@@ -870,12 +961,12 @@ if (ipcRenderer) {
       </tr>`;
       tableBody.innerHTML += row;
     });
-  })
+  });
 
-  function viewBill(orderid){
+  function viewBill(orderid) {
     var func = "getViewBillCustomer";
     var dataset = orderid;
-    ipcRenderer.send("getViewBillCustomer", {func,dataset}); 
+    ipcRenderer.send("getViewBillCustomer", { func, dataset });
   }
 
   ipcRenderer.on("viewBillCustomerGet", (event, response) => {
@@ -883,9 +974,9 @@ if (ipcRenderer) {
     const tableBody = document.getElementById("viewBillTbody");
     var total = 0;
     tableBody.innerHTML = "";
-    $('#VBcustomerName').text(res[0].user_name);
-    $('#VBrestaurantName').text(res[0].restaurantName);
-    $('#VBstatus').text(res[0].absolute_status);
+    $("#VBcustomerName").text(res[0].user_name);
+    $("#VBrestaurantName").text(res[0].restaurantName);
+    $("#VBstatus").text(res[0].absolute_status);
 
     res.forEach((item) => {
       total += item.price * item.quantity;
@@ -908,48 +999,48 @@ if (ipcRenderer) {
     <th>${total}<th>
     </tr>`;
     tableBody.innerHTML += row;
-  })
+  });
 
-  $(document).ready(function(){
-    $('.star-rating .material-icons').on('click', function(){
-        var ratingValue = $(this).data('value');
-        $('#starRating .material-icons').removeClass('selected');
-        $(this).prevAll().addBack().addClass('selected');
-        $("#starRatingValue").text(ratingValue);
+  $(document).ready(function () {
+    $(".star-rating .material-icons").on("click", function () {
+      var ratingValue = $(this).data("value");
+      $("#starRating .material-icons").removeClass("selected");
+      $(this).prevAll().addBack().addClass("selected");
+      $("#starRatingValue").text(ratingValue);
     });
-});
+  });
 
-
-  function submitReview(rest,cust,oid,type){
-    if(type == "later"){
+  function submitReview(rest, cust, oid, type) {
+    if (type == "later") {
       $("#starRatingValue").text("");
-      $('#review').val("");
+      $("#review").val("");
     }
-    var rating = $('#starRatingValue').text();
-    var review = $('#review').val();
+    var rating = $("#starRatingValue").text();
+    var review = $("#review").val();
     var func = "submitReview";
-    if(rating == ""){
+    if (rating == "") {
       rating = "NULL";
     }
-    if(review == ""){
+    if (review == "") {
       review = "NULL";
     }
-    var dataset = [oid,cust,rest,rating,review].join(",");
-    if(type == "submit" && rating == "NULL" && review == "NULL"){
-      $("#starRatingValue").text("Rating and Comment Required to Submit Review.")
-    }
-    else{
-      ipcRenderer.send("submitReview", {func, dataset});
+    var dataset = [oid, cust, rest, rating, review].join(",");
+    if (type == "submit" && rating == "NULL" && review == "NULL") {
+      $("#starRatingValue").text(
+        "Rating and Comment Required to Submit Review."
+      );
+    } else {
+      ipcRenderer.send("submitReview", { func, dataset });
     }
   }
 
   ipcRenderer.on("reviewSubmitted", (event, response) => {
     res = response.result;
     M.toast({ html: res });
-    getCurrent()
-  })
+    getCurrent();
+  });
 
-  function logout(){
+  function logout() {
     ipcRenderer.send("logout");
   }
   ipcRenderer.on("clearSession", (event) => {

@@ -437,6 +437,11 @@ int main()
         {
            addRecToCart(data);
         }
+        
+        else if (strcmp(function, "getUserCartInfo") == 0)
+        {
+           getUserCartInfo(data);
+        }
     }
 
     return 0;
