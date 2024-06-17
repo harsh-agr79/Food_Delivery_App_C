@@ -53,6 +53,11 @@
               >Location</a
             >
           </li>
+          <li class="tab">
+            <a class="white-text active" href="#profile" id="profileTab"
+              >Edit Profile</a
+            >
+          </li>
           <li class="tab right green">
             <a class="white-text active" onclick="logout();">Logout</a>
           </li>
@@ -137,6 +142,43 @@
         <div class="center">
           <img src="./map.png" style="width: 75vw" id="map" alt="" />
         </div>
+      </div>
+      <div id="profile">
+        <h6 class="center">Edit Profile Details</h6>
+        <form class="container mp-card" id="deliveryProfileForm">
+          <div class="row">
+              <div class="col m6 s12">
+                  <label>Name :</label><input name="name" readonly id="rpname" type="text" class="browser-default inp rp"
+                      placeholder="Name" required>
+              </div>
+              <div class="col m6 s12">
+                  <label>User ID :</label><input name="userid" readonly id="rpusername" type="text" id="username" class="browser-default inp rp"
+                      placeholder="User Id" required>
+              </div>
+              <div class="col m6 s12">
+                  <label>Password :</label><input name="password" id="rppassword" type="password" class="browser-default inp rp"
+                      placeholder="Password" required>
+              </div>
+            
+              <div class="col m6 s12">
+                  <label>Contact :</label><input name="contact" id="rpcontact" type="number" class="browser-default inp rp"
+                      placeholder="Contact" required>
+              </div>
+            
+              <div class="col m6 s12">
+                  <label>Address :</label><input name="address" id="rpaddress" type="text" class="browser-default inp rp"
+                      placeholder="Address" required>
+              </div>
+              <div class="col m6 s12">
+                  <label>Pincode :</label><input name="pincode" id="rppincode" type="text" class="browser-default inp rp"
+                      placeholder="Pincode" required>
+              </div>
+          <div class="col s12 center" style="margin-top: 10px;">
+              <button class="btn red darken-1">
+                  Change <i class="material-icons right">send</i>
+              </button>
+          </div>
+      </form>
       </div>
     </div>
 

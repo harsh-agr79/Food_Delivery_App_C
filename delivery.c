@@ -588,3 +588,90 @@ void getOldAlloc(char *data)
     fclose(file);
     fflush(stdout);
 }
+void getDeliveryProfile(char *uname)
+{
+    FILE *file = fopen(DATABASE_DELIVERYMAN, "r");
+    if (file == NULL)
+    {
+        perror("Error opening feedback file");
+        return;
+    }
+    char line[1000];
+    while (fgets(line, sizeof(line), file))
+    {
+        // Parse line into variables
+        char user[MAX_RESTAURANT_NAME_LEN];
+        char username[MAX_ITEM_NAME_LEN];
+        char password[MAX_ITEM_NAME_LEN];
+        char contact[MAX_CATEGORY_LEN];
+        char address[MAX_CATEGORY_LEN];
+        char pincode[MAX_CATEGORY_LEN];
+
+        if (sscanf(line, "%[^,],%[^,],%[^,],%[^,],%[^,],%[^\n]", user, username, password, contact, address, pincode) == 6)
+        {
+            if (strcmp(username, uname) == 0)
+            {
+                printf("{");
+                printf("\"username\": \"%s\",", username);
+                printf("\"name\": \"%s\",", user);
+                printf("\"contact\": \"%s\",", contact);
+                printf("\"password\": \"%s\",", password);
+                printf("\"address\": \"%s\",", address);
+                printf("\"pincode\": \"%s\"", pincode);
+                printf("}");
+                break;
+            }
+        }
+    }
+    fclose(file);
+    fflush(stdout);
+}
+
+void editDeliveryProfile(char *data)
+{
+    FILE *file = fopen(DATABASE_DELIVERYMAN, "r");
+    if (file == NULL)
+    {
+        perror("Error opening feedback file");
+        return;
+    }
+    char line[1000];
+    char editline[1000];
+    char lines[1000][1000];
+    int count = 0;
+    char dname[100],duname[100];
+    sscanf(data,"%[^,],%[^,]",dname,duname);
+    while (fgets(line, sizeof(line), file))
+    {
+        // Parse line into variables
+        char user[MAX_RESTAURANT_NAME_LEN];
+        char username[MAX_ITEM_NAME_LEN];
+        char password[MAX_ITEM_NAME_LEN];
+        char contact[MAX_CATEGORY_LEN];
+        char address[MAX_CATEGORY_LEN];
+        char pincode[MAX_CATEGORY_LEN];
+
+        if (sscanf(line, "%[^,],%[^,],%[^,],%[^,],%[^,],%f", user, username, password, contact, address, pincode) == 6)
+        {
+            if (strcmp(username, duname) == 0)
+            {
+                strcpy(lines[count], data);
+                count++;
+            }
+            else
+            {
+                sscanf(line, "%[^\n]s", editline);
+                strcpy(lines[count], editline);
+                count++;
+            }
+        }
+    }
+    fclose(file);
+    file = fopen(DATABASE_DELIVERYMAN, "w");
+    for(int i = 0; i < count; i++){
+        fprintf(file,"%s\n",lines[i]);
+    }
+    fclose(file);
+    printf("Profile Edited");
+    fflush(stdout);
+}

@@ -83,3 +83,27 @@ ipcMain.on('getOldAlloc', (event, { func, dataset }) => {
     console.log(`${func} ${dataset}`);
     backendProcess.stdin.write(`${func} ${dataset}\n`);
 });
+
+ipcMain.on('getDeliveryProfile', (event, { func, dataset }) => {
+    const backendProcess = spawn('./backend', [], { cwd: __dirname });
+
+    backendProcess.stdout.on('data', (data) => {
+        const result = JSON.parse(data.toString());
+        global.mainWindow.webContents.send('deliveryProfileGet', { result });
+        console.log(result);
+    });
+    console.log(`${func} ${dataset}`);
+    backendProcess.stdin.write(`${func} ${dataset}\n`);
+});
+
+ipcMain.on('editDeliveryProfile', (event, { func, dataset }) => {
+    const backendProcess = spawn('./backend', [], { cwd: __dirname });
+
+    backendProcess.stdout.on('data', (data) => {
+        const result = data.toString();
+        global.mainWindow.webContents.send('deliveryProfileEdited', { result });
+        console.log(result);
+    });
+    console.log(`${func} ${dataset}`);
+    backendProcess.stdin.write(`${func} ${dataset}\n`);
+});

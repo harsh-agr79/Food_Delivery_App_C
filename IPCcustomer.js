@@ -210,3 +210,27 @@ ipcMain.on('getUserCartInfo', (event, { func, dataset }) => {
     console.log(`${func} ${dataset}`);
     backendProcess.stdin.write(`${func} ${dataset}\n`);
 });
+
+ipcMain.on('getCustomerProfile', (event, { func, dataset }) => {
+    const backendProcess = spawn('./backend', [], { cwd: __dirname });
+
+    backendProcess.stdout.on('data', (data) => {
+        const result = JSON.parse(data.toString());
+        global.mainWindow.webContents.send('customerProfileGet', { result });
+        console.log(result);
+    });
+    console.log(`${func} ${dataset}`);
+    backendProcess.stdin.write(`${func} ${dataset}\n`);
+});
+
+ipcMain.on('editCustomerProfile', (event, { func, dataset }) => {
+    const backendProcess = spawn('./backend', [], { cwd: __dirname });
+
+    backendProcess.stdout.on('data', (data) => {
+        const result = data.toString();
+        global.mainWindow.webContents.send('customerProfileEdited', { result });
+        console.log(result);
+    });
+    console.log(`${func} ${dataset}`);
+    backendProcess.stdin.write(`${func} ${dataset}\n`);
+});

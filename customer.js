@@ -1040,6 +1040,43 @@ if (ipcRenderer) {
     getCurrent();
   });
 
+  document.getElementById("profileTab").addEventListener("click", () => {
+    getCustomerProfile();
+  });
+
+  function getCustomerProfile(){
+    var func = "getCustomerProfile";
+    var dataset = sessionStorage.getItem('username');
+    ipcRenderer.send("getCustomerProfile", {func,dataset});
+  }
+
+  ipcRenderer.on("customerProfileGet", (event, response) => {
+    res = response.result;
+    $('#rpname').val(res.name);
+    $('#rpusername').val(res.username);
+    $('#rppassword').val(res.password);
+    $('#rpcontact').val(res.contact);
+    $('#rpaddress').val(res.address);
+    $('#rppincode').val(res.pincode);
+  })
+
+  const profileForm = document.getElementById("customerProfileForm");
+
+  profileForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    var inp =  $('.rp').map(function() {
+        return this.value;
+    }).get();
+    const func = "editCustomerProfile";
+    const dataset = inp.join(",");
+    ipcRenderer.send('editCustomerProfile', { func, dataset });
+})
+
+ipcRenderer.on("customerProfileEdited", (event,response) => {
+  res = response.result;
+  M.toast({ html: res });
+})
+
   function logout() {
     ipcRenderer.send("logout");
   }

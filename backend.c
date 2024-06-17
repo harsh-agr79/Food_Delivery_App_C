@@ -442,6 +442,30 @@ int main()
         {
            getUserCartInfo(data);
         }
+         else if (strcmp(function, "getRestaurantProfile") == 0)
+        {
+          getRestaurantProfile(data);
+        }
+        else if (strcmp(function, "editRestaurantProfile") == 0)
+        {
+           editRestaurantProfile(data);
+        }
+        else if (strcmp(function, "getCustomerProfile") == 0)
+        {
+          getCustomerProfile(data);
+        }
+        else if (strcmp(function, "editCustomerProfile") == 0)
+        {
+           editCustomerProfile(data);
+        }
+        else if (strcmp(function, "getDeliveryProfile") == 0)
+        {
+          getDeliveryProfile(data);
+        }
+        else if (strcmp(function, "editDeliveryProfile") == 0)
+        {
+           editDeliveryProfile(data);
+        }
     }
 
     return 0;

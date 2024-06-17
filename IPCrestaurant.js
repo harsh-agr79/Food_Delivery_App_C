@@ -135,3 +135,27 @@ ipcMain.on('getOldOrder', (event, { func, dataset }) => {
     console.log(`${func} ${dataset}`);
     backendProcess.stdin.write(`${func} ${dataset}\n`);
 });
+
+ipcMain.on('getRestaurantProfile', (event, { func, dataset }) => {
+    const backendProcess = spawn('./backend', [], { cwd: __dirname });
+
+    backendProcess.stdout.on('data', (data) => {
+        const result = JSON.parse(data.toString());
+        global.mainWindow.webContents.send('restaurantProfileGet', { result });
+        console.log(result);
+    });
+    console.log(`${func} ${dataset}`);
+    backendProcess.stdin.write(`${func} ${dataset}\n`);
+});
+
+ipcMain.on('editRestaurantProfile', (event, { func, dataset }) => {
+    const backendProcess = spawn('./backend', [], { cwd: __dirname });
+
+    backendProcess.stdout.on('data', (data) => {
+        const result = data.toString();
+        global.mainWindow.webContents.send('restaurantProfileEdited', { result });
+        console.log(result);
+    });
+    console.log(`${func} ${dataset}`);
+    backendProcess.stdin.write(`${func} ${dataset}\n`);
+});

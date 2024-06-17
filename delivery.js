@@ -360,6 +360,43 @@ if (ipcRenderer) {
     });
   })
 
+  document.getElementById("profileTab").addEventListener("click", () => {
+    getDeliveryProfile();
+  });
+
+  function getDeliveryProfile(){
+    var func = "getDeliveryProfile";
+    var dataset = sessionStorage.getItem('username');
+    ipcRenderer.send("getDeliveryProfile", {func,dataset});
+  }
+
+  ipcRenderer.on("deliveryProfileGet", (event, response) => {
+    res = response.result;
+    $('#rpname').val(res.name);
+    $('#rpusername').val(res.username);
+    $('#rppassword').val(res.password);
+    $('#rpcontact').val(res.contact);
+    $('#rpaddress').val(res.address);
+    $('#rppincode').val(res.pincode);
+  })
+
+  const profileForm = document.getElementById("deliveryProfileForm");
+
+  profileForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    var inp =  $('.rp').map(function() {
+        return this.value;
+    }).get();
+    const func = "editDeliveryProfile";
+    const dataset = inp.join(",");
+    ipcRenderer.send('editDeliveryProfile', { func, dataset });
+})
+
+ipcRenderer.on("deliveryProfileEdited", (event,response) => {
+  res = response.result;
+  M.toast({ html: res });
+})
+
   function logout(){
     ipcRenderer.send("logout");
   }

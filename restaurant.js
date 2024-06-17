@@ -18,11 +18,49 @@ if (ipcRenderer) {
   document.getElementById("oldTab").addEventListener("click", () => {
     getOldOrder();
   });
+  document.getElementById("profileTab").addEventListener("click", () => {
+    getRestaurantProfile();
+  });
   function viewBill(orderid){
     var func = "getViewBill";
     var dataset = orderid;
     ipcRenderer.send("getViewBill", {func,dataset}); 
   }
+
+  function getRestaurantProfile(){
+    var func = "getRestaurantProfile";
+    var dataset = sessionStorage.getItem('username');
+    ipcRenderer.send("getRestaurantProfile", {func,dataset});
+  }
+
+  ipcRenderer.on("restaurantProfileGet", (event, response) => {
+    res = response.result;
+    $('#rpresname').val(res.restaurantName);
+    $('#rpname').val(res.name);
+    $('#rpusername').val(res.username);
+    $('#rppassword').val(res.password);
+    $('#rpcontact').val(res.contact);
+    $('#rpaddress').val(res.address);
+    $('#rppincode').val(res.pincode);
+    $('#rprating').val(res.rating);
+  })
+
+  const profileForm = document.getElementById("restaurantProfileForm");
+
+  profileForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    var inp =  $('.rp').map(function() {
+        return this.value;
+    }).get();
+    const func = "editRestaurantProfile";
+    const dataset = inp.join(",");
+    ipcRenderer.send('editRestaurantProfile', { func, dataset });
+})
+
+ipcRenderer.on("restaurantProfileEdited", (event,response) => {
+  res = response.result;
+  M.toast({ html: res });
+})
 
   function getRecentOrder(){
     var func = "getRecentOrder";

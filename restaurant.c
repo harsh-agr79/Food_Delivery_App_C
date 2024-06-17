@@ -901,7 +901,8 @@ void updateAvgRating(char *restaurant)
         char rate[100];
         sscanf(line, "%[^,],%[^,],%[^,],%[^,],%[^\n]", oid, user, rest, rate, comment);
         sscanf(line, "%[^,],%[^,],%[^,],%d,%[^\n]", oid, user, rest, &rating, comment);
-        if(strcmp(rate,"NULL") == 0){
+        if (strcmp(rate, "NULL") == 0)
+        {
             rating = 0;
         }
         if (strcmp(rest, restaurant) == 0)
@@ -970,4 +971,96 @@ void updateAvgRating(char *restaurant)
         fprintf(file, "%s", lines[i]);
     }
     fclose(file);
+}
+
+void getRestaurantProfile(char *uname)
+{
+    FILE *file = fopen(DATABASE_RESTAURANT, "r");
+    if (file == NULL)
+    {
+        perror("Error opening feedback file");
+        return;
+    }
+    char line[1000];
+    while (fgets(line, sizeof(line), file))
+    {
+        // Parse line into variables
+        char restaurantname[MAX_RESTAURANT_NAME_LEN];
+        char user[MAX_RESTAURANT_NAME_LEN];
+        char username[MAX_ITEM_NAME_LEN];
+        char password[MAX_ITEM_NAME_LEN];
+        char contact[MAX_CATEGORY_LEN];
+        char address[MAX_CATEGORY_LEN];
+        char pincode[MAX_CATEGORY_LEN];
+        float oldRating;
+        if (sscanf(line, "%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%f", restaurantname, user, username, password, contact, address, pincode, &oldRating) == 8)
+        {
+            if (strcmp(username, uname) == 0)
+            {
+                printf("{");
+                printf("\"username\": \"%s\",", username);
+                printf("\"name\": \"%s\",", user);
+                printf("\"restaurantName\": \"%s\",", restaurantname);
+                printf("\"contact\": \"%s\",", contact);
+                printf("\"password\": \"%s\",", password);
+                printf("\"address\": \"%s\",", address);
+                printf("\"pincode\": \"%s\",", pincode);
+                printf("\"rating\": %.2f", oldRating);
+                printf("}");
+                break;
+            }
+        }
+    }
+    fclose(file);
+    fflush(stdout);
+}
+
+void editRestaurantProfile(char *data)
+{
+    FILE *file = fopen(DATABASE_RESTAURANT, "r");
+    if (file == NULL)
+    {
+        perror("Error opening feedback file");
+        return;
+    }
+    char line[1000];
+    char editline[1000];
+    char lines[1000][1000];
+    int count = 0;
+    char drname[100],dname[100],duname[100];
+    sscanf(data,"%[^,],%[^,],%[^,]",drname,dname,duname);
+    while (fgets(line, sizeof(line), file))
+    {
+        // Parse line into variables
+        char restaurantname[MAX_RESTAURANT_NAME_LEN];
+        char user[MAX_RESTAURANT_NAME_LEN];
+        char username[MAX_ITEM_NAME_LEN];
+        char password[MAX_ITEM_NAME_LEN];
+        char contact[MAX_CATEGORY_LEN];
+        char address[MAX_CATEGORY_LEN];
+        char pincode[MAX_CATEGORY_LEN];
+        float oldRating;
+        if (sscanf(line, "%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%f", restaurantname, user, username, password, contact, address, pincode, &oldRating) == 8)
+        {
+            if (strcmp(username, duname) == 0)
+            {
+                strcpy(lines[count], data);
+                count++;
+            }
+            else
+            {
+                sscanf(line, "%[^\n]s", editline);
+                strcpy(lines[count], editline);
+                count++;
+            }
+        }
+    }
+    fclose(file);
+    file = fopen(DATABASE_RESTAURANT, "w");
+    for(int i = 0; i < count; i++){
+        fprintf(file,"%s\n",lines[i]);
+    }
+    fclose(file);
+    printf("Profile Edited");
+    fflush(stdout);
 }
