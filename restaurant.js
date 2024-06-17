@@ -43,7 +43,7 @@ if (ipcRenderer) {
       <td>${item.user_name}</td>
       <td>${item.contact}</td>
       <td>${item.address}, ${item.pincode}</td>
-      <td><a onclick="viewBill(${item.orderid})" class="amber btn-small modal-trigger" href="#viewBillModal"><i class="material-icons">visibility</i></a><td>
+      <td><a onclick="viewBill(${item.orderid})" class="red darken-1 btn-small modal-trigger" href="#viewBillModal"><i class="material-icons">visibility</i></a><td>
       </tr>`;
       tableBody.innerHTML += row;
     });
@@ -67,7 +67,7 @@ if (ipcRenderer) {
       <td>${item.user_name}</td>
       <td>${item.contact}</td>
       <td>${item.address}, ${item.pincode}</td>
-      <td><a onclick="viewBill(${item.orderid})" class="amber btn-small modal-trigger" href="#viewBillModal"><i class="material-icons">visibility</i></a><td>
+      <td><a onclick="viewBill(${item.orderid})" class="red darken-1 btn-small modal-trigger" href="#viewBillModal"><i class="material-icons">visibility</i></a><td>
       </tr>`;
       tableBody.innerHTML += row;
     });
@@ -91,7 +91,7 @@ if (ipcRenderer) {
       <td>${item.user_name}</td>
       <td>${item.contact}</td>
       <td>${item.address}, ${item.pincode}</td>
-      <td><a onclick="viewBill(${item.orderid})" class="amber btn-small modal-trigger" href="#viewBillModal"><i class="material-icons">visibility</i></a><td>
+      <td><a onclick="viewBill(${item.orderid})" class="red darken-1 btn-small modal-trigger" href="#viewBillModal"><i class="material-icons">visibility</i></a><td>
       </tr>`;
       tableBody.innerHTML += row;
     });
@@ -346,6 +346,7 @@ if (ipcRenderer) {
   ipcRenderer.on("clearSession", (event) => {
     sessionStorage.clear();
     console.log("clear");
+    M.toast({ html: "Logged Out" });
     ipcRenderer.send("gotologin");
   });
 } else {

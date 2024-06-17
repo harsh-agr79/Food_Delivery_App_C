@@ -1,6 +1,41 @@
 const { ipcRenderer } = window.electron;
 
 if (ipcRenderer) {
+
+  function plus_rec(id) {
+    console.log(id);
+    a = parseInt($(`#${id}recinp`).val());
+    a = a + 1;
+    $(`#${id}recinp`).val(a);
+  }
+
+  function minus_rec(id) {
+    console.log(id);
+    a = parseInt($(`#${id}recinp`).val());
+    if (a != 0) {
+      a = a - 1;
+      $(`#${id}recinp`).val(a);
+    }
+  }
+
+  function addRecToCart(id){
+    a = parseInt($(`#${id}recinp`).val());
+    if(a == 0){
+    M.toast({ html: "Quantity Cannot Be Null" });
+    }
+    else{
+      var func = "addRecToCart";
+      var user = sessionStorage.getItem("username");
+      var dataset = [user,id,a].join(",");
+      ipcRenderer.send("addRecToCart", {func, dataset});
+    }
+  }
+
+  ipcRenderer.on("addedRecToCart", (event,response) => {
+    M.toast({ html: response.result });
+    getCart();
+  })
+
   document
     .getElementById("confirmCartBtn")
     .addEventListener("click", function () {
@@ -300,6 +335,47 @@ if (ipcRenderer) {
       initializeCanvas();
     };
   });
+  
+  function recommendFood(id,user){
+    var func = "recommendFood";
+    var dataset = [id,user].join(",");
+    ipcRenderer.send("recommendFood", {func,dataset});
+  }
+
+  ipcRenderer.on("recommendFoodResponse", (event, response)=>{
+    res = response.result;
+
+    const recommendBody = document.getElementById("cartRecommend");
+    // console.log(res);
+    recommendBody.innerHTML = "";
+    res.forEach((item) => {
+      const recItem = ` <div class="col s3 mp-card center" style="margin: 10px;">
+            <h5 class="center">${item.food}</h5>
+            <span class="center">${item.category} ${item.type}</span><br />
+            <span center>${item.price}</span><br />
+            <div class="row center" style="margin: 10px">
+              <span class="col s3 prod-btn" onclick="minus_rec('${item.id}')" style="border-radius: 5px 0 0 5px"
+                ><i class="material-icons">remove</i></span
+              >
+              <input
+                type="number"
+                min="0"
+                id = "${item.id}recinp"
+                value = "0"
+                class="col s6 browser-default inp qtys orderItemQuantity"
+                style="height: 32px; text-align: center; border-radius: 0"
+              />
+              <span class="col s3 prod-btn"  onclick="plus_rec('${item.id}')" style="border-radius: 0 5px 5px 0"
+                ><i class="material-icons">add</i></span
+              >
+            </div>
+            <div style="margin-bottom: 10px;">
+              <button class="btn red darken-1" onclick="addRecToCart('${item.id}')">ADD Item</button>
+            </div>
+          </div>`;
+      recommendBody.innerHTML += recItem;
+    });
+  })
 
   function getCart() {
     var func = "getCart";
@@ -348,6 +424,7 @@ if (ipcRenderer) {
       `showMenu('${res[0].restaurantUsername}')`
     );
     ipcRenderer.send("getPathCart", { func, dataset });
+    recommendFood(res[0].id,res[0].customerUsername);
   });
 
   document.getElementById("currentTab").addEventListener("click", function () {
@@ -673,6 +750,8 @@ if (ipcRenderer) {
     updatecart();
   }
 
+ 
+
   function updatecart() {
     var custUN = sessionStorage.getItem("username");
     var ids = $(".orderItemId")
@@ -787,7 +866,7 @@ if (ipcRenderer) {
       <td>${item.time}</td>
       <td>${item.orderid}</td>
       <td>${item.restaurant_name}</td>
-      <td><a onclick="viewBill(${item.orderid})" class="amber btn-small modal-trigger" href="#viewBillModal"><i class="material-icons">visibility</i></a><td>
+      <td><a onclick="viewBill(${item.orderid})" class="red darken-1 btn-small modal-trigger" href="#viewBillModal"><i class="material-icons">visibility</i></a><td>
       </tr>`;
       tableBody.innerHTML += row;
     });
@@ -876,6 +955,7 @@ if (ipcRenderer) {
   ipcRenderer.on("clearSession", (event) => {
     sessionStorage.clear();
     console.log("clear");
+    M.toast({ html: "Logged Out" });
     ipcRenderer.send("gotologin");
   });
 } else {

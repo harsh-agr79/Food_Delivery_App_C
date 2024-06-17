@@ -1577,3 +1577,47 @@ void submitReview(char *dataset){
     fflush(stdout);
     updateAvgRating(drest);
 }
+
+void addRecToCart(char *dataset){
+    char username[100];
+    char itemid[100];
+    char quantity[100];
+
+    sscanf(dataset,"%[^,],%[^,],%[^,]", username,itemid,quantity);
+    FILE *file = fopen(DATABASE_MENU, "r");
+    if (file == NULL)
+    {
+        perror("Error opening menu file");
+        return;
+    }
+
+    char line[5000];
+    int isFirstItem = 1; // Flag to track the first item in JSON array
+    char result[1000];
+    while (fgets(line, sizeof(line), file))
+    {
+        // Parse line into variables
+        char id[100];
+        char restaurant[MAX_RESTAURANT_NAME_LEN];
+        char user[MAX_RESTAURANT_NAME_LEN];
+        char item[MAX_ITEM_NAME_LEN];
+        char category[MAX_CATEGORY_LEN];
+        char type[MAX_CATEGORY_LEN];
+        char price[100];
+
+        if (sscanf(line, "%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%[^\n]", id, restaurant, user, item, category, type, price) == 7)
+        {
+            if (strcmp(itemid, id) == 0)
+            {
+               sprintf(result, "%s,%s,%s,%s,%s,%s,%s,%s,%s", username,restaurant,user,id,item,category,type,quantity,price);
+            }
+        }
+    }
+    fclose(file);
+    file = fopen(DATABASE_CART, "a");
+    fprintf(file, "%s\n", result);
+    fclose(file);
+
+    printf("Item Added To Cart");
+    fflush(stdout);
+}

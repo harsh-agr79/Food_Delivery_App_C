@@ -328,8 +328,8 @@ if (ipcRenderer) {
       <td>${item.customerName}</td>
       <td>${item.restaurantName}</td>
       <td>${item.distance}000 meters</td>
-      <td><a onclick="viewPath('${item.path}')" class="amber btn-small modal-trigger" href="#viewMapModal"><i class="material-icons">visibility</i></a><td>
-      <td><a onclick="acceptDelivery(${item.orderid})" class="amber btn-small">Accept</a><td>
+      <td><a onclick="viewPath('${item.path}')" class="red darken-1 btn-small modal-trigger" href="#viewMapModal"><i class="material-icons">visibility</i></a><td>
+      <td><a onclick="acceptDelivery(${item.orderid})" class="red darken-1 btn-small">Accept</a><td>
       </tr>`;
       tableBody.innerHTML += row;
     });
@@ -366,6 +366,7 @@ if (ipcRenderer) {
   ipcRenderer.on("clearSession", (event) => {
     sessionStorage.clear();
     console.log("clear");
+    M.toast({ html: "Logged Out" });
     ipcRenderer.send("gotologin");
   });
   

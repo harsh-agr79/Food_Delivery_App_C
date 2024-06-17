@@ -3,6 +3,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <time.h>
+#include "recommend.c"
 #include "dijkstra.c"
 #include "restaurant.c"
 #include "customer.c"
@@ -427,6 +428,14 @@ int main()
         else if (strcmp(function, "submitReview") == 0)
         {
            submitReview(data);
+        }
+         else if (strcmp(function, "recommendFood") == 0)
+        {
+           recommendFood(data);
+        }
+         else if (strcmp(function, "addRecToCart") == 0)
+        {
+           addRecToCart(data);
         }
     }
 

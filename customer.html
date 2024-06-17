@@ -21,48 +21,50 @@
   <body>
     <style>
       .image-container {
-            position: relative;
-            display: inline-block;
-        }
-        .pinco {
-            position: absolute;
-        }
-        #drawing-canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-        }
-        .star-rating .material-icons {
-            cursor: pointer;
-            font-size: 2.5rem;
-            color: grey;
-        }
-        .star-rating .selected {
-            color: gold;
-        }
+        position: relative;
+        display: inline-block;
+      }
+      .pinco {
+        position: absolute;
+      }
+      #drawing-canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+      .star-rating .material-icons {
+        cursor: pointer;
+        font-size: 2.5rem;
+        color: grey;
+      }
+      .star-rating .selected {
+        color: gold;
+      }
     </style>
     <div>
-      <div class="nav-content amber darken-1">
+      <div class="nav-content red darken-1">
         <ul class="tabs tabs-transparent">
           <li class="tab">
-            <a class="white-text" href="#orderPage" id="orderTab"
-              >Order Page</a
-            >
+            <a class="white-text" href="#orderPage" id="orderTab">Order Page</a>
           </li>
           <li class="tab">
             <a class="white-text hide" href="#menuPage">Menu Page</a>
           </li>
           <li class="tab">
-            <a class="white-text" href="#cartPage" id="cartTab" >Cart</a>
+            <a class="white-text" href="#cartPage" id="cartTab">Cart</a>
           </li>
           <li class="tab">
-            <a class="white-text" href="#currentOrder" id="currentTab">Current Order</a>
+            <a class="white-text" href="#currentOrder" id="currentTab"
+              >Current Order</a
+            >
           </li>
           <li class="tab">
             <a class="white-text" href="#oldOrder" id="oldTab">Old Orders</a>
           </li>
           <li class="tab">
-            <a class="white-text active" id="locationTab" href="#location">Location</a>
+            <a class="white-text active" id="locationTab" href="#location"
+              >Location</a
+            >
           </li>
           <li class="tab right green">
             <a class="white-text active" onclick="logout();">Logout</a>
@@ -70,13 +72,22 @@
         </ul>
       </div>
       <div id="orderPage" class="col s12">
-        <div class="container" style="margin-top: 10px;">
+        <div class="container" style="margin-top: 10px">
           <nav>
-            <div class="nav-wrapper amber">
+            <div class="nav-wrapper red darken-1">
               <form>
                 <div class="input-field">
-                  <input id="search" type="search" id="searchRestaurant" onchange="searchRestaurant(this.value)" onkeypress="searchRestaurant(this.value)" onkeyup="searchRestaurant(this.value)">
-                  <label class="label-icon" for="search"><i class="material-icons">search</i></label>
+                  <input
+                    id="search"
+                    type="search"
+                    id="searchRestaurant"
+                    onchange="searchRestaurant(this.value)"
+                    onkeypress="searchRestaurant(this.value)"
+                    onkeyup="searchRestaurant(this.value)"
+                  />
+                  <label class="label-icon" for="search"
+                    ><i class="material-icons">search</i></label
+                  >
                   <i class="material-icons">close</i>
                 </div>
               </form>
@@ -100,10 +111,16 @@
           </div>
         </div>
       </div>
-      <div id="cartPage" class="col s12" style="padding: 5vw">
-        <div class="row">
+      <div id="cartPage" class="col s12" style=" padding-left: 5vw; padding-right: 5vw;">
+        <div class="row" style="margin-top: 10px;">
           <div class="col s12 m6 center">
-            <img src="./map.png" id="grid-image" class="image-container" style="width: 45vw" alt="" />
+            <img
+              src="./map.png"
+              id="grid-image"
+              class="image-container"
+              style="width: 45vw"
+              alt=""
+            />
             <canvas id="drawing-canvas"></canvas>
           </div>
           <div class="col s12 m6">
@@ -111,12 +128,22 @@
               <div class="center"><h6>Your Cart</h6></div>
               <div>
                 <div class="right">
-                  <button class="btn-small amber darken-1 black-text" id="editCartBtn">Edit Cart</button>
+                  <button
+                    class="btn-small red darken-1 white-text"
+                    id="editCartBtn"
+                  >
+                    Edit Cart
+                  </button>
                 </div>
                 <div>Restaurant Name : <span id="resnameCart"></span></div>
-                <div>Restaurant Username : <span id="resusernameCart"></span></div>
+                <div>
+                  Restaurant Username : <span id="resusernameCart"></span>
+                </div>
                 <div>Distance: <span id="distanceCart"></span>000 Meters</div>
-                <div>Time Taken: <span id="timetakenCart"></span> Minutes Approximate</div>
+                <div>
+                  Time Taken: <span id="timetakenCart"></span> Minutes
+                  Approximate
+                </div>
               </div>
               <table>
                 <thead>
@@ -127,21 +154,31 @@
                   <th>Price</th>
                   <th>Total</th>
                 </thead>
-                <tbody id="cartTableBody">
-                  
-                </tbody>
+                <tbody id="cartTableBody"></tbody>
               </table>
-              <div class="center" style="margin-top: 20px;">
-                <button class="btn-small green" id="confirmCartBtn">Confirm Cart</button>
+              <div class="center" style="margin-top: 20px">
+                <button class="btn-small green" id="confirmCartBtn">
+                  Confirm Cart
+                </button>
               </div>
             </div>
           </div>
+        </div>
+        <h5 class="center">Recommended For you</h5>
+        <div id="cartRecommend" class="row center">
+         
         </div>
       </div>
       <div id="currentOrder" class="col s12" style="padding: 5vw">
         <div class="row">
           <div class="col s12 m6 center">
-            <img src="./map.png" id="grid-image2" class="image-container" style="width: 45vw" alt="" />
+            <img
+              src="./map.png"
+              id="grid-image2"
+              class="image-container"
+              style="width: 45vw"
+              alt=""
+            />
             <canvas id="drawing-canvas2"></canvas>
           </div>
           <div class="col s12 m6">
@@ -149,13 +186,26 @@
               <div class="center"><h6>Current Order</h6></div>
               <div>
                 <div class="right">
-                  <button class="btn-small amber darken-1 black-text" id="reloadBtn" onclick="getCurrent();">Reload</button>
+                  <button
+                    class="btn-small red darken-1 white-text"
+                    id="reloadBtn"
+                    onclick="getCurrent();"
+                  >
+                    Reload
+                  </button>
                 </div>
                 <div>Restaurant Name : <span id="resnameCurrent"></span></div>
-                <div>Restaurant Username : <span id="resusernameCurrent"></span></div>
+                <div>
+                  Restaurant Username : <span id="resusernameCurrent"></span>
+                </div>
                 <div>Delivery Man : <span id="dmnameCurrent"></span></div>
-                <div>Distance: <span id="distanceCurrent"></span>000 Meters</div>
-                <div>Time Taken: <span id="timetakenCurrent"></span> Minutes Approximate</div>
+                <div>
+                  Distance: <span id="distanceCurrent"></span>000 Meters
+                </div>
+                <div>
+                  Time Taken: <span id="timetakenCurrent"></span> Minutes
+                  Approximate
+                </div>
                 <div>Status: <span id="statusCurrent"></span></div>
               </div>
               <table>
@@ -167,9 +217,7 @@
                   <th>Price</th>
                   <th>Total</th>
                 </thead>
-                <tbody id="currentTableBody">
-                  
-                </tbody>
+                <tbody id="currentTableBody"></tbody>
               </table>
             </div>
           </div>
@@ -178,26 +226,28 @@
           <div class="container center">
             <h5>Your Last Order is Complete, Rate the Restaurant</h5>
             <div class="star-rating" id="starRating">
-                <i class="material-icons" data-value="1">star_border</i>
-                <i class="material-icons" data-value="2">star_border</i>
-                <i class="material-icons" data-value="3">star_border</i>
-                <i class="material-icons" data-value="4">star_border</i>
-                <i class="material-icons" data-value="5">star_border</i>
+              <i class="material-icons" data-value="1">star_border</i>
+              <i class="material-icons" data-value="2">star_border</i>
+              <i class="material-icons" data-value="3">star_border</i>
+              <i class="material-icons" data-value="4">star_border</i>
+              <i class="material-icons" data-value="5">star_border</i>
             </div>
             <span id="starRatingValue"></span>
             <div class="col s12">
               <label for="review">Comments / Review</label>
               <input id="review" type="text" class="browser-default inp" />
             </div>
-            <div class="row center" style="margin-top: 10px;">
+            <div class="row center" style="margin-top: 10px">
               <div class="col s6 center">
                 <button class="red btn SRBTN" value="later">Maybe Later</button>
               </div>
               <div class="col s6 center">
-                <button class="btn amber SRBTN" value="submit">Submit Review</button>
+                <button class="btn red darken-1 SRBTN" value="submit">
+                  Submit Review
+                </button>
               </div>
             </div>
-        </div>
+          </div>
         </div>
       </div>
       <div id="oldOrder" class="col s12">
@@ -226,13 +276,10 @@
     <div id="viewBillModal" class="modal">
       <div class="modal-content">
         <div>
-          <span>Customer Name: <span id="VBcustomerName"></span></span
-          ><br />
+          <span>Customer Name: <span id="VBcustomerName"></span></span><br />
           <span>Restaurant Name: <span id="VBrestaurantName"></span></span
           ><br />
-          <span
-            >Status: <span id="VBstatus"></span></span
-          ><br />
+          <span>Status: <span id="VBstatus"></span></span><br />
         </div>
         <table>
           <thead>

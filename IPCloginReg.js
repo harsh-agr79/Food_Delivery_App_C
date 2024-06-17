@@ -29,6 +29,5 @@ ipcMain.on('registersubmit', (event, { tryfunc , dataset }) => {
 });
 
 ipcMain.on("logout", (event) => {
-    console.log("logout");
     global.mainWindow.webContents.send('clearSession');
   })
