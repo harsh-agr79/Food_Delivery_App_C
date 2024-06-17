@@ -189,15 +189,30 @@ void confirmCart(char *data)
     int count = 0;
     int clcnt = 0;
     char *timestamp = get_current_timestamp();
+    int itemidst[100];
+    int iitcnt = 0;
 
     while (fgets(line, sizeof(line), file))
     {
-        sscanf(line, "%[^,]", username);
+        char username[1000];
+        char resusername[1000];
+        char db_username[1000];
+        char db_resname[1000];
+        char db_resusername[1000];
+        char db_food[1000];
+        char db_category[1000];
+        char db_type[1000];
+        int itemid;
+        int qty;
+        sscanf(line, "%[^,],%[^,],%[^,],%d,%[^,],%[^,],%[^,],%d", username, db_resname, db_resusername, &itemid, db_food, db_category, db_type, &qty);
+        
         if (strcmp(username, data) == 0)
         {
             sscanf(line, "%[^\n]s", editline);
             strcpy(lines[count], editline);
             count++;
+            itemidst[iitcnt] = itemid;
+            iitcnt++;
         }
         else
         {
@@ -250,6 +265,16 @@ void confirmCart(char *data)
     for (int i = 0; i < clcnt; i++)
     {
         fprintf(file, "%s\n", cartlines[i]);
+    }
+    fclose(file);
+    file = fopen("transaction_final.txt", "a");
+    for(int i = 0; i < iitcnt; i++){
+        if(i == iitcnt - 1){
+            fprintf(file, "%d\n", itemidst[i]);
+        }
+        else{
+            fprintf(file, "%d,", itemidst[i]);
+        }
     }
     fclose(file);
     printf("Your Order has been sent to the Restaurant");
