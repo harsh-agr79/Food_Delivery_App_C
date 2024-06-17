@@ -7,7 +7,7 @@
   "scripts": {
     "start": "electron .",
     "watch": "nodemon --exec electron .",
-     "package": "electron-packager . A-7_FDA --platform=win32 --arch=x64 --icon=./icon.ico --out=dist --overwrite"
+     "package": "electron-packager . A-7_FDA --platform=win32 --arch=x64 --icon=./icon.ico --out=../dist --overwrite"
   },
   "author": "Harsh",
   "license": "MIT",
