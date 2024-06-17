@@ -3,10 +3,10 @@
 #include <stdlib.h>
 #include <ctype.h>
 
-#define MAX_RESTAURANT_NAME_LEN 50
-#define MAX_ITEM_NAME_LEN 50
-#define MAX_CATEGORY_LEN 20
-#define MAX_ITEMS 100
+#define MAX_RESTAURANT_NAME_LEN 500
+#define MAX_ITEM_NAME_LEN 100
+#define MAX_CATEGORY_LEN 200
+#define MAX_ITEMS 1000
 #define MAX_LINES 5000
 #define MAX_LINE_LENGTH 5000
 
