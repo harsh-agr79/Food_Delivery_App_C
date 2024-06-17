@@ -41,8 +41,8 @@
 41,Le Petit Bistro,LePBis,Red Wine,Cool Drink,Non-Veg,90
 42,Sabor Latino,SabLat,Ceviche,Appetizer,Non-Veg,110
 43,Sabor Latino,SabLat,Tacos Al Pastor,Main Course,Non-Veg,90
-44,Sabor Latino,SabLat,Flan,Dessert,Veg,50
-45,Sabor Latino,SabLat,Agua Fresca,Cool Drink,Veg,20
+44,Sabor Latino,SabLat,Flan,Dessert,Non-Veg,50
+45,Sabor Latino,SabLat,Agua Fresca,Cool Drink,Non-Veg,20
 46,The Curry House,TheCurHou,Chicken Curry,Main Course,Non-Veg,140
 47,The Curry House,TheCurHou,Lamb Rogan Josh,Main Course,Non-Veg,160
 48,The Curry House,TheCurHou,Paneer Tikka,Appetizer,Veg,100

@@ -4,10 +4,10 @@
 #include <time.h>
 #include <ctype.h>
 
-#define MAX_RESTAURANT_NAME_LEN 50
-#define MAX_ITEM_NAME_LEN 50
-#define MAX_CATEGORY_LEN 20
-#define MAX_ITEMS 100
+#define MAX_RESTAURANT_NAME_LEN 500
+#define MAX_ITEM_NAME_LEN 100
+#define MAX_CATEGORY_LEN 200
+#define MAX_ITEMS 1000
 #define MAX_LINES 5000
 #define MAX_LINE_LENGTH 5000
 
@@ -1401,6 +1401,7 @@ void searchMenuForItemGiven(char *given)
     strcpy(user, token);
     token = strtok(NULL, ",");
     strcpy(ItemGiven, token);
+    char uname[100];
 
     FILE *file = fopen(DATABASE_MENU, "r");
     if (file == NULL)
@@ -1442,15 +1443,30 @@ void searchMenuForItemGiven(char *given)
                 char *token = strtok(each_line, ",");
                 token = strtok(NULL, ",");
                 token = strtok(NULL, ",");
+                strcpy(uname, token);
+                token = strtok(NULL, ",");
+                token = strtok(NULL, ",");
+                token = strtok(NULL, ",");
                 // restaurant array storing
-                restaurantIDs[found] = (char *)malloc((strlen(token) + 1) * sizeof(char));
+                restaurantIDs[found] = (char *)malloc((strlen(uname) + 1) * sizeof(char));
                 if (restaurantIDs[found] == NULL)
                 {
                     perror("Error allocating memory");
                     exit(1);
                 }
-                strcpy(restaurantIDs[found], token);
-                found++;
+                if(strcmp(ItemGiven, "veg") == 0 && strcmp(token, "veg") == 0){
+                    strcpy(restaurantIDs[found], uname);
+                    found++;
+                }
+                else if(strcmp(ItemGiven, "non-veg") == 0 && strcmp(token, "non-veg") == 0){
+                    strcpy(restaurantIDs[found], uname);
+                    found++;
+                }
+                else if(strcmp(ItemGiven, "non-veg") != 0 && strcmp(ItemGiven, "veg") != 0){
+                    strcpy(restaurantIDs[found], uname);
+                    found++;
+                }
+               
                 break;
             }
         }
