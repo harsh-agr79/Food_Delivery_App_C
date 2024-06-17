@@ -1,20 +1,25 @@
 {
   "name": "c-project",
   "version": "1.0.0",
+  "productName": "A-7 Food Delivery App",
   "description": "cproj",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "watch": "nodemon --exec electron ."
+    "watch": "nodemon --exec electron .",
+     "package": "electron-packager . A-7_FDA --platform=win32 --arch=x64 --icon=./icon.ico --out=dist --overwrite"
   },
   "author": "Harsh",
   "license": "MIT",
   "devDependencies": {
     "@electron-forge/plugin-webpack": "^7.4.0",
-    "electron": "^30.0.2"
+    "@electron-forge/publisher-github": "^7.4.0",
+    "electron": "^30.0.2",
+    "electron-packager": "^17.1.2"
   },
   "dependencies": {
     "child_process": "^1.0.2",
+    "electron-builder": "^24.13.3",
     "express": "^4.19.2",
     "nodemon": "^3.1.0",
     "webpack-dev-server": "^5.0.4"

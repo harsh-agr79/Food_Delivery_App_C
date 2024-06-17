@@ -18,6 +18,7 @@ function createWindow() {
         // resizable: false,
         height: maxiSize.height,
         width: maxiSize.width,
+        icon: path.join(__dirname, 'icon.png'),
         show: false,
         webPreferences: {
             preload: path.join(__dirname, 'preload.js'),
