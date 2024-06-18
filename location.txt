@@ -25,4 +25,9 @@ Bis22,restaurant,130,1232,622
 TokGri,restaurant,140,996,658
 TheSmo,restaurant,41,736,248
 testuser2,customer,25,378,209
-testdm,delivery,25,378,209
+testdm,delivery,64,636,370
+dheena123,customer,43,890,243
+bala123,delivery,43,890,243
+bala456,customer,55,895,266
+akil234,delivery,55,895,266
+vijay999,customer,64,636,370

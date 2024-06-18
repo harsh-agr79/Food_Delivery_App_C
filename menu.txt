@@ -2,6 +2,7 @@
 2,The Hungry Panda,TheHunPan,Kung Pao Chicken,Main Course,Non-Veg,100
 3,The Hungry Panda,TheHunPan,Chicken with Broccoli,Main Course,Non-Veg,120
 4,The Hungry Panda,TheHunPan,Green Tea,Cool Drink,Veg,20
+112,The Hungry Panda,TheHunPan,Combo KungPao Chicken + Chicken with Broccoli,Combo,Non-Veg,160
 5,Pasta Paradise,PasPar,Spaghetti Carbonara,Main Course,Non-Veg,110
 6,Pasta Paradise,PasPar,Margherita Pizza,Main Course,Veg,90
 7,Pasta Paradise,PasPar,Tiramisu,Dessert,Veg,60
@@ -16,6 +17,7 @@
 16,Taco Time,TacTim,Guacamole,Appetizer,Veg,40
 17,Taco Time,TacTim,Churros,Dessert,Veg,30
 18,Taco Time,TacTim,Horchata,Cool Drink,Veg,20
+113,Taco Time,TacTim,Beef Burrito + Guacamole,Combo,Non-Veg,120
 19,Sushi Delight,SusDel,Sashimi Platter,Main Course,Non-Veg,180
 20,Sushi Delight,SusDel,California Roll,Main Course,Non-Veg,120
 21,Sushi Delight,SusDel,Miso Soup,Appetizer,Veg,30
@@ -69,6 +71,7 @@
 70,BBQ Joint,BBQJoi,Coleslaw,Side Dish,Veg,30
 71,BBQ Joint,BBQJoi,Apple Pie,Dessert,Veg,50
 72,BBQ Joint,BBQJoi,Iced Tea,Cool Drink,Veg,20
+114,BBQ Joint,BBQJoi,Macaroni and Cheese + Coleslaw,Combo,Veg,85
 73,Sushi Palace,SusPal,Dragon Roll,Main Course,Non-Veg,210
 74,Sushi Palace,SusPal,Edamame,Appetizer,Veg,40
 75,Sushi Palace,SusPal,Mochi Ice Cream,Dessert,Veg,50
@@ -78,6 +81,7 @@
 79,Pho King,PhoKin,Fresh Spring Rolls,Appetizer,Veg,50
 80,Pho King,PhoKin,Che Ba Mau,Dessert,Veg,40
 81,Pho King,PhoKin,Thai Iced Coffee,Cool Drink,Veg,30
+115,Pho King,PhoKin,Che Ba Mau + Bahn Mi Sandwich,Combo,Non-Veg,95
 82,The Olive Tree,TheOliTre,Hummus,Appetizer,Veg,60
 83,The Olive Tree,TheOliTre,Chicken Shawarma,Main Course,Non-Veg,120
 84,The Olive Tree,TheOliTre,Baklava,Dessert,Veg,40
@@ -90,6 +94,7 @@
 91,Bollywood Bites,BolBit,Butter Chicken,Main Course,Non-Veg,130
 92,Bollywood Bites,BolBit,Gulab Jamun,Dessert,Veg,40
 93,Bollywood Bites,BolBit,Mango Lassi,Cool Drink,Veg,30
+116,Bollywood Bites,BolBit,Butter Chicken + Mango Lassi,Combo,Non-Veg,145
 94,Mamma Mia,MamMia,Bruschetta,Appetizer,Veg,70
 95,Mamma Mia,MamMia,Margherita Pizza,Main Course,Veg,120
 96,Mamma Mia,MamMia,Cannoli,Dessert,Veg,50

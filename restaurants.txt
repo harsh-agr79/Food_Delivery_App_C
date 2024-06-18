@@ -13,7 +13,7 @@ Thai Spice,Lisa Yellow,ThaSpi,pass7182,2345678902,909 Thai Avenue,23457,1.92
 El Ranchero,James Pink,ElRan,pass9203,3456789013,101 Ranchero Road,34568,3.85
 Golden Dragon,Karen Orange,GolDra,pass1123,4567890124,202 Dragon Blvd,45679,4.75
 La Trattoria,Brian White,LaTra,pass3143,5678901235,303 Trattoria Drive,56790,0.54
-BBQ Joint,Mary Black,BBQJoi,pass5163,6789012340,404 BBQ Court,67890,3.03
+BBQ Joint,Mary Black,BBQJoi,pass5163,6789012340,404 BBQ Venue,67890,4.00
 Sushi Palace,Paul Green,SusPal,pass7183,7890123457,505 Sushi Circle,78902,2.38
 Pho King,Laura Blue,PhoKin,pass9204,8901234568,606 Pho Square,89013,4.63
 The Olive Tree,Kevin Gray,TheOliTre,pass1124,9012345679,707 Olive Lane,90124,1.18
