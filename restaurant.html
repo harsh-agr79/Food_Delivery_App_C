@@ -43,7 +43,7 @@
           </li>
           <li class="tab">
             <a class="white-text active" href="#profile" id="profileTab"
-              >Edit Profile</a
+              >Profile</a
             >
           </li>
           <li class="tab right green">
@@ -261,6 +261,8 @@
                       placeholder="Restaurant Name" required>
               </div>
 
+            
+
               <div class="col m6 s12">
                   <label>Name :</label><input name="name" readonly id="rpname" type="text" class="browser-default inp rp"
                       placeholder="Name" required>
@@ -295,8 +297,26 @@
                   Change <i class="material-icons right">send</i>
               </button>
           </div>
-      </form>
+        </form>
       </div>
+      <div class="container mp-card">
+        <h6 style="margin-top: 10px;" class="center">Feedbacks</h6>
+        <div class="col m6 s12">
+          Current Average Rating: <span id="rpratetext"></span>
+        </div>
+        <table>
+          <tr>
+            <th>orderid</th>
+            <th>user</th>
+            <th>rating</th>
+            <th>comment</th>
+          </tr>
+          <tbody id="feedbackTbody">
+  
+          </tbody>
+        </table>
+      </div>
+      
     </div>
 
     <div id="viewBillModal" class="modal">

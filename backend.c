@@ -466,6 +466,10 @@ int main()
         {
            editDeliveryProfile(data);
         }
+        else if (strcmp(function, "getFeedback") == 0)
+        {
+           getFeedback(data);
+        }
     }
 
     return 0;

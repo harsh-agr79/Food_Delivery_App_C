@@ -1064,3 +1064,41 @@ void editRestaurantProfile(char *data)
     printf("Profile Edited");
     fflush(stdout);
 }
+void getFeedback(char *restaurant){
+    FILE *file = fopen(DATABASE_FEEDBACK, "r");
+    if (file == NULL)
+    {
+        perror("Error opening feedback file");
+        return;
+    }
+    char line[1000];
+    int isFirstItem = 1;
+    printf("[");
+     while (fgets(line, sizeof(line), file))
+    {
+        char oid[100];
+        char user[100];
+        char rest[100];
+        char comment[500];
+        char rate[100];
+        sscanf(line, "%[^,],%[^,],%[^,],%[^,],%[^\n]", oid, user, rest, rate, comment);
+        if (strcmp(rest, restaurant) == 0 && strcmp(rate, "NULL") != 0)
+        {  
+            if (!isFirstItem)
+                {
+                    printf(","); // Add comma for subsequent items
+                }
+                printf("{");
+                printf("\"orderid\": %s,", oid);
+                printf("\"user\": \"%s\",", user);
+                printf("\"rating\": \"%s\",", rate);
+                printf("\"comment\": \"%s\"", comment);
+                printf("}");
+
+                isFirstItem = 0; // Update flag after printing the first item
+            }
+    }
+    printf("]");
+    fclose(file);
+    fflush(stdout);
+}

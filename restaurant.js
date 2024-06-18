@@ -20,6 +20,7 @@ if (ipcRenderer) {
   });
   document.getElementById("profileTab").addEventListener("click", () => {
     getRestaurantProfile();
+    getFeedback();
   });
   function viewBill(orderid){
     var func = "getViewBill";
@@ -33,6 +34,29 @@ if (ipcRenderer) {
     ipcRenderer.send("getRestaurantProfile", {func,dataset});
   }
 
+  function getFeedback(){
+    var func = "getFeedback";
+    var dataset = sessionStorage.getItem('username');
+    ipcRenderer.send("getFeedback", {func,dataset});
+  }
+  ipcRenderer.on("feedbackGet", (event, response) => {
+
+    res = response.result;
+    const tableBody = document.getElementById("feedbackTbody");
+
+    tableBody.innerHTML = "";
+
+    res.forEach((item) => {
+      const row = `<tr>
+      <td>${item.orderid}</td>
+      <td>${item.user}</td>
+      <td>${item.rating}</td>
+      <td>${item.comment}</td>
+      </tr>`;
+      tableBody.innerHTML += row;
+    });
+  })
+
   ipcRenderer.on("restaurantProfileGet", (event, response) => {
     res = response.result;
     $('#rpresname').val(res.restaurantName);
@@ -43,6 +67,7 @@ if (ipcRenderer) {
     $('#rpaddress').val(res.address);
     $('#rppincode').val(res.pincode);
     $('#rprating').val(res.rating);
+    $('#rpratetext').text(res.rating);
   })
 
   const profileForm = document.getElementById("restaurantProfileForm");
