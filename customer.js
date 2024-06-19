@@ -524,7 +524,7 @@ if (ipcRenderer) {
     var res = response.result;
     if (res.length < 1) {
       restList.innerHTML =
-        "<h6 class='center-align red-text'>Can't Order Now, A Previous Order is Still Under Process</h6>";
+        "<h6 class='center-align red-text'>No restaurant's Available.</h6>";
     } else {
       const restList = document.getElementById("restList");
       restList.innerHTML = "";
